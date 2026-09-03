@@ -266,13 +266,10 @@ namespace Hooks::Unlocks
 
 		// Re-enable Survival: hook the actual `MiscStatManager::QueryStat` call in
 		// `PauseMenu::CheckIfSaveLoadPossible` instead of signature-scanning and
-		// NOPing the call instruction. Proof/verification:
-		//   - OG: tools/find_call_sites.py reports QueryStat at 425422 +0x14D.
-		//   - NG: local disassembly of 2223965 shows the stat-query call at +0x153.
-		//   - AE: local disassembly of 2223965 shows the same call shifted to +0x14E.
-		// If any runtime drifts again, re-run those audits before changing offsets.
+		// NOPing the call instruction. Direct-call disassembly of 2223965 verifies
+		// OG +0x14D, NG +0x14E, and AE 1.11.221 / 1.11.240 +0x153.
 		const Site<QueryStatFn> kQueryStatSites[] = {
-			{ {425422, 0x14D}, {2223965, 0x153}, {2223965, 0x14E}, &Spoof_ReenableSurvival_QueryStat,
+			{ {425422, 0x14D}, {2223965, 0x14E}, {2223965, 0x153}, &Spoof_ReenableSurvival_QueryStat,
 			  "ReenableSurvival / PauseMenu::CheckIfSaveLoadPossible (MiscStatManager::QueryStat)" },
 		};
 	}
