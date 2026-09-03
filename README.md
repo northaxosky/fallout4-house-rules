@@ -61,7 +61,7 @@ v1.1.0 ships with 0 failed / 0 skipped across 12 GMST modules (381 targets) on O
 
 ## Installation
 
-1. Download the latest zip from the [Releases page](https://github.com/northaxosky/HouseRules/releases).
+1. Download the latest zip from the [Releases page](https://github.com/northaxosky/fallout4-house-rules/releases).
 2. Install through your mod manager (MO2, Vortex) or unzip into `<Fallout 4>/Data/`.
 3. Configure in-game under Settings > Mod Configuration Menu > House Rules.
 
@@ -70,8 +70,8 @@ v1.1.0 ships with 0 failed / 0 skipped across 12 GMST modules (381 targets) on O
 Requires [xmake](https://xmake.io) 2.9.4+ on Windows with MSVC. CommonLibF4 is a git submodule.
 
 ```sh
-git clone --recursive https://github.com/northaxosky/HouseRules.git
-cd HouseRules
+git clone --recursive https://github.com/northaxosky/fallout4-house-rules.git
+cd fallout4-house-rules
 xmake config -m releasedbg
 xmake build
 ```
