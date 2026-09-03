@@ -4,7 +4,7 @@ An F4SE plugin that exposes high-impact vanilla Fallout 4 settings through a sin
 
 ## Status
 
-**v1.1.0** - adds the Keep Exit Save unlock + an AV-cache refresh so formula sliders take effect immediately. Self-test (`HRVERIFY`) reports 381 GMST targets PASS, 0 failed / 0 skipped across 12 modules.
+**v1.2.0** - adds explicit support for Fallout 4 1.11.240 (AE) and fixes the Re-enable Survival unlock, which silently failed to install on NG and AE. Self-test (`HRVERIFY`) reports 381 GMST targets PASS, 0 failed / 0 skipped across 12 modules.
 
 ## Compatibility
 
@@ -12,7 +12,9 @@ Validated on all three main Fallout 4 runtimes:
 
 - OG 1.10.163 (pre-NG)
 - NG 1.10.984
-- AE 1.11.x (1.11.191 tested)
+- AE 1.11.137 - 1.11.240
+
+The plugin declares an explicit runtime list rather than an open-ended one, so F4SE refuses to load it on a runtime it hasn't been checked against instead of trusting unverified addresses. Every hook call site is audited against the real game binaries with `tools/audit_hook_offsets.py`.
 
 Requires **F4SE** and **Address Library for F4SE**. Mod Configuration Menu (MCM) is required for the settings UI.
 
@@ -57,7 +59,7 @@ A built-in self-test verifies every GMST target. Set `bValidationAudit=1` (and o
 python tools/validate_house_rules_log.py
 ```
 
-v1.1.0 ships with 0 failed / 0 skipped across 12 GMST modules (381 targets) on OG / NG / AE. Companions Affinity uses vanilla TESGlobal writes, so it doesn't show up in HRVERIFY; grep the plugin log for `Globals: wrote FormID ...` to verify those.
+v1.2.0 ships with 0 failed / 0 skipped across 12 GMST modules (381 targets) on OG / NG / AE. Companions Affinity uses vanilla TESGlobal writes, so it doesn't show up in HRVERIFY; grep the plugin log for `Globals: wrote FormID ...` to verify those.
 
 ## Installation
 
