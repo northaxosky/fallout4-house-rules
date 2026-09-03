@@ -1,122 +1,123 @@
 [
   {
-    "id": 2249425,
-    "offset": "0x1AA",
-    "target_id": 2233056,
+    "id": 927099,
+    "offset": "0x20A",
+    "target_id": 922962,
     "label": "Console / MenuOpenHandler"
   },
   {
-    "id": 2223965,
-    "offset": "0x04D",
-    "target_id": 2233056,
+    "id": 425422,
+    "offset": "0x047",
+    "target_id": 922962,
     "label": "SaveSelf / PauseMenu::CheckIfSaveLoadPossible"
   },
   {
-    "id": 2223964,
-    "offset": "0x0C6",
-    "target_id": 2233056,
+    "id": 1330449,
+    "offset": "0x0C1",
+    "target_id": 922962,
     "label": "SaveSelf / PauseMenu::InitMainList"
   },
   {
-    "id": 2249427,
+    "id": 1470086,
     "offset": "0x06C",
-    "target_id": 2233056,
+    "target_id": 922962,
     "label": "SaveSelf / QuickSaveLoadHandler::HandleEvent"
   },
   {
-    "id": 2224179,
-    "offset": "0x347",
-    "target_id": 2233056,
+    "id": 712982,
+    "offset": "0x31E",
+    "target_id": 922962,
     "label": "FastTravel / PipboyMenu::PipboyMenu"
   },
   {
-    "id": 2224206,
-    "offset": "0x014",
-    "target_id": 2233056,
+    "id": 1327120,
+    "offset": "0x013",
+    "target_id": 922962,
     "label": "FastTravel / nsPipboyMenu::CheckHardcoreFastTravel"
   },
   {
-    "id": 2220612,
-    "offset": "0x01B",
-    "target_id": 2233056,
+    "id": 1475119,
+    "offset": "0x017",
+    "target_id": 922962,
     "label": "CompassEnemies / HUDMarkerUtils::GetHostileEnemyMaxDistance"
   },
   {
-    "id": 2220611,
+    "id": 1301956,
     "offset": "0x00B",
-    "target_id": 2233056,
+    "target_id": 922962,
     "label": "CompassLocations / HUDMarkerUtils::GetLocationMaxDistance"
   },
   {
-    "id": 2220617,
-    "offset": "0x086",
-    "target_id": 2233056,
+    "id": 1153736,
+    "offset": "0x0A2",
+    "target_id": 922962,
     "label": "CompassLocations / CalculateCompassMarkersFunctor::UpdateLocationMarkers"
   },
   {
-    "id": 2193446,
-    "offset": "0x08E",
-    "target_id": 2233056,
+    "id": 1321341,
+    "offset": "0x092",
+    "target_id": 922962,
     "label": "Weight / TESWeightForm::GetFormWeight (alch)"
   },
   {
-    "id": 2193446,
-    "offset": "0x110",
-    "target_id": 2233056,
+    "id": 1321341,
+    "offset": "0x11C",
+    "target_id": 922962,
     "label": "Weight / TESWeightForm::GetFormWeight (ammo)"
   },
   {
-    "id": 2198697,
+    "id": 1397471,
     "offset": "0x1B4",
-    "target_id": 2233036,
+    "target_id": 374033,
     "label": "SaveAuto / TESObjectDOOR::DoorTeleportPlayerArrivalCallback"
   },
   {
-    "id": 2249427,
+    "id": 1470086,
     "offset": "0x082",
-    "target_id": 2228080,
+    "target_id": 1487308,
     "label": "SaveSelf / QuickSaveLoadHandler (QueueSaveLoadTask #1)"
   },
   {
-    "id": 2249427,
+    "id": 1470086,
     "offset": "0x0C3",
-    "target_id": 2228080,
+    "target_id": 1487308,
     "label": "SaveSelf / QuickSaveLoadHandler (QueueSaveLoadTask #2)"
   },
   {
-    "id": 2223294,
+    "id": 1158548,
     "offset": "0x07E",
-    "target_id": 2228080,
+    "target_id": 1487308,
     "label": "SaveAuto / LevelUpMenu dtor"
   },
   {
-    "id": 2223327,
-    "offset": "0x087",
-    "target_id": 2228080,
-    "label": "SaveAuto / LevelUpMenu dtor (NG/AE extra)"
+    "id": 0,
+    "offset": "0x000",
+    "target_id": 1487308,
+    "label": "SaveAuto / LevelUpMenu dtor (NG/AE extra)",
+    "skip": true
   },
   {
-    "id": 2224974,
-    "offset": "0x154",
-    "target_id": 2228080,
+    "id": 98443,
+    "offset": "0x1A9",
+    "target_id": 1487308,
     "label": "SaveAuto / WorkshopMenu dtor"
   },
   {
-    "id": 2225458,
-    "offset": "0x1C4",
-    "target_id": 2228080,
+    "id": 592088,
+    "offset": "0x12C",
+    "target_id": 1487308,
     "label": "SaveAuto / PipboyManager::OnPipboyClosed"
   },
   {
-    "id": 2232905,
-    "offset": "0x10EA",
-    "target_id": 2228080,
+    "id": 146861,
+    "offset": "0x1000",
+    "target_id": 1487308,
     "label": "SaveAuto / PlayerCharacter::HandlePositionPlayerRequest"
   },
   {
-    "id": 2223965,
-    "offset": "0x14E",
-    "target_id": 2194723,
+    "id": 425422,
+    "offset": "0x14D",
+    "target_id": 1315743,
     "label": "ReenableSurvival / PauseMenu::CheckIfSaveLoadPossible (MiscStatManager::QueryStat)"
   }
 ]

@@ -25,7 +25,7 @@
   },
   {
     "id": 2224179,
-    "offset": "0x347",
+    "offset": "0x34C",
     "target_id": 2233056,
     "label": "FastTravel / PipboyMenu::PipboyMenu"
   },
@@ -115,7 +115,7 @@
   },
   {
     "id": 2223965,
-    "offset": "0x14E",
+    "offset": "0x153",
     "target_id": 2194723,
     "label": "ReenableSurvival / PauseMenu::CheckIfSaveLoadPossible (MiscStatManager::QueryStat)"
   }
