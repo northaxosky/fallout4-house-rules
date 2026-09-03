@@ -33,6 +33,38 @@
 
 namespace
 {
+	constexpr void (*kTweakApplyFunctions[])() = {
+		&Tweaks::Magnitudes::Apply,
+		&Tweaks::Difficulty::Apply,
+		&Tweaks::DifficultyEffects::Apply,
+		&Tweaks::ActionPoints::Apply,
+		&Tweaks::CharacterStats::Apply,
+		&Tweaks::ActorValues::Apply,
+		&Tweaks::DamageFormulas::Apply,
+		&Tweaks::PowerArmor::Apply,
+		&Tweaks::Economy::Apply,
+		&Tweaks::Progression::Apply,
+		&Tweaks::VATS::Apply,
+		&Tweaks::Skills::Apply,
+		&Tweaks::Sneak::Apply,
+		&Tweaks::CompanionsAffinity::Apply,
+		&Tweaks::CombatPerks::Apply,
+		&Tweaks::Settlements::Apply,
+		&Tweaks::SurvivalCarryWeight::Apply,
+		&Tweaks::Survival::Apply
+	};
+
+	void ApplyTweaks(const char* a_probeLabel)
+	{
+		for (const auto apply : kTweakApplyFunctions) {
+			apply();
+		}
+		// Bust derived AV cache last so the engine sees all GMST writes from this pass.
+		Tweaks::PlayerRefresh::ResetDerivedActorValues();
+		Diagnostics::ActorValueProbe::MaybeRun(a_probeLabel);
+		Diagnostics::HCManagerProbe::MaybeRun(a_probeLabel);
+	}
+
 	class MenuSink :
 		public RE::BSTEventSink<RE::MenuOpenCloseEvent>
 	{
@@ -60,28 +92,7 @@ namespace
 			// all toggles / byte-patches / magnitudes.
 			if (a_event.menuName == "PauseMenu") {
 				MCM::Settings::Update();
-				Tweaks::Magnitudes::Apply();
-				Tweaks::Difficulty::Apply();
-				Tweaks::DifficultyEffects::Apply();
-				Tweaks::ActionPoints::Apply();
-				Tweaks::CharacterStats::Apply();
-				Tweaks::ActorValues::Apply();
-				Tweaks::DamageFormulas::Apply();
-				Tweaks::PowerArmor::Apply();
-				Tweaks::Economy::Apply();
-				Tweaks::Progression::Apply();
-				Tweaks::VATS::Apply();
-				Tweaks::Skills::Apply();
-				Tweaks::Sneak::Apply();
-				Tweaks::CompanionsAffinity::Apply();
-				Tweaks::CombatPerks::Apply();
-				Tweaks::Settlements::Apply();
-				Tweaks::SurvivalCarryWeight::Apply();
-				Tweaks::Survival::Apply();
-				// Bust derived AV cache last so the engine sees all GMST writes from this pass.
-				Tweaks::PlayerRefresh::ResetDerivedActorValues();
-				Diagnostics::ActorValueProbe::MaybeRun("PauseMenu");
-				Diagnostics::HCManagerProbe::MaybeRun("PauseMenu");
+				ApplyTweaks("PauseMenu");
 				Diagnostics::SurvivalObserver::OnMenuOpenClose(a_event);
 				SleepWait::Integration::OnMenuOpenClose(a_event);
 				return RE::BSEventNotifyControl::kContinue;
@@ -91,28 +102,7 @@ namespace
 			// reliable moment to touch forms on OG — the F4SE kPostLoadGame
 			// / kNewGame messages fire on worker threads mid-init and crash.
 			if (a_event.menuName == "LoadingMenu") {
-				Tweaks::Magnitudes::Apply();
-				Tweaks::Difficulty::Apply();
-				Tweaks::DifficultyEffects::Apply();
-				Tweaks::ActionPoints::Apply();
-				Tweaks::CharacterStats::Apply();
-				Tweaks::ActorValues::Apply();
-				Tweaks::DamageFormulas::Apply();
-				Tweaks::PowerArmor::Apply();
-				Tweaks::Economy::Apply();
-				Tweaks::Progression::Apply();
-				Tweaks::VATS::Apply();
-				Tweaks::Skills::Apply();
-				Tweaks::Sneak::Apply();
-				Tweaks::CompanionsAffinity::Apply();
-				Tweaks::CombatPerks::Apply();
-				Tweaks::Settlements::Apply();
-				Tweaks::SurvivalCarryWeight::Apply();
-				Tweaks::Survival::Apply();
-				// Bust derived AV cache last so the engine sees all GMST writes from this pass.
-				Tweaks::PlayerRefresh::ResetDerivedActorValues();
-				Diagnostics::ActorValueProbe::MaybeRun("LoadingMenu");
-				Diagnostics::HCManagerProbe::MaybeRun("LoadingMenu");
+				ApplyTweaks("LoadingMenu");
 				Diagnostics::SurvivalObserver::OnMenuOpenClose(a_event);
 				SleepWait::Integration::OnMenuOpenClose(a_event);
 				return RE::BSEventNotifyControl::kContinue;
