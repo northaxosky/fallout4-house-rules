@@ -211,10 +211,9 @@ namespace SleepWait::Integration
 				}
 
 				auto* occupiedBase = occupiedFurniture ? occupiedFurniture->GetObjectReference() : nullptr;
-				// Avoid RE::fallout_cast<TESFurniture*> — its RTTI lookup resolves
-				// CommonLibF4 ID TESFurniture{4841394}, which has no OG (1.10.163)
-				// mapping and crashes AddressLib with "Invalid ID: 4841394" on save-load.
-				// Gate on the TESForm formType enum (kFURN) — no RTTI needed.
+				// Gate on the TESForm formType enum rather than
+				// RE::fallout_cast<TESFurniture*> — the cast costs an RTTI address
+				// lookup this doesn't need.
 				auto* furniture = (occupiedBase && occupiedBase->GetFormType() == RE::ENUM_FORM_ID::kFURN)
 					? static_cast<RE::TESFurniture*>(occupiedBase)
 					: nullptr;

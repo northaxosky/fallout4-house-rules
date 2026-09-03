@@ -25,12 +25,15 @@ set_policy("package.requires_lock", true)
 add_rules("mode.debug", "mode.releasedbg")
 add_rules("plugin.vsxmake.autoupdate")
 
+-- mod manager folder for the dev deploy, joined onto FO4_DEV_MODS
+local dev_mod_folder = "House Rules - Dev"
+
 -- optional post-build deploy path; set via: xmake f --deploy_dir="<mod folder>"
--- empty (the default, and CI's state) skips the deploy step entirely.
+-- overrides FO4_DEV_MODS. With neither set (CI's state) the deploy step is skipped.
 option("deploy_dir")
     set_default("")
     set_showmenu(true)
-    set_description("MO2/game mod folder to copy the built DLL + MCM files into after build (empty = skip)")
+    set_description("MO2/game mod folder to copy the built DLL + MCM files into after build (empty = use FO4_DEV_MODS, else skip)")
 option_end()
 
 -- targets
@@ -53,6 +56,10 @@ target("HouseRules")
     after_build(function (target)
         local deploy_dir = get_config("deploy_dir")
         if not deploy_dir or deploy_dir == "" then
+            local mods_root = os.getenv("FO4_DEV_MODS")
+            deploy_dir = mods_root and path.join(mods_root, dev_mod_folder) or ""
+        end
+        if deploy_dir == "" then
             return
         end
         local plugins_dir = path.join(deploy_dir, "F4SE/Plugins")
