@@ -42,6 +42,7 @@ jobs:
                   $plugins = "artifact/Data/F4SE/Plugins"
                   New-Item -ItemType Directory -Path $plugins -Force | Out-Null
                   Copy-Item build/windows/x64/releasedbg/HouseRules.dll $plugins
+                  Copy-Item build/windows/x64/releasedbg/HouseRules.pdb $plugins
                   Copy-Item -Recurse Data/MCM artifact/Data/
 
             - name: Upload artifact
