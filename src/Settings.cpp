@@ -10,7 +10,7 @@ namespace MCM
 {
 	void Settings::Update()
 	{
-		const auto ini = REX::INI::SettingStore::GetSingleton();
+		const auto ini = REX::FIniSettingStore::GetSingleton();
 		ini->Init(
 			"Data/MCM/Config/HouseRules/settings.ini",
 			"Data/MCM/Settings/HouseRules.ini");

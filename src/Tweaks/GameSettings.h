@@ -33,7 +33,7 @@ namespace Tweaks::GameSettings
 	struct Target
 	{
 		const char*           gmst;     // GameSettingCollection key
-		REX::INI::Setting<T>* setting;  // MCM-backed value (REX::INI::F32<> / I32<>)
+		REX::TIniSetting<T>*  setting;  // MCM-backed value (REX::INI::F32<> / I32<>)
 		Mode                  mode                       = Mode::Multiplier;
 		T                     neutral                    = T{ 1 };
 		bool                  preserveBaselineAtNeutral  = true;

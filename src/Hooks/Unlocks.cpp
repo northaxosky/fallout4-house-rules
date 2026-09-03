@@ -13,18 +13,18 @@ namespace Hooks::Unlocks
 	namespace
 	{
 		using GDLFn = RE::DifficultyLevel(RE::PlayerCharacter*);
-		using GDLHook = REL::Hook<GDLFn>;
+		using GDLHook = REL::THook<GDLFn>;
 
 		using VoidPCFn = void(RE::PlayerCharacter*);
-		using VoidPCHook = REL::Hook<VoidPCFn>;
+		using VoidPCHook = REL::THook<VoidPCFn>;
 
 		using QueueSaveLoadTaskFn = void(RE::BGSSaveLoadManager*, RE::BGSSaveLoadManager::QUEUED_TASK);
-		using QueueSaveLoadTaskHook = REL::Hook<QueueSaveLoadTaskFn>;
+		using QueueSaveLoadTaskHook = REL::THook<QueueSaveLoadTaskFn>;
 
 		using QueryStatFn = bool(const RE::BSFixedString&, std::int32_t&);
-		using QueryStatHook = REL::Hook<QueryStatFn>;
+		using QueryStatHook = REL::THook<QueryStatFn>;
 
-		std::vector<std::unique_ptr<REL::HookObject>> g_hooks;
+		std::vector<std::unique_ptr<REL::IHook>> g_hooks;
 
 		// Typed back-pointers for hooks whose spoof calls through to the original
 		// via Hook::operator(). Aliases into the heap-allocated hook inside g_hooks.
@@ -55,9 +55,9 @@ namespace Hooks::Unlocks
 		const RuntimeAddr* SelectSite(
 			const RuntimeAddr& og, const RuntimeAddr& ng, const RuntimeAddr& ae)
 		{
-			using RT = REL::Module::Runtime;
+			using RT = REX::FModule::Runtime;
 			const RuntimeAddr* ra = nullptr;
-			switch (REL::Module::GetRuntimeIndex()) {
+			switch (REX::FModule::GetRuntimeIndex()) {
 				case RT::kOG: ra = &og; break;
 				case RT::kNG: ra = &ng; break;
 				case RT::kAE: ra = &ae; break;

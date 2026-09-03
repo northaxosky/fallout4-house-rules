@@ -21,7 +21,7 @@ namespace Tweaks::ActorValues
 		{
 			const char*                  label;
 			RE::ActorValueInfo* RE::ActorValue::* member;
-			REX::INI::Setting<float>*   setting;
+			REX::TIniSetting<float>*    setting;
 			float                        neutral;
 			float                        minClamp = 0.0f;
 			float                        maxClamp = 0.0f;

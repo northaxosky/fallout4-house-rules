@@ -47,12 +47,14 @@ namespace Hooks::ExitSave
 
 	void Install()
 	{
-		const auto orig = REL::PatchIAT(&Hook_DeleteFileA, "KERNEL32.dll", "DeleteFileA");
-		if (!orig) {
+		const auto module = REX::FModule::GetExecutingModule();
+		const auto entry = module.GetImportFunctionPointer("DeleteFileA", "KERNEL32.dll");
+		if (!entry) {
 			REX::WARN("ExitSave: failed to patch KERNEL32!DeleteFileA IAT entry");
 			return;
 		}
-		g_original = REX::UNRESTRICTED_CAST<DeleteFileA_t>(orig);
+		g_original = *reinterpret_cast<DeleteFileA_t*>(entry);
+		module.SetImportFunctionPointer("DeleteFileA", "KERNEL32.dll", REX::UNRESTRICTED_CAST<void*>(&Hook_DeleteFileA));
 		REX::INFO("ExitSave: hooked KERNEL32!DeleteFileA");
 	}
 }
