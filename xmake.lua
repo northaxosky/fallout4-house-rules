@@ -10,7 +10,7 @@ includes(commonlib_path)
 
 -- set project
 set_project("HouseRules")
-set_version("1.1.0")
+set_version("1.2.0")
 set_license("MIT")
 
 -- set defaults
