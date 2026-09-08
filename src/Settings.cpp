@@ -2,24 +2,17 @@
 
 #include "Settings.h"
 
-#include "Diagnostics/Logging.h"
-#include "Hooks/GodMode.h"
-#include "Hooks/Unlocks.h"
+#include "Configuration/SettingsRepository.h"
 
-namespace MCM
+namespace HouseRules
 {
 	void Settings::Update()
 	{
-		const auto ini = REX::FIniSettingStore::GetSingleton();
-		ini->Init(
-			"Data/MCM/Config/HouseRules/settings.ini",
-			"Data/MCM/Settings/HouseRules.ini");
-		ini->Load();
-
-		Diagnostics::Logging::ApplyLogLevel();
-
-		Hooks::Unlocks::RefreshRuntimePatches();
-		Hooks::GodMode::RefreshRuntimePatches();
+		const auto result =
+			Configuration::SettingsRepository::GetSingleton().ReloadFromDisk();
+		if (!result.success) {
+			REX::ERROR("Settings: {}", result.message);
+		}
 
 		// Form-touching Apply paths (Magnitudes, SurvivalCarryWeight, etc.)
 		// run from Main.cpp's PauseMenu / LoadingMenu close sinks, not here:

@@ -1,0 +1,6128 @@
+{
+  "schemaVersion": 1,
+  "product": {
+    "modName": "HouseRules",
+    "displayName": "House Rules",
+    "mcmSchema": "https://raw.githubusercontent.com/Neanka/mcm/master/doc/mcm.schema.json",
+    "minimumMcmVersion": 2,
+    "pluginRequirements": []
+  },
+  "pages": [
+    {
+      "id": "general",
+      "name": "General",
+      "summary": "Tune high-impact vanilla Fallout 4 systems through one MCM: combat, character, economy, progression, perks, settlements, companions, and Survival mechanics.",
+      "root": true,
+      "content": [
+        {
+          "text": "<font size='30'><p align='center'>House Rules</p></font>",
+          "html": true,
+          "type": "text"
+        },
+        {
+          "text": "",
+          "type": "section"
+        },
+        {
+          "text": "<font color='#AAAAAA'><p align='center'>Tune high-impact vanilla Fallout 4 systems through one MCM: combat, character, economy, progression, perks, settlements, companions, and Survival mechanics.</p></font>",
+          "html": true,
+          "type": "text"
+        },
+        {
+          "type": "image",
+          "libName": "HouseRules",
+          "className": "s1"
+        },
+        {
+          "type": "spacer"
+        },
+        {
+          "text": "General",
+          "type": "section"
+        },
+        {
+          "setting": "bEnabled:General"
+        },
+        {
+          "type": "spacer"
+        },
+        {
+          "text": "Diagnostics",
+          "type": "section"
+        },
+        {
+          "setting": "iLogLevel:Diagnostic"
+        }
+      ]
+    },
+    {
+      "id": "survival-unlocks",
+      "name": "Survival Unlocks",
+      "summary": "Each toggle: OFF mirrors vanilla Survival, ON applies the tweak.",
+      "root": false,
+      "content": [
+        {
+          "text": "<font size='24'><p align='center'>Survival Unlocks</p></font>",
+          "html": true,
+          "type": "text"
+        },
+        {
+          "text": "<font color='#AAAAAA'><p align='center'>Each toggle: OFF mirrors vanilla Survival, ON applies the tweak.</p></font>",
+          "html": true,
+          "type": "text"
+        },
+        {
+          "type": "spacer"
+        },
+        {
+          "text": "Menus & Saves",
+          "type": "section"
+        },
+        {
+          "setting": "bConsole:Unlocks"
+        },
+        {
+          "setting": "bSaveSelf:Unlocks"
+        },
+        {
+          "setting": "bSaveAuto:Unlocks"
+        },
+        {
+          "type": "spacer"
+        },
+        {
+          "text": "Travel & Exploration",
+          "type": "section"
+        },
+        {
+          "setting": "bFastTravel:Unlocks"
+        },
+        {
+          "setting": "bCompassEnemies:Unlocks"
+        },
+        {
+          "setting": "bCompassLocations:Unlocks"
+        },
+        {
+          "type": "spacer"
+        },
+        {
+          "text": "Weight & Difficulty",
+          "type": "section"
+        },
+        {
+          "setting": "bNoAlchWeight:Unlocks"
+        },
+        {
+          "setting": "bNoAmmoWeight:Unlocks"
+        },
+        {
+          "setting": "bNoSurvivalCarryWeight:Unlocks"
+        },
+        {
+          "setting": "bGodMode:Unlocks"
+        },
+        {
+          "setting": "bReenableSurvival:Unlocks"
+        },
+        {
+          "setting": "bKeepExitSave:Unlocks"
+        }
+      ]
+    },
+    {
+      "id": "survival",
+      "name": "Survival",
+      "summary": "Toggles for the vanilla Survival hardcore-rule systems (food/water and sleep deprivation). Save and reload after toggling so the script picks up the new state immediately; otherwise the change takes effect on the next in-game tick (within a few in-game minutes).",
+      "root": false,
+      "content": [
+        {
+          "text": "<font size='24'><p align='center'>Survival</p></font>",
+          "html": true,
+          "type": "text"
+        },
+        {
+          "text": "<font color='#AAAAAA'><p align='center'>Toggles for the vanilla Survival hardcore-rule systems (food/water and sleep deprivation). Save and reload after toggling so the script picks up the new state immediately; otherwise the change takes effect on the next in-game tick (within a few in-game minutes).</p></font>",
+          "html": true,
+          "type": "text"
+        },
+        {
+          "type": "spacer"
+        },
+        {
+          "text": "Hardcore Rules",
+          "type": "section"
+        },
+        {
+          "setting": "bDisableSustenance:Survival"
+        },
+        {
+          "setting": "bDisableSleepDeprivation:Survival"
+        },
+        {
+          "setting": "bDisableDiseases:Survival"
+        },
+        {
+          "setting": "bDisableAdrenaline:Survival"
+        },
+        {
+          "type": "spacer"
+        },
+        {
+          "text": "Sustenance Tuning",
+          "type": "section"
+        },
+        {
+          "setting": "iFoodCostPerTick:Survival"
+        },
+        {
+          "setting": "iDrinkCostPerTick:Survival"
+        },
+        {
+          "setting": "fGamesHoursPerTick:Survival"
+        },
+        {
+          "setting": "fBonusDigestionHours:Survival"
+        },
+        {
+          "setting": "fSustenanceTickWhileSleepingMult:Survival"
+        },
+        {
+          "setting": "fTickHoursCostPerCombat:Survival"
+        },
+        {
+          "type": "spacer"
+        },
+        {
+          "text": "Food Stage Thresholds",
+          "type": "section"
+        },
+        {
+          "setting": "iFoodPoolPeckishAmount:Survival"
+        },
+        {
+          "setting": "iFoodPoolHungryAmount:Survival"
+        },
+        {
+          "setting": "iFoodPoolFamishedAmount:Survival"
+        },
+        {
+          "setting": "iFoodPoolRavenousAmount:Survival"
+        },
+        {
+          "setting": "iFoodPoolStarvingAmount:Survival"
+        },
+        {
+          "type": "spacer"
+        },
+        {
+          "text": "Drink Stage Thresholds",
+          "type": "section"
+        },
+        {
+          "setting": "iDrinkPoolParchedAmount:Survival"
+        },
+        {
+          "setting": "iDrinkPoolThirstyAmount:Survival"
+        },
+        {
+          "setting": "iDrinkPoolMildlyDehydratedAmount:Survival"
+        },
+        {
+          "setting": "iDrinkPoolDehydratedAmount:Survival"
+        },
+        {
+          "setting": "iDrinkPoolSeverelyDehydratedAmount:Survival"
+        },
+        {
+          "type": "spacer"
+        },
+        {
+          "text": "Sleep Tuning",
+          "type": "section"
+        },
+        {
+          "setting": "fGameTimerIntervalSleepDeprivation:Survival"
+        },
+        {
+          "setting": "fInsomniaSleepMult:Survival"
+        },
+        {
+          "setting": "iMinHoursForCuringSleepEffects:Survival"
+        },
+        {
+          "setting": "fCaffeineInducedSleepDelay:Survival"
+        },
+        {
+          "setting": "fExtraCaffeineInducedSleepDelay:Survival"
+        },
+        {
+          "setting": "fDiseasedSleepinessTimerMult:Survival"
+        },
+        {
+          "type": "spacer"
+        },
+        {
+          "text": "Disease Tuning",
+          "type": "section"
+        },
+        {
+          "setting": "fDiseaseRiskRollThreshold:Survival"
+        },
+        {
+          "setting": "fDiseaseGracePeriod:Survival"
+        },
+        {
+          "setting": "fDiseaseRiskDrainPerCycle:Survival"
+        },
+        {
+          "setting": "fCurrentDiseasePoolValueMult:Survival"
+        },
+        {
+          "setting": "fDiseaseNeedMoreFoodMult:Survival"
+        },
+        {
+          "setting": "fImmunodeficiencyDiseaseMult:Survival"
+        },
+        {
+          "setting": "fDiseaseRiskCannibalAmount:Survival"
+        },
+        {
+          "setting": "fDiseaseRiskChemsAmount:Survival"
+        },
+        {
+          "setting": "fDiseaseRiskCombatantAmount:Survival"
+        },
+        {
+          "setting": "fDiseaseRiskFoodHighAmount:Survival"
+        },
+        {
+          "setting": "fDiseaseRiskFoodStandardAmount:Survival"
+        },
+        {
+          "setting": "fDiseaseRiskRainAmount:Survival"
+        },
+        {
+          "setting": "fDiseaseRiskSwimmingAmount:Survival"
+        },
+        {
+          "type": "spacer"
+        },
+        {
+          "text": "Adrenaline",
+          "type": "section"
+        },
+        {
+          "setting": "iKillsForAdrenalinePerkLevel:Survival"
+        },
+        {
+          "setting": "iMaxAdrenalinePerkLevel:Survival"
+        },
+        {
+          "type": "spacer"
+        },
+        {
+          "text": "Encumbrance",
+          "type": "section"
+        },
+        {
+          "setting": "fGameTimerIntervalEncumbrance:Survival"
+        }
+      ]
+    },
+    {
+      "id": "magnitudes",
+      "name": "Magnitudes",
+      "summary": "Magnitude Scalers",
+      "root": false,
+      "content": [
+        {
+          "text": "<font size='24'><p align='center'>Magnitude Scalers</p></font>",
+          "html": true,
+          "type": "text"
+        },
+        {
+          "text": "<font color='#AAAAAA'><p align='center'>Implemented sliders multiply proven vanilla magnitudes. 1.00 = vanilla; see each setting for caveats.</p></font>",
+          "html": true,
+          "type": "text"
+        },
+        {
+          "type": "spacer"
+        },
+        {
+          "text": "Consumables",
+          "type": "section"
+        },
+        {
+          "setting": "fStimpakHeal:Magnitudes"
+        },
+        {
+          "setting": "fStimpakLimbRepair:Magnitudes"
+        },
+        {
+          "setting": "fRadAwayStrength:Magnitudes"
+        },
+        {
+          "setting": "fRadXPotency:Magnitudes"
+        },
+        {
+          "setting": "fFoodHeal:Magnitudes"
+        },
+        {
+          "type": "spacer"
+        },
+        {
+          "text": "Survival Stage Penalties",
+          "type": "section"
+        },
+        {
+          "setting": "fHungerPenalty:Magnitudes"
+        },
+        {
+          "setting": "fThirstPenalty:Magnitudes"
+        },
+        {
+          "setting": "fSleepPenalty:Magnitudes"
+        }
+      ]
+    },
+    {
+      "id": "difficulty",
+      "name": "Difficulty",
+      "summary": "Difficulty Multipliers",
+      "root": false,
+      "content": [
+        {
+          "text": "<font size='24'><p align='center'>Difficulty Multipliers</p></font>",
+          "html": true,
+          "type": "text"
+        },
+        {
+          "text": "<font color='#AAAAAA'><p align='center'>Per-difficulty multipliers applied as baseline * value. 1.00 = vanilla. Survival here is the current TSV difficulty.</p></font>",
+          "html": true,
+          "type": "text"
+        },
+        {
+          "type": "spacer"
+        },
+        {
+          "text": "Damage Taken",
+          "type": "section"
+        },
+        {
+          "setting": "fIncomingDamageVeryEasy:Difficulty"
+        },
+        {
+          "setting": "fIncomingDamageEasy:Difficulty"
+        },
+        {
+          "setting": "fIncomingDamageNormal:Difficulty"
+        },
+        {
+          "setting": "fIncomingDamageHard:Difficulty"
+        },
+        {
+          "setting": "fIncomingDamageVeryHard:Difficulty"
+        },
+        {
+          "setting": "fIncomingDamageSurvival:Difficulty"
+        },
+        {
+          "type": "spacer"
+        },
+        {
+          "text": "Damage Done",
+          "type": "section"
+        },
+        {
+          "setting": "fOutgoingDamageVeryEasy:Difficulty"
+        },
+        {
+          "setting": "fOutgoingDamageEasy:Difficulty"
+        },
+        {
+          "setting": "fOutgoingDamageNormal:Difficulty"
+        },
+        {
+          "setting": "fOutgoingDamageHard:Difficulty"
+        },
+        {
+          "setting": "fOutgoingDamageVeryHard:Difficulty"
+        },
+        {
+          "setting": "fOutgoingDamageSurvival:Difficulty"
+        },
+        {
+          "type": "spacer"
+        },
+        {
+          "text": "Progression",
+          "type": "section"
+        },
+        {
+          "setting": "fXPBase:Difficulty"
+        },
+        {
+          "setting": "fXPMult:Difficulty"
+        },
+        {
+          "type": "spacer"
+        },
+        {
+          "text": "Legendary Chance",
+          "type": "section"
+        },
+        {
+          "setting": "fLegendaryChanceVeryEasy:Difficulty"
+        },
+        {
+          "setting": "fLegendaryChanceEasy:Difficulty"
+        },
+        {
+          "setting": "fLegendaryChanceNormal:Difficulty"
+        },
+        {
+          "setting": "fLegendaryChanceHard:Difficulty"
+        },
+        {
+          "setting": "fLegendaryChanceVeryHard:Difficulty"
+        },
+        {
+          "setting": "fLegendaryChanceSurvival:Difficulty"
+        },
+        {
+          "type": "spacer"
+        },
+        {
+          "text": "Legendary Rarity",
+          "type": "section"
+        },
+        {
+          "setting": "fLegendaryRarityVeryEasy:Difficulty"
+        },
+        {
+          "setting": "fLegendaryRarityEasy:Difficulty"
+        },
+        {
+          "setting": "fLegendaryRarityNormal:Difficulty"
+        },
+        {
+          "setting": "fLegendaryRarityHard:Difficulty"
+        },
+        {
+          "setting": "fLegendaryRarityVeryHard:Difficulty"
+        },
+        {
+          "setting": "fLegendaryRaritySurvival:Difficulty"
+        },
+        {
+          "type": "spacer"
+        },
+        {
+          "text": "Effect Duration",
+          "type": "section"
+        },
+        {
+          "setting": "fEffectDurationVeryEasy:Difficulty"
+        },
+        {
+          "setting": "fEffectDurationEasy:Difficulty"
+        },
+        {
+          "setting": "fEffectDurationNormal:Difficulty"
+        },
+        {
+          "setting": "fEffectDurationHard:Difficulty"
+        },
+        {
+          "setting": "fEffectDurationVeryHard:Difficulty"
+        },
+        {
+          "setting": "fEffectDurationSurvival:Difficulty"
+        },
+        {
+          "type": "spacer"
+        },
+        {
+          "text": "Effect Magnitude",
+          "type": "section"
+        },
+        {
+          "setting": "fEffectMagnitudeVeryEasy:Difficulty"
+        },
+        {
+          "setting": "fEffectMagnitudeEasy:Difficulty"
+        },
+        {
+          "setting": "fEffectMagnitudeNormal:Difficulty"
+        },
+        {
+          "setting": "fEffectMagnitudeHard:Difficulty"
+        },
+        {
+          "setting": "fEffectMagnitudeVeryHard:Difficulty"
+        },
+        {
+          "setting": "fEffectMagnitudeSurvival:Difficulty"
+        }
+      ]
+    },
+    {
+      "id": "character",
+      "name": "Character",
+      "summary": "Character Feel",
+      "root": false,
+      "content": [
+        {
+          "text": "<font size='24'><p align='center'>Character Feel</p></font>",
+          "html": true,
+          "type": "text"
+        },
+        {
+          "text": "<font color='#AAAAAA'><p align='center'>Action Points, sprint, carry weight, and health. Multiplier sliders show 1.00 = vanilla; Direct sliders use the vanilla default as neutral. Formula sliders (AP Pool, AP per Agility, Carry, Health per Endurance/Level) edit the actor-value formula. Your current derived value will refresh on the next level-up, equip change, fast-travel, or save reload.</p></font>",
+          "html": true,
+          "type": "text"
+        },
+        {
+          "type": "spacer"
+        },
+        {
+          "text": "Action Points",
+          "type": "section"
+        },
+        {
+          "setting": "fAPBaseMult:Character"
+        },
+        {
+          "setting": "fAPPerAgilityMult:Character"
+        },
+        {
+          "setting": "fAPRegenRate:Character"
+        },
+        {
+          "setting": "fCombatAPRegenMult:Character"
+        },
+        {
+          "setting": "fAPRegenDelay:Character"
+        },
+        {
+          "setting": "fOutOfBreathAPRegenDelay:Character"
+        },
+        {
+          "setting": "fAPRegenDelayMax:Character"
+        },
+        {
+          "type": "spacer"
+        },
+        {
+          "text": "Sprint",
+          "type": "section"
+        },
+        {
+          "setting": "fSprintBaseDrain:Character"
+        },
+        {
+          "setting": "fSprintEnduranceDrain:Character"
+        },
+        {
+          "setting": "fSprintDrainMult:Character"
+        },
+        {
+          "type": "spacer"
+        },
+        {
+          "text": "Carry Weight",
+          "type": "section"
+        },
+        {
+          "setting": "fCarryWeightBaseMult:Character"
+        },
+        {
+          "setting": "fCarryWeightPerStrengthMult:Character"
+        },
+        {
+          "type": "spacer"
+        },
+        {
+          "text": "Health",
+          "type": "section"
+        },
+        {
+          "setting": "fHealthPerEnduranceMult:Character"
+        },
+        {
+          "setting": "fHealthPerLevelMult:Character"
+        },
+        {
+          "setting": "fPassiveHealthRegen:Character"
+        },
+        {
+          "setting": "fCombatHealthRegenMult:Character"
+        }
+      ]
+    },
+    {
+      "id": "damage-formulas",
+      "name": "Damage Formulas",
+      "summary": "Raw damage factors and armor reduction exponents. Neutral values are vanilla; sliders move the engine baseline directly.",
+      "root": false,
+      "content": [
+        {
+          "text": "<font size='24'><p align='center'>Damage Formulas</p></font>",
+          "html": true,
+          "type": "text"
+        },
+        {
+          "text": "<font color='#AAAAAA'><p align='center'>Raw damage factors and armor reduction exponents. Neutral values are vanilla; sliders move the engine baseline directly.</p></font>",
+          "html": true,
+          "type": "text"
+        },
+        {
+          "type": "spacer"
+        },
+        {
+          "text": "Radiation",
+          "type": "section"
+        },
+        {
+          "setting": "fRadiationDamageFactor:DamageFormulas"
+        },
+        {
+          "setting": "fRadiationArmorReductionExponent:DamageFormulas"
+        },
+        {
+          "type": "spacer"
+        },
+        {
+          "text": "Physical",
+          "type": "section"
+        },
+        {
+          "setting": "fPhysicalDamageFactor:DamageFormulas"
+        },
+        {
+          "setting": "fPhysicalArmorReductionExponent:DamageFormulas"
+        },
+        {
+          "type": "spacer"
+        },
+        {
+          "text": "Energy",
+          "type": "section"
+        },
+        {
+          "setting": "fEnergyDamageFactor:DamageFormulas"
+        },
+        {
+          "setting": "fEnergyArmorReductionExponent:DamageFormulas"
+        }
+      ]
+    },
+    {
+      "id": "power-armor",
+      "name": "Power Armor",
+      "summary": "Jetpack, fusion-core drain, and PA durability. Multiplier sliders show 1.00 = vanilla; Direct sliders show the vanilla default as their neutral value.",
+      "root": false,
+      "content": [
+        {
+          "text": "<font size='24'><p align='center'>Power Armor</p></font>",
+          "html": true,
+          "type": "text"
+        },
+        {
+          "text": "<font color='#AAAAAA'><p align='center'>Jetpack, fusion-core drain, and PA durability. Multiplier sliders show 1.00 = vanilla; Direct sliders show the vanilla default as their neutral value.</p></font>",
+          "html": true,
+          "type": "text"
+        },
+        {
+          "type": "spacer"
+        },
+        {
+          "text": "Jetpack",
+          "type": "section"
+        },
+        {
+          "setting": "fJetpackInitialDrainMult:PowerArmor"
+        },
+        {
+          "setting": "fJetpackSustainedDrainMult:PowerArmor"
+        },
+        {
+          "setting": "fJetpackMinFuelRequired:PowerArmor"
+        },
+        {
+          "setting": "fJetpackInitialThrustMult:PowerArmor"
+        },
+        {
+          "setting": "fJetpackSustainedThrustMult:PowerArmor"
+        },
+        {
+          "setting": "fJetpackTimeToSustained:PowerArmor"
+        },
+        {
+          "type": "spacer"
+        },
+        {
+          "text": "Fusion Core Drain",
+          "type": "section"
+        },
+        {
+          "setting": "fPAPowerDrainPerAPMult:PowerArmor"
+        },
+        {
+          "setting": "fPAPowerDrainRunningMult:PowerArmor"
+        },
+        {
+          "setting": "fPAPowerDrainPerJump:PowerArmor"
+        },
+        {
+          "setting": "fPAPowerDrainPerMeleeAttack:PowerArmor"
+        },
+        {
+          "setting": "fPAPowerDrainPerImpactLand:PowerArmor"
+        },
+        {
+          "type": "spacer"
+        },
+        {
+          "text": "Durability",
+          "type": "section"
+        },
+        {
+          "setting": "fPAPlayerArmorDamageMultiplier:PowerArmor"
+        },
+        {
+          "setting": "fPANPCArmorDamageMultiplier:PowerArmor"
+        }
+      ]
+    },
+    {
+      "id": "economy",
+      "name": "Economy",
+      "summary": "Vendor buy/sell pricing. Direct sliders show the vanilla default as their neutral value.",
+      "root": false,
+      "content": [
+        {
+          "text": "<font size='24'><p align='center'>Economy</p></font>",
+          "html": true,
+          "type": "text"
+        },
+        {
+          "text": "<font color='#AAAAAA'><p align='center'>Vendor buy/sell pricing. Direct sliders show the vanilla default as their neutral value.</p></font>",
+          "html": true,
+          "type": "text"
+        },
+        {
+          "type": "spacer"
+        },
+        {
+          "text": "Buy / Sell Pricing",
+          "type": "section"
+        },
+        {
+          "setting": "fBarterMin:Economy"
+        },
+        {
+          "setting": "fBarterMax:Economy"
+        },
+        {
+          "setting": "fBarterBuyMax:Economy"
+        },
+        {
+          "setting": "fBarterSellMax:Economy"
+        },
+        {
+          "type": "spacer"
+        },
+        {
+          "text": "Persuasion",
+          "type": "section"
+        },
+        {
+          "setting": "fSpeechcraftFavorMin:Economy"
+        },
+        {
+          "setting": "fSpeechcraftFavorMax:Economy"
+        }
+      ]
+    },
+    {
+      "id": "progression",
+      "name": "Progression",
+      "summary": "Non-difficulty XP sources: crafting, lockpicking, mine disarm. Direct sliders show the vanilla default as their neutral value.",
+      "root": false,
+      "content": [
+        {
+          "text": "<font size='24'><p align='center'>Progression</p></font>",
+          "html": true,
+          "type": "text"
+        },
+        {
+          "text": "<font color='#AAAAAA'><p align='center'>Non-difficulty XP sources: crafting, lockpicking, mine disarm. Direct sliders show the vanilla default as their neutral value.</p></font>",
+          "html": true,
+          "type": "text"
+        },
+        {
+          "type": "spacer"
+        },
+        {
+          "text": "Crafting XP — Cooking",
+          "type": "section"
+        },
+        {
+          "setting": "fCookingExpBase:Progression"
+        },
+        {
+          "setting": "fCookingExpMax:Progression"
+        },
+        {
+          "setting": "fCookingExpMult:Progression"
+        },
+        {
+          "type": "spacer"
+        },
+        {
+          "text": "Crafting XP — Weapon/Armor Workbench",
+          "type": "section"
+        },
+        {
+          "setting": "fWorkbenchExpBase:Progression"
+        },
+        {
+          "setting": "fWorkbenchExpMax:Progression"
+        },
+        {
+          "setting": "fWorkbenchExpMult:Progression"
+        },
+        {
+          "type": "spacer"
+        },
+        {
+          "text": "Crafting XP — Settlement Workshop",
+          "type": "section"
+        },
+        {
+          "setting": "fWorkshopExpBase:Progression"
+        },
+        {
+          "setting": "fWorkshopExpMax:Progression"
+        },
+        {
+          "setting": "fWorkshopExpMult:Progression"
+        },
+        {
+          "type": "spacer"
+        },
+        {
+          "text": "Lockpick XP",
+          "type": "section"
+        },
+        {
+          "setting": "fLockpickXPApprentice:Progression"
+        },
+        {
+          "setting": "fLockpickXPAdept:Progression"
+        },
+        {
+          "setting": "fLockpickXPExpert:Progression"
+        },
+        {
+          "setting": "fLockpickXPMaster:Progression"
+        },
+        {
+          "type": "spacer"
+        },
+        {
+          "text": "Other",
+          "type": "section"
+        },
+        {
+          "setting": "iMineDisarmXP:Progression"
+        },
+        {
+          "type": "spacer"
+        },
+        {
+          "text": "Kill & Discovery XP",
+          "type": "section"
+        },
+        {
+          "setting": "iXPRewardKillOpponent:Progression"
+        },
+        {
+          "setting": "iXPRewardDiscoverMapMarker:Progression"
+        },
+        {
+          "setting": "iXPRewardDiscoverSecretArea:Progression"
+        },
+        {
+          "type": "spacer"
+        },
+        {
+          "text": "XP Formula",
+          "type": "section"
+        },
+        {
+          "setting": "iXPBase:Progression"
+        },
+        {
+          "setting": "iXPBumpBase:Progression"
+        },
+        {
+          "setting": "fXPModBase:Progression"
+        },
+        {
+          "setting": "fXPModMult:Progression"
+        },
+        {
+          "setting": "fXPDeathRewardHealthThreshold:Progression"
+        }
+      ]
+    },
+    {
+      "id": "vats",
+      "name": "VATS",
+      "summary": "Targeting range, time slowdown, and incoming damage while VATS is active. Direct sliders show the vanilla default as their neutral value.",
+      "root": false,
+      "content": [
+        {
+          "text": "<font size='24'><p align='center'>VATS</p></font>",
+          "html": true,
+          "type": "text"
+        },
+        {
+          "text": "<font color='#AAAAAA'><p align='center'>Targeting range, time slowdown, and incoming damage while VATS is active. Direct sliders show the vanilla default as their neutral value.</p></font>",
+          "html": true,
+          "type": "text"
+        },
+        {
+          "type": "spacer"
+        },
+        {
+          "text": "Targeting",
+          "type": "section"
+        },
+        {
+          "setting": "fVATSMaxEngageDistance:VATS"
+        },
+        {
+          "type": "spacer"
+        },
+        {
+          "text": "Timing",
+          "type": "section"
+        },
+        {
+          "setting": "fVATSTimeMultTargetSelect:VATS"
+        },
+        {
+          "type": "spacer"
+        },
+        {
+          "text": "Damage Taken",
+          "type": "section"
+        },
+        {
+          "setting": "fVATSPlayerDamageMult:VATS"
+        }
+      ]
+    },
+    {
+      "id": "skills",
+      "name": "Skills",
+      "summary": "Pickpocket, hacking, and lockpicking constants. Direct sliders show the vanilla default as their neutral value.",
+      "root": false,
+      "content": [
+        {
+          "text": "<font size='24'><p align='center'>Skills</p></font>",
+          "html": true,
+          "type": "text"
+        },
+        {
+          "text": "<font color='#AAAAAA'><p align='center'>Pickpocket, hacking, and lockpicking constants. Direct sliders show the vanilla default as their neutral value.</p></font>",
+          "html": true,
+          "type": "text"
+        },
+        {
+          "type": "spacer"
+        },
+        {
+          "text": "Pickpocket",
+          "type": "section"
+        },
+        {
+          "setting": "fPickPocketMinChance:Skills"
+        },
+        {
+          "setting": "fPickPocketMaxChance:Skills"
+        },
+        {
+          "setting": "fReversePickpocketTimer:Skills"
+        },
+        {
+          "type": "spacer"
+        },
+        {
+          "text": "Hacking",
+          "type": "section"
+        },
+        {
+          "setting": "iHackingMinWords:Skills"
+        },
+        {
+          "setting": "iHackingMaxWords:Skills"
+        },
+        {
+          "type": "spacer"
+        },
+        {
+          "text": "Lockpicking",
+          "type": "section"
+        },
+        {
+          "setting": "fLockPickBreakBase:Skills"
+        },
+        {
+          "setting": "fLockpickSkillSweetSpotBase:Skills"
+        },
+        {
+          "type": "spacer"
+        },
+        {
+          "text": "Lockpick Durability",
+          "type": "section"
+        },
+        {
+          "setting": "fLockpickBreakApprentice:Skills"
+        },
+        {
+          "setting": "fLockpickBreakAdept:Skills"
+        },
+        {
+          "setting": "fLockpickBreakExpert:Skills"
+        },
+        {
+          "setting": "fLockpickBreakMaster:Skills"
+        },
+        {
+          "type": "spacer"
+        },
+        {
+          "text": "Sweet Spot by Lock Level",
+          "type": "section"
+        },
+        {
+          "setting": "fSweetspotApprentice:Skills"
+        },
+        {
+          "setting": "fSweetspotAdept:Skills"
+        },
+        {
+          "setting": "fSweetspotExpert:Skills"
+        },
+        {
+          "setting": "fSweetspotMaster:Skills"
+        }
+      ]
+    },
+    {
+      "id": "sneak",
+      "name": "Sneak",
+      "summary": "Sneak & Detection",
+      "root": false,
+      "content": [
+        {
+          "text": "<font size='24'><p align='center'>Sneak & Detection</p></font>",
+          "html": true,
+          "type": "text"
+        },
+        {
+          "text": "<font color='#AAAAAA'><p align='center'>Sneak attack and detection constants. Neutral values match vanilla.</p></font>",
+          "html": true,
+          "type": "text"
+        },
+        {
+          "type": "spacer"
+        },
+        {
+          "text": "Sneak Attack Damage",
+          "type": "section"
+        },
+        {
+          "setting": "fSneakAttackGunMult:Sneak"
+        },
+        {
+          "setting": "fSneakAttackUnarmedMult:Sneak"
+        },
+        {
+          "setting": "fSneakAttackOneHandMult:Sneak"
+        },
+        {
+          "setting": "fSneakAttackTwoHandMult:Sneak"
+        },
+        {
+          "type": "spacer"
+        },
+        {
+          "text": "Detection",
+          "type": "section"
+        },
+        {
+          "setting": "fSneakExteriorDistanceMult:Sneak"
+        },
+        {
+          "setting": "fSneakLightMult:Sneak"
+        },
+        {
+          "setting": "fSneakMaxDistance:Sneak"
+        }
+      ]
+    },
+    {
+      "id": "companions",
+      "name": "Companions",
+      "summary": "Companions Affinity",
+      "root": false,
+      "content": [
+        {
+          "text": "<font size='24'><p align='center'>Companions Affinity</p></font>",
+          "html": true,
+          "type": "text"
+        },
+        {
+          "text": "<font color='#AAAAAA'><p align='center'>Per-reaction affinity changes and event cooldowns. The five reaction sliders set how much affinity an event of that type adds (or subtracts) when a companion reacts to your action.</p></font>",
+          "html": true,
+          "type": "text"
+        },
+        {
+          "type": "spacer"
+        },
+        {
+          "text": "Affinity Per Reaction",
+          "type": "section"
+        },
+        {
+          "setting": "fLove:CompanionsAffinity"
+        },
+        {
+          "setting": "fLike:CompanionsAffinity"
+        },
+        {
+          "setting": "fIndifferent:CompanionsAffinity"
+        },
+        {
+          "setting": "fDislike:CompanionsAffinity"
+        },
+        {
+          "setting": "fHates:CompanionsAffinity"
+        },
+        {
+          "type": "spacer"
+        },
+        {
+          "text": "Reaction Cooldowns",
+          "type": "section"
+        },
+        {
+          "setting": "fCooldownImmediate:CompanionsAffinity"
+        },
+        {
+          "setting": "fCooldownShort:CompanionsAffinity"
+        },
+        {
+          "setting": "fCooldownMedium:CompanionsAffinity"
+        },
+        {
+          "setting": "fCooldownLong:CompanionsAffinity"
+        }
+      ]
+    },
+    {
+      "id": "combat-perks",
+      "name": "Combat Perks",
+      "summary": "Tier multipliers and trigger chances for combat perks. Direct sliders show the vanilla default as their neutral value.",
+      "root": false,
+      "content": [
+        {
+          "text": "<font size='24'><p align='center'>Combat Perks</p></font>",
+          "html": true,
+          "type": "text"
+        },
+        {
+          "text": "<font color='#AAAAAA'><p align='center'>Tier multipliers and trigger chances for combat perks. Direct sliders show the vanilla default as their neutral value.</p></font>",
+          "html": true,
+          "type": "text"
+        },
+        {
+          "type": "spacer"
+        },
+        {
+          "text": "Combat Chances",
+          "type": "section"
+        },
+        {
+          "setting": "iAttackDisarmChance:CombatPerks"
+        },
+        {
+          "setting": "iBlockDisarmChance:CombatPerks"
+        },
+        {
+          "setting": "iBlockStaggerChance:CombatPerks"
+        },
+        {
+          "setting": "iHandToHandBlockRecoilChance:CombatPerks"
+        },
+        {
+          "setting": "iMarksmanKnockdownChance:CombatPerks"
+        },
+        {
+          "setting": "iMarksmanParalyzeChance:CombatPerks"
+        },
+        {
+          "type": "spacer"
+        },
+        {
+          "text": "Light Armor Perk",
+          "type": "section"
+        },
+        {
+          "setting": "fLightArmorNoviceDamageMult:CombatPerks"
+        },
+        {
+          "setting": "fLightArmorJourneymanDamageMult:CombatPerks"
+        },
+        {
+          "setting": "fLightArmorExpertSpeedMult:CombatPerks"
+        },
+        {
+          "setting": "fLightArmorMasterRatingMult:CombatPerks"
+        },
+        {
+          "setting": "iLightArmorMasterMinSum:CombatPerks"
+        },
+        {
+          "type": "spacer"
+        },
+        {
+          "text": "Heavy Armor Perk",
+          "type": "section"
+        },
+        {
+          "setting": "fHeavyArmorNoviceDamageMult:CombatPerks"
+        },
+        {
+          "setting": "fHeavyArmorJourneymanDamageMult:CombatPerks"
+        },
+        {
+          "setting": "fHeavyArmorExpertSpeedMult:CombatPerks"
+        },
+        {
+          "setting": "fHeavyArmorMasterSpeedMult:CombatPerks"
+        },
+        {
+          "setting": "fHeavyArmorSinkGravityMult:CombatPerks"
+        },
+        {
+          "setting": "iHeavyArmorJumpSum:CombatPerks"
+        },
+        {
+          "setting": "iHeavyArmorSinkSum:CombatPerks"
+        }
+      ]
+    },
+    {
+      "id": "settlements",
+      "name": "Settlements",
+      "summary": "Workshop GMSTs for build timers, repair cost, wire length, settler cap, and placement constraints. Settlement-surplus production caps are baked into script code, not game settings, so they aren't covered here.",
+      "root": false,
+      "content": [
+        {
+          "text": "<font size='24'><p align='center'>Settlements</p></font>",
+          "html": true,
+          "type": "text"
+        },
+        {
+          "text": "<font color='#AAAAAA'><p align='center'>Workshop GMSTs for build timers, repair cost, wire length, settler cap, and placement constraints. Settlement-surplus production caps are baked into script code, not game settings, so they aren't covered here.</p></font>",
+          "html": true,
+          "type": "text"
+        },
+        {
+          "type": "spacer"
+        },
+        {
+          "text": "Settler & Building",
+          "type": "section"
+        },
+        {
+          "setting": "iSettlerPopulationMax:Settlements"
+        },
+        {
+          "setting": "fBuildBaseTimer:Settlements"
+        },
+        {
+          "setting": "fBuildResourceTimer:Settlements"
+        },
+        {
+          "setting": "fRepairComponentMult:Settlements"
+        },
+        {
+          "setting": "fWireMaxLength:Settlements"
+        },
+        {
+          "type": "spacer"
+        },
+        {
+          "text": "Placement Constraints",
+          "type": "section"
+        },
+        {
+          "setting": "fRestrictedBuildSpacing:Settlements"
+        },
+        {
+          "setting": "fRestrictedBuildMaxFloraRadius:Settlements"
+        },
+        {
+          "setting": "fRestrictedBuildMaxKeywordRadius:Settlements"
+        },
+        {
+          "setting": "fRestrictedBuildMaxTurretRadius:Settlements"
+        }
+      ]
+    }
+  ],
+  "settings": [
+    {
+      "id": "bEnabled:General",
+      "section": "General",
+      "key": "bEnabled",
+      "cpp": "General::bEnabled",
+      "type": "bool",
+      "default": true,
+      "iniDefault": "1",
+      "ui": {
+        "page": "general",
+        "group": "General",
+        "label": "Enable Plugin",
+        "help": "Master switch for gameplay tweaks. Diagnostics can still run while disabled.",
+        "control": "switcher",
+        "order": 0
+      }
+    },
+    {
+      "id": "bConsole:Unlocks",
+      "section": "Unlocks",
+      "key": "bConsole",
+      "cpp": "Unlocks::bConsole",
+      "type": "bool",
+      "default": false,
+      "iniDefault": "0",
+      "ui": {
+        "page": "survival-unlocks",
+        "group": "Menus & Saves",
+        "label": "Allow Console",
+        "help": "ON re-enables the developer console while in Survival.",
+        "control": "switcher",
+        "order": 0
+      }
+    },
+    {
+      "id": "bFastTravel:Unlocks",
+      "section": "Unlocks",
+      "key": "bFastTravel",
+      "cpp": "Unlocks::bFastTravel",
+      "type": "bool",
+      "default": false,
+      "iniDefault": "0",
+      "ui": {
+        "page": "survival-unlocks",
+        "group": "Travel & Exploration",
+        "label": "Allow Fast Travel",
+        "help": "ON allows Pip-Boy fast travel in Survival. Fast-travel loads get targeted protection.",
+        "control": "switcher",
+        "order": 3
+      }
+    },
+    {
+      "id": "bGodMode:Unlocks",
+      "section": "Unlocks",
+      "key": "bGodMode",
+      "cpp": "Unlocks::bGodMode",
+      "type": "bool",
+      "default": false,
+      "iniDefault": "0",
+      "ui": {
+        "page": "survival-unlocks",
+        "group": "Weight & Difficulty",
+        "label": "Allow God Mode",
+        "help": "ON lets tgm and tim console cheats work in Survival.",
+        "control": "switcher",
+        "order": 9
+      }
+    },
+    {
+      "id": "bSaveAuto:Unlocks",
+      "section": "Unlocks",
+      "key": "bSaveAuto",
+      "cpp": "Unlocks::bSaveAuto",
+      "type": "bool",
+      "default": false,
+      "iniDefault": "0",
+      "ui": {
+        "page": "survival-unlocks",
+        "group": "Menus & Saves",
+        "label": "Allow Auto-Saves",
+        "help": "ON allows queued vanilla auto-saves in Survival.",
+        "control": "switcher",
+        "order": 2
+      }
+    },
+    {
+      "id": "bSaveSelf:Unlocks",
+      "section": "Unlocks",
+      "key": "bSaveSelf",
+      "cpp": "Unlocks::bSaveSelf",
+      "type": "bool",
+      "default": false,
+      "iniDefault": "0",
+      "ui": {
+        "page": "survival-unlocks",
+        "group": "Menus & Saves",
+        "label": "Allow Manual Saves",
+        "help": "ON allows pause-menu saves and F5 quicksave in Survival.",
+        "control": "switcher",
+        "order": 1
+      }
+    },
+    {
+      "id": "bCompassEnemies:Unlocks",
+      "section": "Unlocks",
+      "key": "bCompassEnemies",
+      "cpp": "Unlocks::bCompassEnemies",
+      "type": "bool",
+      "default": false,
+      "iniDefault": "0",
+      "ui": {
+        "page": "survival-unlocks",
+        "group": "Travel & Exploration",
+        "label": "Show Enemies on Compass",
+        "help": "ON restores vanilla red-dot enemy markers on the compass.",
+        "control": "switcher",
+        "order": 4
+      }
+    },
+    {
+      "id": "bCompassLocations:Unlocks",
+      "section": "Unlocks",
+      "key": "bCompassLocations",
+      "cpp": "Unlocks::bCompassLocations",
+      "type": "bool",
+      "default": false,
+      "iniDefault": "0",
+      "ui": {
+        "page": "survival-unlocks",
+        "group": "Travel & Exploration",
+        "label": "Show Locations on Compass",
+        "help": "ON restores vanilla undiscovered-location markers on the compass.",
+        "control": "switcher",
+        "order": 5
+      }
+    },
+    {
+      "id": "bNoAlchWeight:Unlocks",
+      "section": "Unlocks",
+      "key": "bNoAlchWeight",
+      "cpp": "Unlocks::bNoAlchWeight",
+      "type": "bool",
+      "default": false,
+      "iniDefault": "0",
+      "ui": {
+        "page": "survival-unlocks",
+        "group": "Weight & Difficulty",
+        "label": "Remove Chem/Aid Weight",
+        "help": "ON strips Survival's added weight from consumables (chems, stimpaks, food).",
+        "control": "switcher",
+        "order": 6
+      }
+    },
+    {
+      "id": "bNoAmmoWeight:Unlocks",
+      "section": "Unlocks",
+      "key": "bNoAmmoWeight",
+      "cpp": "Unlocks::bNoAmmoWeight",
+      "type": "bool",
+      "default": false,
+      "iniDefault": "0",
+      "ui": {
+        "page": "survival-unlocks",
+        "group": "Weight & Difficulty",
+        "label": "Remove Ammo Weight",
+        "help": "ON strips Survival's added weight from ammunition.",
+        "control": "switcher",
+        "order": 7
+      }
+    },
+    {
+      "id": "bNoSurvivalCarryWeight:Unlocks",
+      "section": "Unlocks",
+      "key": "bNoSurvivalCarryWeight",
+      "cpp": "Unlocks::bNoSurvivalCarryWeight",
+      "type": "bool",
+      "default": false,
+      "iniDefault": "0",
+      "ui": {
+        "page": "survival-unlocks",
+        "group": "Weight & Difficulty",
+        "label": "Remove Survival Carry-Weight Penalty",
+        "help": "ON neutralizes Survival's -100 carry-weight ability for player and companions. Save and reload after toggling for the change to take effect on already-applied characters.",
+        "control": "switcher",
+        "order": 8
+      }
+    },
+    {
+      "id": "bReenableSurvival:Unlocks",
+      "section": "Unlocks",
+      "key": "bReenableSurvival",
+      "cpp": "Unlocks::bReenableSurvival",
+      "type": "bool",
+      "default": false,
+      "iniDefault": "0",
+      "ui": {
+        "page": "survival-unlocks",
+        "group": "Weight & Difficulty",
+        "label": "Allow Re-entering Survival",
+        "help": "ON lets you turn Survival back on after leaving it.",
+        "control": "switcher",
+        "order": 10
+      }
+    },
+    {
+      "id": "bKeepExitSave:Unlocks",
+      "section": "Unlocks",
+      "key": "bKeepExitSave",
+      "cpp": "Unlocks::bKeepExitSave",
+      "type": "bool",
+      "default": false,
+      "iniDefault": "0",
+      "ui": {
+        "page": "survival-unlocks",
+        "group": "Weight & Difficulty",
+        "label": "Keep Exit Save",
+        "help": "ON keeps the exit save on load. Toggle OFF to delete it from the load menu.",
+        "control": "switcher",
+        "order": 11
+      }
+    },
+    {
+      "id": "fStimpakHeal:Magnitudes",
+      "section": "Magnitudes",
+      "key": "fStimpakHeal",
+      "cpp": "Magnitudes::fStimpakHeal",
+      "type": "float",
+      "default": 1.0,
+      "iniDefault": "1.0",
+      "ui": {
+        "page": "magnitudes",
+        "group": "Consumables",
+        "label": "Stimpak Healing",
+        "help": "Scales the HP restored per stimpak. Vanilla magnitude is 6 HP/sec over 5s.",
+        "control": "slider",
+        "order": 0,
+        "min": 0.0,
+        "max": 5.0,
+        "step": 0.1
+      }
+    },
+    {
+      "id": "fStimpakLimbRepair:Magnitudes",
+      "section": "Magnitudes",
+      "key": "fStimpakLimbRepair",
+      "cpp": "Magnitudes::fStimpakLimbRepair",
+      "type": "float",
+      "default": 1.0,
+      "iniDefault": "1.0",
+      "ui": {
+        "page": "magnitudes",
+        "group": "Consumables",
+        "label": "Stimpak Limb Repair",
+        "help": "Scales limb repair from stimpaks. Values above 1.0 are clamped by vanilla.",
+        "control": "slider",
+        "order": 1,
+        "min": 0.0,
+        "max": 1.0,
+        "step": 0.1
+      }
+    },
+    {
+      "id": "fRadAwayStrength:Magnitudes",
+      "section": "Magnitudes",
+      "key": "fRadAwayStrength",
+      "cpp": "Magnitudes::fRadAwayStrength",
+      "type": "float",
+      "default": 1.0,
+      "iniDefault": "1.0",
+      "ui": {
+        "page": "magnitudes",
+        "group": "Consumables",
+        "label": "RadAway Removal",
+        "help": "Scales the rads removed per RadAway. Vanilla magnitude is 60.",
+        "control": "slider",
+        "order": 2,
+        "min": 0.0,
+        "max": 5.0,
+        "step": 0.1
+      }
+    },
+    {
+      "id": "fRadXPotency:Magnitudes",
+      "section": "Magnitudes",
+      "key": "fRadXPotency",
+      "cpp": "Magnitudes::fRadXPotency",
+      "type": "float",
+      "default": 1.0,
+      "iniDefault": "1.0",
+      "ui": {
+        "page": "magnitudes",
+        "group": "Consumables",
+        "label": "RadX Protection",
+        "help": "Scales the rad resistance granted by RadX. Vanilla magnitude is 100 over 180s.",
+        "control": "slider",
+        "order": 3,
+        "min": 0.0,
+        "max": 5.0,
+        "step": 0.1
+      }
+    },
+    {
+      "id": "fFoodHeal:Magnitudes",
+      "section": "Magnitudes",
+      "key": "fFoodHeal",
+      "cpp": "Magnitudes::fFoodHeal",
+      "type": "float",
+      "default": 1.0,
+      "iniDefault": "1.0",
+      "ui": {
+        "page": "magnitudes",
+        "group": "Consumables",
+        "label": "Food / Drink Healing",
+        "help": "Scales HP restored by food and drink. Tooltips may cache old values.",
+        "control": "slider",
+        "order": 4,
+        "min": 0.0,
+        "max": 5.0,
+        "step": 0.1
+      }
+    },
+    {
+      "id": "fHungerPenalty:Magnitudes",
+      "section": "Magnitudes",
+      "key": "fHungerPenalty",
+      "cpp": "Magnitudes::fHungerPenalty",
+      "type": "float",
+      "default": 1.0,
+      "iniDefault": "1.0",
+      "ui": {
+        "page": "magnitudes",
+        "group": "Survival Stage Penalties",
+        "label": "Hunger Penalty Severity",
+        "help": "Scales the SPECIAL penalties at each hunger tier (Peckish through Starving).",
+        "control": "slider",
+        "order": 5,
+        "min": 0,
+        "max": 5,
+        "step": 1
+      }
+    },
+    {
+      "id": "fThirstPenalty:Magnitudes",
+      "section": "Magnitudes",
+      "key": "fThirstPenalty",
+      "cpp": "Magnitudes::fThirstPenalty",
+      "type": "float",
+      "default": 1.0,
+      "iniDefault": "1.0",
+      "ui": {
+        "page": "magnitudes",
+        "group": "Survival Stage Penalties",
+        "label": "Thirst Penalty Severity",
+        "help": "Scales the SPECIAL penalties at each thirst tier (Thirsty through Severely Dehydrated).",
+        "control": "slider",
+        "order": 6,
+        "min": 0,
+        "max": 5,
+        "step": 1
+      }
+    },
+    {
+      "id": "fSleepPenalty:Magnitudes",
+      "section": "Magnitudes",
+      "key": "fSleepPenalty",
+      "cpp": "Magnitudes::fSleepPenalty",
+      "type": "float",
+      "default": 1.0,
+      "iniDefault": "1.0",
+      "ui": {
+        "page": "magnitudes",
+        "group": "Survival Stage Penalties",
+        "label": "Sleep Penalty Severity",
+        "help": "Scales the AP-regen and SPECIAL penalties at each sleep tier (Tired through Incapacitated).",
+        "control": "slider",
+        "order": 7,
+        "min": 0,
+        "max": 5,
+        "step": 1
+      }
+    },
+    {
+      "id": "fIncomingDamageVeryEasy:Difficulty",
+      "section": "Difficulty",
+      "key": "fIncomingDamageVeryEasy",
+      "cpp": "Difficulty::fIncomingDamageVeryEasy",
+      "type": "float",
+      "default": 1.0,
+      "iniDefault": "1.0",
+      "ui": {
+        "page": "difficulty",
+        "group": "Damage Taken",
+        "label": "Incoming Damage (Very Easy)",
+        "help": "Multiplies damage you take on Very Easy. 1.00 = vanilla.",
+        "control": "slider",
+        "order": 0,
+        "min": 0.0,
+        "max": 5.0,
+        "step": 0.05
+      }
+    },
+    {
+      "id": "fIncomingDamageEasy:Difficulty",
+      "section": "Difficulty",
+      "key": "fIncomingDamageEasy",
+      "cpp": "Difficulty::fIncomingDamageEasy",
+      "type": "float",
+      "default": 1.0,
+      "iniDefault": "1.0",
+      "ui": {
+        "page": "difficulty",
+        "group": "Damage Taken",
+        "label": "Incoming Damage (Easy)",
+        "help": "Multiplies damage you take on Easy. 1.00 = vanilla.",
+        "control": "slider",
+        "order": 1,
+        "min": 0.0,
+        "max": 5.0,
+        "step": 0.05
+      }
+    },
+    {
+      "id": "fIncomingDamageNormal:Difficulty",
+      "section": "Difficulty",
+      "key": "fIncomingDamageNormal",
+      "cpp": "Difficulty::fIncomingDamageNormal",
+      "type": "float",
+      "default": 1.0,
+      "iniDefault": "1.0",
+      "ui": {
+        "page": "difficulty",
+        "group": "Damage Taken",
+        "label": "Incoming Damage (Normal)",
+        "help": "Multiplies damage you take on Normal. 1.00 = vanilla.",
+        "control": "slider",
+        "order": 2,
+        "min": 0.0,
+        "max": 5.0,
+        "step": 0.05
+      }
+    },
+    {
+      "id": "fIncomingDamageHard:Difficulty",
+      "section": "Difficulty",
+      "key": "fIncomingDamageHard",
+      "cpp": "Difficulty::fIncomingDamageHard",
+      "type": "float",
+      "default": 1.0,
+      "iniDefault": "1.0",
+      "ui": {
+        "page": "difficulty",
+        "group": "Damage Taken",
+        "label": "Incoming Damage (Hard)",
+        "help": "Multiplies damage you take on Hard. 1.00 = vanilla.",
+        "control": "slider",
+        "order": 3,
+        "min": 0.0,
+        "max": 5.0,
+        "step": 0.05
+      }
+    },
+    {
+      "id": "fIncomingDamageVeryHard:Difficulty",
+      "section": "Difficulty",
+      "key": "fIncomingDamageVeryHard",
+      "cpp": "Difficulty::fIncomingDamageVeryHard",
+      "type": "float",
+      "default": 1.0,
+      "iniDefault": "1.0",
+      "ui": {
+        "page": "difficulty",
+        "group": "Damage Taken",
+        "label": "Incoming Damage (Very Hard)",
+        "help": "Multiplies damage you take on Very Hard. 1.00 = vanilla.",
+        "control": "slider",
+        "order": 4,
+        "min": 0.0,
+        "max": 5.0,
+        "step": 0.05
+      }
+    },
+    {
+      "id": "fIncomingDamageSurvival:Difficulty",
+      "section": "Difficulty",
+      "key": "fIncomingDamageSurvival",
+      "cpp": "Difficulty::fIncomingDamageSurvival",
+      "type": "float",
+      "default": 1.0,
+      "iniDefault": "1.0",
+      "ui": {
+        "page": "difficulty",
+        "group": "Damage Taken",
+        "label": "Incoming Damage (Survival)",
+        "help": "Multiplies damage you take on Survival. 1.00 = vanilla.",
+        "control": "slider",
+        "order": 5,
+        "min": 0.0,
+        "max": 5.0,
+        "step": 0.05
+      }
+    },
+    {
+      "id": "fOutgoingDamageVeryEasy:Difficulty",
+      "section": "Difficulty",
+      "key": "fOutgoingDamageVeryEasy",
+      "cpp": "Difficulty::fOutgoingDamageVeryEasy",
+      "type": "float",
+      "default": 1.0,
+      "iniDefault": "1.0",
+      "ui": {
+        "page": "difficulty",
+        "group": "Damage Done",
+        "label": "Outgoing Damage (Very Easy)",
+        "help": "Multiplies damage you deal on Very Easy. 1.00 = vanilla.",
+        "control": "slider",
+        "order": 6,
+        "min": 0.0,
+        "max": 5.0,
+        "step": 0.05
+      }
+    },
+    {
+      "id": "fOutgoingDamageEasy:Difficulty",
+      "section": "Difficulty",
+      "key": "fOutgoingDamageEasy",
+      "cpp": "Difficulty::fOutgoingDamageEasy",
+      "type": "float",
+      "default": 1.0,
+      "iniDefault": "1.0",
+      "ui": {
+        "page": "difficulty",
+        "group": "Damage Done",
+        "label": "Outgoing Damage (Easy)",
+        "help": "Multiplies damage you deal on Easy. 1.00 = vanilla.",
+        "control": "slider",
+        "order": 7,
+        "min": 0.0,
+        "max": 5.0,
+        "step": 0.05
+      }
+    },
+    {
+      "id": "fOutgoingDamageNormal:Difficulty",
+      "section": "Difficulty",
+      "key": "fOutgoingDamageNormal",
+      "cpp": "Difficulty::fOutgoingDamageNormal",
+      "type": "float",
+      "default": 1.0,
+      "iniDefault": "1.0",
+      "ui": {
+        "page": "difficulty",
+        "group": "Damage Done",
+        "label": "Outgoing Damage (Normal)",
+        "help": "Multiplies damage you deal on Normal. 1.00 = vanilla.",
+        "control": "slider",
+        "order": 8,
+        "min": 0.0,
+        "max": 5.0,
+        "step": 0.05
+      }
+    },
+    {
+      "id": "fOutgoingDamageHard:Difficulty",
+      "section": "Difficulty",
+      "key": "fOutgoingDamageHard",
+      "cpp": "Difficulty::fOutgoingDamageHard",
+      "type": "float",
+      "default": 1.0,
+      "iniDefault": "1.0",
+      "ui": {
+        "page": "difficulty",
+        "group": "Damage Done",
+        "label": "Outgoing Damage (Hard)",
+        "help": "Multiplies damage you deal on Hard. 1.00 = vanilla.",
+        "control": "slider",
+        "order": 9,
+        "min": 0.0,
+        "max": 5.0,
+        "step": 0.05
+      }
+    },
+    {
+      "id": "fOutgoingDamageVeryHard:Difficulty",
+      "section": "Difficulty",
+      "key": "fOutgoingDamageVeryHard",
+      "cpp": "Difficulty::fOutgoingDamageVeryHard",
+      "type": "float",
+      "default": 1.0,
+      "iniDefault": "1.0",
+      "ui": {
+        "page": "difficulty",
+        "group": "Damage Done",
+        "label": "Outgoing Damage (Very Hard)",
+        "help": "Multiplies damage you deal on Very Hard. 1.00 = vanilla.",
+        "control": "slider",
+        "order": 10,
+        "min": 0.0,
+        "max": 5.0,
+        "step": 0.05
+      }
+    },
+    {
+      "id": "fOutgoingDamageSurvival:Difficulty",
+      "section": "Difficulty",
+      "key": "fOutgoingDamageSurvival",
+      "cpp": "Difficulty::fOutgoingDamageSurvival",
+      "type": "float",
+      "default": 1.0,
+      "iniDefault": "1.0",
+      "ui": {
+        "page": "difficulty",
+        "group": "Damage Done",
+        "label": "Outgoing Damage (Survival)",
+        "help": "Multiplies damage you deal on Survival. 1.00 = vanilla.",
+        "control": "slider",
+        "order": 11,
+        "min": 0.0,
+        "max": 5.0,
+        "step": 0.05
+      }
+    },
+    {
+      "id": "fXPBase:Difficulty",
+      "section": "Difficulty",
+      "key": "fXPBase",
+      "cpp": "Difficulty::fXPBase",
+      "type": "float",
+      "default": 1.0,
+      "iniDefault": "1.0",
+      "ui": {
+        "page": "difficulty",
+        "group": "Progression",
+        "label": "Base XP Rate",
+        "help": "Scales base XP before Intelligence bonus. 1.00 = vanilla.",
+        "control": "slider",
+        "order": 12,
+        "min": 0.0,
+        "max": 5.0,
+        "step": 0.05
+      }
+    },
+    {
+      "id": "fXPMult:Difficulty",
+      "section": "Difficulty",
+      "key": "fXPMult",
+      "cpp": "Difficulty::fXPMult",
+      "type": "float",
+      "default": 1.0,
+      "iniDefault": "1.0",
+      "ui": {
+        "page": "difficulty",
+        "group": "Progression",
+        "label": "Intelligence XP Bonus",
+        "help": "Scales the XP bonus from Intelligence. 1.00 = vanilla.",
+        "control": "slider",
+        "order": 13,
+        "min": 0.0,
+        "max": 5.0,
+        "step": 0.05
+      }
+    },
+    {
+      "id": "fLegendaryChanceVeryEasy:Difficulty",
+      "section": "Difficulty",
+      "key": "fLegendaryChanceVeryEasy",
+      "cpp": "Difficulty::fLegendaryChanceVeryEasy",
+      "type": "float",
+      "default": 1.0,
+      "iniDefault": "1.0",
+      "ui": {
+        "page": "difficulty",
+        "group": "Legendary Chance",
+        "label": "Legendary Chance (Very Easy)",
+        "help": "How often eligible enemies become legendary. 1.00 = vanilla.",
+        "control": "slider",
+        "order": 14,
+        "min": 0.0,
+        "max": 10.0,
+        "step": 0.05
+      }
+    },
+    {
+      "id": "fLegendaryChanceEasy:Difficulty",
+      "section": "Difficulty",
+      "key": "fLegendaryChanceEasy",
+      "cpp": "Difficulty::fLegendaryChanceEasy",
+      "type": "float",
+      "default": 1.0,
+      "iniDefault": "1.0",
+      "ui": {
+        "page": "difficulty",
+        "group": "Legendary Chance",
+        "label": "Legendary Chance (Easy)",
+        "help": "How often eligible enemies become legendary. 1.00 = vanilla.",
+        "control": "slider",
+        "order": 15,
+        "min": 0.0,
+        "max": 10.0,
+        "step": 0.05
+      }
+    },
+    {
+      "id": "fLegendaryChanceNormal:Difficulty",
+      "section": "Difficulty",
+      "key": "fLegendaryChanceNormal",
+      "cpp": "Difficulty::fLegendaryChanceNormal",
+      "type": "float",
+      "default": 1.0,
+      "iniDefault": "1.0",
+      "ui": {
+        "page": "difficulty",
+        "group": "Legendary Chance",
+        "label": "Legendary Chance (Normal)",
+        "help": "How often eligible enemies become legendary. 1.00 = vanilla.",
+        "control": "slider",
+        "order": 16,
+        "min": 0.0,
+        "max": 10.0,
+        "step": 0.05
+      }
+    },
+    {
+      "id": "fLegendaryChanceHard:Difficulty",
+      "section": "Difficulty",
+      "key": "fLegendaryChanceHard",
+      "cpp": "Difficulty::fLegendaryChanceHard",
+      "type": "float",
+      "default": 1.0,
+      "iniDefault": "1.0",
+      "ui": {
+        "page": "difficulty",
+        "group": "Legendary Chance",
+        "label": "Legendary Chance (Hard)",
+        "help": "How often eligible enemies become legendary. 1.00 = vanilla.",
+        "control": "slider",
+        "order": 17,
+        "min": 0.0,
+        "max": 10.0,
+        "step": 0.05
+      }
+    },
+    {
+      "id": "fLegendaryChanceVeryHard:Difficulty",
+      "section": "Difficulty",
+      "key": "fLegendaryChanceVeryHard",
+      "cpp": "Difficulty::fLegendaryChanceVeryHard",
+      "type": "float",
+      "default": 1.0,
+      "iniDefault": "1.0",
+      "ui": {
+        "page": "difficulty",
+        "group": "Legendary Chance",
+        "label": "Legendary Chance (Very Hard)",
+        "help": "How often eligible enemies become legendary. 1.00 = vanilla.",
+        "control": "slider",
+        "order": 18,
+        "min": 0.0,
+        "max": 10.0,
+        "step": 0.05
+      }
+    },
+    {
+      "id": "fLegendaryChanceSurvival:Difficulty",
+      "section": "Difficulty",
+      "key": "fLegendaryChanceSurvival",
+      "cpp": "Difficulty::fLegendaryChanceSurvival",
+      "type": "float",
+      "default": 1.0,
+      "iniDefault": "1.0",
+      "ui": {
+        "page": "difficulty",
+        "group": "Legendary Chance",
+        "label": "Legendary Chance (Survival)",
+        "help": "How often eligible enemies become legendary. 1.00 = vanilla.",
+        "control": "slider",
+        "order": 19,
+        "min": 0.0,
+        "max": 10.0,
+        "step": 0.05
+      }
+    },
+    {
+      "id": "fLegendaryRarityVeryEasy:Difficulty",
+      "section": "Difficulty",
+      "key": "fLegendaryRarityVeryEasy",
+      "cpp": "Difficulty::fLegendaryRarityVeryEasy",
+      "type": "float",
+      "default": 1.0,
+      "iniDefault": "1.0",
+      "ui": {
+        "page": "difficulty",
+        "group": "Legendary Rarity",
+        "label": "Legendary Rarity (Very Easy)",
+        "help": "Weights rarer legendary rolls after a legendary spawns. 1.00 = vanilla.",
+        "control": "slider",
+        "order": 20,
+        "min": 0.0,
+        "max": 10.0,
+        "step": 0.05
+      }
+    },
+    {
+      "id": "fLegendaryRarityEasy:Difficulty",
+      "section": "Difficulty",
+      "key": "fLegendaryRarityEasy",
+      "cpp": "Difficulty::fLegendaryRarityEasy",
+      "type": "float",
+      "default": 1.0,
+      "iniDefault": "1.0",
+      "ui": {
+        "page": "difficulty",
+        "group": "Legendary Rarity",
+        "label": "Legendary Rarity (Easy)",
+        "help": "Weights rarer legendary rolls after a legendary spawns. 1.00 = vanilla.",
+        "control": "slider",
+        "order": 21,
+        "min": 0.0,
+        "max": 10.0,
+        "step": 0.05
+      }
+    },
+    {
+      "id": "fLegendaryRarityNormal:Difficulty",
+      "section": "Difficulty",
+      "key": "fLegendaryRarityNormal",
+      "cpp": "Difficulty::fLegendaryRarityNormal",
+      "type": "float",
+      "default": 1.0,
+      "iniDefault": "1.0",
+      "ui": {
+        "page": "difficulty",
+        "group": "Legendary Rarity",
+        "label": "Legendary Rarity (Normal)",
+        "help": "Weights rarer legendary rolls after a legendary spawns. 1.00 = vanilla.",
+        "control": "slider",
+        "order": 22,
+        "min": 0.0,
+        "max": 10.0,
+        "step": 0.05
+      }
+    },
+    {
+      "id": "fLegendaryRarityHard:Difficulty",
+      "section": "Difficulty",
+      "key": "fLegendaryRarityHard",
+      "cpp": "Difficulty::fLegendaryRarityHard",
+      "type": "float",
+      "default": 1.0,
+      "iniDefault": "1.0",
+      "ui": {
+        "page": "difficulty",
+        "group": "Legendary Rarity",
+        "label": "Legendary Rarity (Hard)",
+        "help": "Weights rarer legendary rolls after a legendary spawns. 1.00 = vanilla.",
+        "control": "slider",
+        "order": 23,
+        "min": 0.0,
+        "max": 10.0,
+        "step": 0.05
+      }
+    },
+    {
+      "id": "fLegendaryRarityVeryHard:Difficulty",
+      "section": "Difficulty",
+      "key": "fLegendaryRarityVeryHard",
+      "cpp": "Difficulty::fLegendaryRarityVeryHard",
+      "type": "float",
+      "default": 1.0,
+      "iniDefault": "1.0",
+      "ui": {
+        "page": "difficulty",
+        "group": "Legendary Rarity",
+        "label": "Legendary Rarity (Very Hard)",
+        "help": "Weights rarer legendary rolls after a legendary spawns. 1.00 = vanilla.",
+        "control": "slider",
+        "order": 24,
+        "min": 0.0,
+        "max": 10.0,
+        "step": 0.05
+      }
+    },
+    {
+      "id": "fLegendaryRaritySurvival:Difficulty",
+      "section": "Difficulty",
+      "key": "fLegendaryRaritySurvival",
+      "cpp": "Difficulty::fLegendaryRaritySurvival",
+      "type": "float",
+      "default": 1.0,
+      "iniDefault": "1.0",
+      "ui": {
+        "page": "difficulty",
+        "group": "Legendary Rarity",
+        "label": "Legendary Rarity (Survival)",
+        "help": "Weights rarer legendary rolls after a legendary spawns. 1.00 = vanilla.",
+        "control": "slider",
+        "order": 25,
+        "min": 0.0,
+        "max": 10.0,
+        "step": 0.05
+      }
+    },
+    {
+      "id": "fEffectDurationVeryEasy:Difficulty",
+      "section": "Difficulty",
+      "key": "fEffectDurationVeryEasy",
+      "cpp": "Difficulty::fEffectDurationVeryEasy",
+      "type": "float",
+      "default": 1.0,
+      "iniDefault": "1.0",
+      "ui": {
+        "page": "difficulty",
+        "group": "Effect Duration",
+        "label": "Effect Duration (Very Easy)",
+        "help": "Multiplies effect duration on Very Easy. 1.00 = vanilla.",
+        "control": "slider",
+        "order": 26,
+        "min": 0.0,
+        "max": 10.0,
+        "step": 0.05
+      }
+    },
+    {
+      "id": "fEffectDurationEasy:Difficulty",
+      "section": "Difficulty",
+      "key": "fEffectDurationEasy",
+      "cpp": "Difficulty::fEffectDurationEasy",
+      "type": "float",
+      "default": 1.0,
+      "iniDefault": "1.0",
+      "ui": {
+        "page": "difficulty",
+        "group": "Effect Duration",
+        "label": "Effect Duration (Easy)",
+        "help": "Multiplies effect duration on Easy. 1.00 = vanilla.",
+        "control": "slider",
+        "order": 27,
+        "min": 0.0,
+        "max": 10.0,
+        "step": 0.05
+      }
+    },
+    {
+      "id": "fEffectDurationNormal:Difficulty",
+      "section": "Difficulty",
+      "key": "fEffectDurationNormal",
+      "cpp": "Difficulty::fEffectDurationNormal",
+      "type": "float",
+      "default": 1.0,
+      "iniDefault": "1.0",
+      "ui": {
+        "page": "difficulty",
+        "group": "Effect Duration",
+        "label": "Effect Duration (Normal)",
+        "help": "Multiplies effect duration on Normal. 1.00 = vanilla.",
+        "control": "slider",
+        "order": 28,
+        "min": 0.0,
+        "max": 10.0,
+        "step": 0.05
+      }
+    },
+    {
+      "id": "fEffectDurationHard:Difficulty",
+      "section": "Difficulty",
+      "key": "fEffectDurationHard",
+      "cpp": "Difficulty::fEffectDurationHard",
+      "type": "float",
+      "default": 1.0,
+      "iniDefault": "1.0",
+      "ui": {
+        "page": "difficulty",
+        "group": "Effect Duration",
+        "label": "Effect Duration (Hard)",
+        "help": "Multiplies effect duration on Hard. 1.00 = vanilla.",
+        "control": "slider",
+        "order": 29,
+        "min": 0.0,
+        "max": 10.0,
+        "step": 0.05
+      }
+    },
+    {
+      "id": "fEffectDurationVeryHard:Difficulty",
+      "section": "Difficulty",
+      "key": "fEffectDurationVeryHard",
+      "cpp": "Difficulty::fEffectDurationVeryHard",
+      "type": "float",
+      "default": 1.0,
+      "iniDefault": "1.0",
+      "ui": {
+        "page": "difficulty",
+        "group": "Effect Duration",
+        "label": "Effect Duration (Very Hard)",
+        "help": "Multiplies effect duration on Very Hard. 1.00 = vanilla.",
+        "control": "slider",
+        "order": 30,
+        "min": 0.0,
+        "max": 10.0,
+        "step": 0.05
+      }
+    },
+    {
+      "id": "fEffectDurationSurvival:Difficulty",
+      "section": "Difficulty",
+      "key": "fEffectDurationSurvival",
+      "cpp": "Difficulty::fEffectDurationSurvival",
+      "type": "float",
+      "default": 1.0,
+      "iniDefault": "1.0",
+      "ui": {
+        "page": "difficulty",
+        "group": "Effect Duration",
+        "label": "Effect Duration (Survival)",
+        "help": "Multiplies effect duration on Survival. 1.00 = vanilla (TSV baseline is much longer than Normal).",
+        "control": "slider",
+        "order": 31,
+        "min": 0.0,
+        "max": 10.0,
+        "step": 0.05
+      }
+    },
+    {
+      "id": "fEffectMagnitudeVeryEasy:Difficulty",
+      "section": "Difficulty",
+      "key": "fEffectMagnitudeVeryEasy",
+      "cpp": "Difficulty::fEffectMagnitudeVeryEasy",
+      "type": "float",
+      "default": 1.0,
+      "iniDefault": "1.0",
+      "ui": {
+        "page": "difficulty",
+        "group": "Effect Magnitude",
+        "label": "Effect Magnitude (Very Easy)",
+        "help": "Multiplies effect magnitude on Very Easy. 1.00 = vanilla.",
+        "control": "slider",
+        "order": 32,
+        "min": 0.0,
+        "max": 10.0,
+        "step": 0.05
+      }
+    },
+    {
+      "id": "fEffectMagnitudeEasy:Difficulty",
+      "section": "Difficulty",
+      "key": "fEffectMagnitudeEasy",
+      "cpp": "Difficulty::fEffectMagnitudeEasy",
+      "type": "float",
+      "default": 1.0,
+      "iniDefault": "1.0",
+      "ui": {
+        "page": "difficulty",
+        "group": "Effect Magnitude",
+        "label": "Effect Magnitude (Easy)",
+        "help": "Multiplies effect magnitude on Easy. 1.00 = vanilla.",
+        "control": "slider",
+        "order": 33,
+        "min": 0.0,
+        "max": 10.0,
+        "step": 0.05
+      }
+    },
+    {
+      "id": "fEffectMagnitudeNormal:Difficulty",
+      "section": "Difficulty",
+      "key": "fEffectMagnitudeNormal",
+      "cpp": "Difficulty::fEffectMagnitudeNormal",
+      "type": "float",
+      "default": 1.0,
+      "iniDefault": "1.0",
+      "ui": {
+        "page": "difficulty",
+        "group": "Effect Magnitude",
+        "label": "Effect Magnitude (Normal)",
+        "help": "Multiplies effect magnitude on Normal. 1.00 = vanilla.",
+        "control": "slider",
+        "order": 34,
+        "min": 0.0,
+        "max": 10.0,
+        "step": 0.05
+      }
+    },
+    {
+      "id": "fEffectMagnitudeHard:Difficulty",
+      "section": "Difficulty",
+      "key": "fEffectMagnitudeHard",
+      "cpp": "Difficulty::fEffectMagnitudeHard",
+      "type": "float",
+      "default": 1.0,
+      "iniDefault": "1.0",
+      "ui": {
+        "page": "difficulty",
+        "group": "Effect Magnitude",
+        "label": "Effect Magnitude (Hard)",
+        "help": "Multiplies effect magnitude on Hard. 1.00 = vanilla.",
+        "control": "slider",
+        "order": 35,
+        "min": 0.0,
+        "max": 10.0,
+        "step": 0.05
+      }
+    },
+    {
+      "id": "fEffectMagnitudeVeryHard:Difficulty",
+      "section": "Difficulty",
+      "key": "fEffectMagnitudeVeryHard",
+      "cpp": "Difficulty::fEffectMagnitudeVeryHard",
+      "type": "float",
+      "default": 1.0,
+      "iniDefault": "1.0",
+      "ui": {
+        "page": "difficulty",
+        "group": "Effect Magnitude",
+        "label": "Effect Magnitude (Very Hard)",
+        "help": "Multiplies effect magnitude on Very Hard. 1.00 = vanilla.",
+        "control": "slider",
+        "order": 36,
+        "min": 0.0,
+        "max": 10.0,
+        "step": 0.05
+      }
+    },
+    {
+      "id": "fEffectMagnitudeSurvival:Difficulty",
+      "section": "Difficulty",
+      "key": "fEffectMagnitudeSurvival",
+      "cpp": "Difficulty::fEffectMagnitudeSurvival",
+      "type": "float",
+      "default": 1.0,
+      "iniDefault": "1.0",
+      "ui": {
+        "page": "difficulty",
+        "group": "Effect Magnitude",
+        "label": "Effect Magnitude (Survival)",
+        "help": "Multiplies effect magnitude on Survival. 1.00 = vanilla (TSV baseline is much smaller than Normal).",
+        "control": "slider",
+        "order": 37,
+        "min": 0.0,
+        "max": 10.0,
+        "step": 0.05
+      }
+    },
+    {
+      "id": "fAPBaseMult:Character",
+      "section": "Character",
+      "key": "fAPBaseMult",
+      "cpp": "Character::fAPBaseMult",
+      "type": "float",
+      "default": 1.0,
+      "iniDefault": "1.0",
+      "ui": {
+        "page": "character",
+        "group": "Action Points",
+        "label": "AP Pool Base",
+        "help": "Multiplies the base AP pool used by the engine's AP formula. Vanilla 1.00.",
+        "control": "slider",
+        "order": 0,
+        "min": 0.25,
+        "max": 4.0,
+        "step": 0.05
+      }
+    },
+    {
+      "id": "fAPPerAgilityMult:Character",
+      "section": "Character",
+      "key": "fAPPerAgilityMult",
+      "cpp": "Character::fAPPerAgilityMult",
+      "type": "float",
+      "default": 1.0,
+      "iniDefault": "1.0",
+      "ui": {
+        "page": "character",
+        "group": "Action Points",
+        "label": "AP per Agility",
+        "help": "Multiplies the AP gain per Agility point. Vanilla 1.00.",
+        "control": "slider",
+        "order": 1,
+        "min": 0.0,
+        "max": 4.0,
+        "step": 0.05
+      }
+    },
+    {
+      "id": "fAPRegenRate:Character",
+      "section": "Character",
+      "key": "fAPRegenRate",
+      "cpp": "Character::fAPRegenRate",
+      "type": "float",
+      "default": 6.0,
+      "iniDefault": "6.0",
+      "ui": {
+        "page": "character",
+        "group": "Action Points",
+        "label": "AP Regen Rate",
+        "help": "Player AP restored per second before multipliers. Vanilla 6.",
+        "control": "slider",
+        "order": 2,
+        "min": 0.0,
+        "max": 200.0,
+        "step": 1.0
+      }
+    },
+    {
+      "id": "fCombatAPRegenMult:Character",
+      "section": "Character",
+      "key": "fCombatAPRegenMult",
+      "cpp": "Character::fCombatAPRegenMult",
+      "type": "float",
+      "default": 0.75,
+      "iniDefault": "0.75",
+      "ui": {
+        "page": "character",
+        "group": "Action Points",
+        "label": "Combat AP Regen",
+        "help": "Combat AP regen multiplier. 0 disables combat regen. Vanilla 0.75.",
+        "control": "slider",
+        "order": 3,
+        "min": 0.0,
+        "max": 2.0,
+        "step": 0.05
+      }
+    },
+    {
+      "id": "fAPRegenDelay:Character",
+      "section": "Character",
+      "key": "fAPRegenDelay",
+      "cpp": "Character::fAPRegenDelay",
+      "type": "float",
+      "default": 1.0,
+      "iniDefault": "1.0",
+      "ui": {
+        "page": "character",
+        "group": "Action Points",
+        "label": "AP Regen Delay",
+        "help": "Delay before AP regen after partial AP use. Vanilla 1.0.",
+        "control": "slider",
+        "order": 4,
+        "min": 0.0,
+        "max": 5.0,
+        "step": 0.1
+      }
+    },
+    {
+      "id": "fOutOfBreathAPRegenDelay:Character",
+      "section": "Character",
+      "key": "fOutOfBreathAPRegenDelay",
+      "cpp": "Character::fOutOfBreathAPRegenDelay",
+      "type": "float",
+      "default": 2.0,
+      "iniDefault": "2.0",
+      "ui": {
+        "page": "character",
+        "group": "Action Points",
+        "label": "Out-of-Breath Delay",
+        "help": "Delay after sprinting to zero AP. Vanilla 2.0. Capped by AP Regen Delay Max.",
+        "control": "slider",
+        "order": 5,
+        "min": 0.0,
+        "max": 10.0,
+        "step": 0.1
+      }
+    },
+    {
+      "id": "fAPRegenDelayMax:Character",
+      "section": "Character",
+      "key": "fAPRegenDelayMax",
+      "cpp": "Character::fAPRegenDelayMax",
+      "type": "float",
+      "default": 5.0,
+      "iniDefault": "5.0",
+      "ui": {
+        "page": "character",
+        "group": "Action Points",
+        "label": "AP Regen Delay Max",
+        "help": "Cap for AP regen delay. Vanilla 5.0.",
+        "control": "slider",
+        "order": 6,
+        "min": 0.0,
+        "max": 15.0,
+        "step": 0.5
+      }
+    },
+    {
+      "id": "fSprintBaseDrain:Character",
+      "section": "Character",
+      "key": "fSprintBaseDrain",
+      "cpp": "Character::fSprintBaseDrain",
+      "type": "float",
+      "default": 1.05,
+      "iniDefault": "1.05",
+      "ui": {
+        "page": "character",
+        "group": "Sprint",
+        "label": "Sprint Drain Base",
+        "help": "Sprint AP drain base term. Vanilla 1.05.",
+        "control": "slider",
+        "order": 7,
+        "min": 0.0,
+        "max": 5.0,
+        "step": 0.05
+      }
+    },
+    {
+      "id": "fSprintEnduranceDrain:Character",
+      "section": "Character",
+      "key": "fSprintEnduranceDrain",
+      "cpp": "Character::fSprintEnduranceDrain",
+      "type": "float",
+      "default": -0.05,
+      "iniDefault": "-0.05",
+      "ui": {
+        "page": "character",
+        "group": "Sprint",
+        "label": "Sprint Endurance Term",
+        "help": "Endurance term. More negative = Endurance reduces drain more. Vanilla -0.05.",
+        "control": "slider",
+        "order": 8,
+        "min": -1.0,
+        "max": 0.0,
+        "step": 0.01
+      }
+    },
+    {
+      "id": "fSprintDrainMult:Character",
+      "section": "Character",
+      "key": "fSprintDrainMult",
+      "cpp": "Character::fSprintDrainMult",
+      "type": "float",
+      "default": 1.0,
+      "iniDefault": "1.0",
+      "ui": {
+        "page": "character",
+        "group": "Sprint",
+        "label": "Sprint Drain Multiplier",
+        "help": "Overall sprint AP drain multiplier. 1.00 = vanilla.",
+        "control": "slider",
+        "order": 9,
+        "min": 0.0,
+        "max": 4.0,
+        "step": 0.05
+      }
+    },
+    {
+      "id": "fCarryWeightBaseMult:Character",
+      "section": "Character",
+      "key": "fCarryWeightBaseMult",
+      "cpp": "Character::fCarryWeightBaseMult",
+      "type": "float",
+      "default": 1.0,
+      "iniDefault": "1.0",
+      "ui": {
+        "page": "character",
+        "group": "Carry Weight",
+        "label": "Carry Weight Base",
+        "help": "Multiplies the base carry capacity (the part not affected by Strength). Vanilla 1.00.",
+        "control": "slider",
+        "order": 10,
+        "min": 0.25,
+        "max": 5.0,
+        "step": 0.05
+      }
+    },
+    {
+      "id": "fCarryWeightPerStrengthMult:Character",
+      "section": "Character",
+      "key": "fCarryWeightPerStrengthMult",
+      "cpp": "Character::fCarryWeightPerStrengthMult",
+      "type": "float",
+      "default": 1.0,
+      "iniDefault": "1.0",
+      "ui": {
+        "page": "character",
+        "group": "Carry Weight",
+        "label": "Carry per Strength",
+        "help": "Multiplies carry capacity gained per Strength point. Vanilla 1.00.",
+        "control": "slider",
+        "order": 11,
+        "min": 0.0,
+        "max": 5.0,
+        "step": 0.05
+      }
+    },
+    {
+      "id": "fHealthPerEnduranceMult:Character",
+      "section": "Character",
+      "key": "fHealthPerEnduranceMult",
+      "cpp": "Character::fHealthPerEnduranceMult",
+      "type": "float",
+      "default": 1.0,
+      "iniDefault": "1.0",
+      "ui": {
+        "page": "character",
+        "group": "Health",
+        "label": "Health per Endurance",
+        "help": "Multiplies max health gained per Endurance point. Vanilla 1.00.",
+        "control": "slider",
+        "order": 12,
+        "min": 0.25,
+        "max": 5.0,
+        "step": 0.05
+      }
+    },
+    {
+      "id": "fHealthPerLevelMult:Character",
+      "section": "Character",
+      "key": "fHealthPerLevelMult",
+      "cpp": "Character::fHealthPerLevelMult",
+      "type": "float",
+      "default": 1.0,
+      "iniDefault": "1.0",
+      "ui": {
+        "page": "character",
+        "group": "Health",
+        "label": "Health per Level",
+        "help": "Multiplies max health gained per character level. Vanilla 1.00.",
+        "control": "slider",
+        "order": 13,
+        "min": 0.25,
+        "max": 5.0,
+        "step": 0.05
+      }
+    },
+    {
+      "id": "fPassiveHealthRegen:Character",
+      "section": "Character",
+      "key": "fPassiveHealthRegen",
+      "cpp": "Character::fPassiveHealthRegen",
+      "type": "float",
+      "default": 0.0,
+      "iniDefault": "0.0",
+      "ui": {
+        "page": "character",
+        "group": "Health",
+        "label": "Passive Health Regen",
+        "help": "Player health regen rate. 1 = 1% max health. Vanilla 0.",
+        "control": "slider",
+        "order": 14,
+        "min": 0.0,
+        "max": 100.0,
+        "step": 0.01
+      }
+    },
+    {
+      "id": "fCombatHealthRegenMult:Character",
+      "section": "Character",
+      "key": "fCombatHealthRegenMult",
+      "cpp": "Character::fCombatHealthRegenMult",
+      "type": "float",
+      "default": 0.0,
+      "iniDefault": "0.0",
+      "ui": {
+        "page": "character",
+        "group": "Health",
+        "label": "Combat Health Regen",
+        "help": "Combat multiplier for passive health regen. 1 = full rate. Vanilla 0.",
+        "control": "slider",
+        "order": 15,
+        "min": 0.0,
+        "max": 10.0,
+        "step": 0.01
+      }
+    },
+    {
+      "id": "fRadiationDamageFactor:DamageFormulas",
+      "section": "DamageFormulas",
+      "key": "fRadiationDamageFactor",
+      "cpp": "DamageFormulas::fRadiationDamageFactor",
+      "type": "float",
+      "default": 0.15,
+      "iniDefault": "0.15",
+      "ui": {
+        "page": "damage-formulas",
+        "group": "Radiation",
+        "label": "Radiation Damage Factor",
+        "help": "Raw radiation damage factor. Vanilla 0.15.",
+        "control": "slider",
+        "order": 0,
+        "min": 0.0,
+        "max": 2.0,
+        "step": 0.01
+      }
+    },
+    {
+      "id": "fRadiationArmorReductionExponent:DamageFormulas",
+      "section": "DamageFormulas",
+      "key": "fRadiationArmorReductionExponent",
+      "cpp": "DamageFormulas::fRadiationArmorReductionExponent",
+      "type": "float",
+      "default": 0.365,
+      "iniDefault": "0.365",
+      "ui": {
+        "page": "damage-formulas",
+        "group": "Radiation",
+        "label": "Rad Resist Exponent",
+        "help": "How strongly rad resistance reduces rads. Vanilla 0.365.",
+        "control": "slider",
+        "order": 1,
+        "min": 0.0,
+        "max": 1.5,
+        "step": 0.005
+      }
+    },
+    {
+      "id": "fPhysicalDamageFactor:DamageFormulas",
+      "section": "DamageFormulas",
+      "key": "fPhysicalDamageFactor",
+      "cpp": "DamageFormulas::fPhysicalDamageFactor",
+      "type": "float",
+      "default": 0.15,
+      "iniDefault": "0.15",
+      "ui": {
+        "page": "damage-formulas",
+        "group": "Physical",
+        "label": "Physical Damage Factor",
+        "help": "Raw physical damage factor. Stacks with Difficulty damage sliders.",
+        "control": "slider",
+        "order": 2,
+        "min": 0.0,
+        "max": 2.0,
+        "step": 0.01
+      }
+    },
+    {
+      "id": "fPhysicalArmorReductionExponent:DamageFormulas",
+      "section": "DamageFormulas",
+      "key": "fPhysicalArmorReductionExponent",
+      "cpp": "DamageFormulas::fPhysicalArmorReductionExponent",
+      "type": "float",
+      "default": 0.365,
+      "iniDefault": "0.365",
+      "ui": {
+        "page": "damage-formulas",
+        "group": "Physical",
+        "label": "Physical Armor Exponent",
+        "help": "How strongly physical armor reduces damage. Vanilla 0.365.",
+        "control": "slider",
+        "order": 3,
+        "min": 0.0,
+        "max": 1.5,
+        "step": 0.005
+      }
+    },
+    {
+      "id": "fEnergyDamageFactor:DamageFormulas",
+      "section": "DamageFormulas",
+      "key": "fEnergyDamageFactor",
+      "cpp": "DamageFormulas::fEnergyDamageFactor",
+      "type": "float",
+      "default": 0.15,
+      "iniDefault": "0.15",
+      "ui": {
+        "page": "damage-formulas",
+        "group": "Energy",
+        "label": "Energy Damage Factor",
+        "help": "Raw energy damage factor. Stacks with Difficulty damage sliders.",
+        "control": "slider",
+        "order": 4,
+        "min": 0.0,
+        "max": 2.0,
+        "step": 0.01
+      }
+    },
+    {
+      "id": "fEnergyArmorReductionExponent:DamageFormulas",
+      "section": "DamageFormulas",
+      "key": "fEnergyArmorReductionExponent",
+      "cpp": "DamageFormulas::fEnergyArmorReductionExponent",
+      "type": "float",
+      "default": 0.365,
+      "iniDefault": "0.365",
+      "ui": {
+        "page": "damage-formulas",
+        "group": "Energy",
+        "label": "Energy Resist Exponent",
+        "help": "How strongly energy resistance reduces damage. Vanilla 0.365.",
+        "control": "slider",
+        "order": 5,
+        "min": 0.0,
+        "max": 1.5,
+        "step": 0.005
+      }
+    },
+    {
+      "id": "fJetpackInitialDrainMult:PowerArmor",
+      "section": "PowerArmor",
+      "key": "fJetpackInitialDrainMult",
+      "cpp": "PowerArmor::fJetpackInitialDrainMult",
+      "type": "float",
+      "default": 1.0,
+      "iniDefault": "1.0",
+      "ui": {
+        "page": "power-armor",
+        "group": "Jetpack",
+        "label": "Initial Drain",
+        "help": "Fusion-core fuel consumed when a jetpack burst starts.",
+        "control": "slider",
+        "order": 0,
+        "min": 0.25,
+        "max": 4.0,
+        "step": 0.05
+      }
+    },
+    {
+      "id": "fJetpackSustainedDrainMult:PowerArmor",
+      "section": "PowerArmor",
+      "key": "fJetpackSustainedDrainMult",
+      "cpp": "PowerArmor::fJetpackSustainedDrainMult",
+      "type": "float",
+      "default": 1.0,
+      "iniDefault": "1.0",
+      "ui": {
+        "page": "power-armor",
+        "group": "Jetpack",
+        "label": "Sustained Drain",
+        "help": "Continuous jetpack fuel drain.",
+        "control": "slider",
+        "order": 1,
+        "min": 0.25,
+        "max": 4.0,
+        "step": 0.05
+      }
+    },
+    {
+      "id": "fJetpackInitialThrustMult:PowerArmor",
+      "section": "PowerArmor",
+      "key": "fJetpackInitialThrustMult",
+      "cpp": "PowerArmor::fJetpackInitialThrustMult",
+      "type": "float",
+      "default": 1.0,
+      "iniDefault": "1.0",
+      "ui": {
+        "page": "power-armor",
+        "group": "Jetpack",
+        "label": "Initial Thrust",
+        "help": "Upward kick at ignition.",
+        "control": "slider",
+        "order": 3,
+        "min": 0.25,
+        "max": 3.0,
+        "step": 0.05
+      }
+    },
+    {
+      "id": "fJetpackSustainedThrustMult:PowerArmor",
+      "section": "PowerArmor",
+      "key": "fJetpackSustainedThrustMult",
+      "cpp": "PowerArmor::fJetpackSustainedThrustMult",
+      "type": "float",
+      "default": 1.0,
+      "iniDefault": "1.0",
+      "ui": {
+        "page": "power-armor",
+        "group": "Jetpack",
+        "label": "Sustained Thrust",
+        "help": "Continuous upward thrust.",
+        "control": "slider",
+        "order": 4,
+        "min": 0.25,
+        "max": 3.0,
+        "step": 0.05
+      }
+    },
+    {
+      "id": "fJetpackMinFuelRequired:PowerArmor",
+      "section": "PowerArmor",
+      "key": "fJetpackMinFuelRequired",
+      "cpp": "PowerArmor::fJetpackMinFuelRequired",
+      "type": "float",
+      "default": 3.0,
+      "iniDefault": "3.0",
+      "ui": {
+        "page": "power-armor",
+        "group": "Jetpack",
+        "label": "Min Fuel to Ignite",
+        "help": "Minimum core charge required to ignite. Vanilla 3.",
+        "control": "slider",
+        "order": 2,
+        "min": 0.0,
+        "max": 25.0,
+        "step": 1.0
+      }
+    },
+    {
+      "id": "fJetpackTimeToSustained:PowerArmor",
+      "section": "PowerArmor",
+      "key": "fJetpackTimeToSustained",
+      "cpp": "PowerArmor::fJetpackTimeToSustained",
+      "type": "float",
+      "default": 0.15,
+      "iniDefault": "0.15",
+      "ui": {
+        "page": "power-armor",
+        "group": "Jetpack",
+        "label": "Time to Sustained",
+        "help": "Seconds before sustained jetpack mode. Vanilla 0.15.",
+        "control": "slider",
+        "order": 5,
+        "min": 0.0,
+        "max": 1.5,
+        "step": 0.01
+      }
+    },
+    {
+      "id": "fPAPowerDrainPerAPMult:PowerArmor",
+      "section": "PowerArmor",
+      "key": "fPAPowerDrainPerAPMult",
+      "cpp": "PowerArmor::fPAPowerDrainPerAPMult",
+      "type": "float",
+      "default": 1.0,
+      "iniDefault": "1.0",
+      "ui": {
+        "page": "power-armor",
+        "group": "Fusion Core Drain",
+        "label": "Drain per AP",
+        "help": "Core drain per AP spent.",
+        "control": "slider",
+        "order": 6,
+        "min": 0.0,
+        "max": 5.0,
+        "step": 0.05
+      }
+    },
+    {
+      "id": "fPAPowerDrainRunningMult:PowerArmor",
+      "section": "PowerArmor",
+      "key": "fPAPowerDrainRunningMult",
+      "cpp": "PowerArmor::fPAPowerDrainRunningMult",
+      "type": "float",
+      "default": 1.0,
+      "iniDefault": "1.0",
+      "ui": {
+        "page": "power-armor",
+        "group": "Fusion Core Drain",
+        "label": "Drain While Running",
+        "help": "Core drain while running.",
+        "control": "slider",
+        "order": 7,
+        "min": 0.0,
+        "max": 5.0,
+        "step": 0.05
+      }
+    },
+    {
+      "id": "fPAPowerDrainPerJump:PowerArmor",
+      "section": "PowerArmor",
+      "key": "fPAPowerDrainPerJump",
+      "cpp": "PowerArmor::fPAPowerDrainPerJump",
+      "type": "float",
+      "default": 0.0,
+      "iniDefault": "0.0",
+      "ui": {
+        "page": "power-armor",
+        "group": "Fusion Core Drain",
+        "label": "Drain per Jump",
+        "help": "Core drain per jump. Vanilla 0.",
+        "control": "slider",
+        "order": 8,
+        "min": 0.0,
+        "max": 1.0,
+        "step": 0.01
+      }
+    },
+    {
+      "id": "fPAPowerDrainPerMeleeAttack:PowerArmor",
+      "section": "PowerArmor",
+      "key": "fPAPowerDrainPerMeleeAttack",
+      "cpp": "PowerArmor::fPAPowerDrainPerMeleeAttack",
+      "type": "float",
+      "default": 0.0,
+      "iniDefault": "0.0",
+      "ui": {
+        "page": "power-armor",
+        "group": "Fusion Core Drain",
+        "label": "Drain per Melee Attack",
+        "help": "Core drain per melee attack. Vanilla 0.",
+        "control": "slider",
+        "order": 9,
+        "min": 0.0,
+        "max": 1.0,
+        "step": 0.01
+      }
+    },
+    {
+      "id": "fPAPowerDrainPerImpactLand:PowerArmor",
+      "section": "PowerArmor",
+      "key": "fPAPowerDrainPerImpactLand",
+      "cpp": "PowerArmor::fPAPowerDrainPerImpactLand",
+      "type": "float",
+      "default": 0.0,
+      "iniDefault": "0.0",
+      "ui": {
+        "page": "power-armor",
+        "group": "Fusion Core Drain",
+        "label": "Drain on Hard Landing",
+        "help": "Core drain on hard landing. Vanilla 0.",
+        "control": "slider",
+        "order": 10,
+        "min": 0.0,
+        "max": 5.0,
+        "step": 0.05
+      }
+    },
+    {
+      "id": "fPAPlayerArmorDamageMultiplier:PowerArmor",
+      "section": "PowerArmor",
+      "key": "fPAPlayerArmorDamageMultiplier",
+      "cpp": "PowerArmor::fPAPlayerArmorDamageMultiplier",
+      "type": "float",
+      "default": 1.0,
+      "iniDefault": "1.0",
+      "ui": {
+        "page": "power-armor",
+        "group": "Durability",
+        "label": "Player PA Damage",
+        "help": "Player PA condition damage multiplier. Vanilla 1. 0 = unbreakable.",
+        "control": "slider",
+        "order": 11,
+        "min": 0.0,
+        "max": 4.0,
+        "step": 0.05
+      }
+    },
+    {
+      "id": "fPANPCArmorDamageMultiplier:PowerArmor",
+      "section": "PowerArmor",
+      "key": "fPANPCArmorDamageMultiplier",
+      "cpp": "PowerArmor::fPANPCArmorDamageMultiplier",
+      "type": "float",
+      "default": 3.0,
+      "iniDefault": "3.0",
+      "ui": {
+        "page": "power-armor",
+        "group": "Durability",
+        "label": "NPC PA Damage",
+        "help": "NPC PA condition damage multiplier. Vanilla 3.",
+        "control": "slider",
+        "order": 12,
+        "min": 0.0,
+        "max": 10.0,
+        "step": 0.1
+      }
+    },
+    {
+      "id": "fBarterMin:Economy",
+      "section": "Economy",
+      "key": "fBarterMin",
+      "cpp": "Economy::fBarterMin",
+      "type": "float",
+      "default": 2.0,
+      "iniDefault": "2.0",
+      "ui": {
+        "page": "economy",
+        "group": "Buy / Sell Pricing",
+        "label": "Buy Price Floor",
+        "help": "Higher = vendors charge more. Vanilla 2.0.",
+        "control": "slider",
+        "order": 0,
+        "min": 0.5,
+        "max": 6.0,
+        "step": 0.05
+      }
+    },
+    {
+      "id": "fBarterMax:Economy",
+      "section": "Economy",
+      "key": "fBarterMax",
+      "cpp": "Economy::fBarterMax",
+      "type": "float",
+      "default": 3.5,
+      "iniDefault": "3.5",
+      "ui": {
+        "page": "economy",
+        "group": "Buy / Sell Pricing",
+        "label": "Sell Price Floor",
+        "help": "Higher = vendors pay less. Vanilla 3.5.",
+        "control": "slider",
+        "order": 1,
+        "min": 0.5,
+        "max": 10.0,
+        "step": 0.05
+      }
+    },
+    {
+      "id": "fBarterBuyMax:Economy",
+      "section": "Economy",
+      "key": "fBarterBuyMax",
+      "cpp": "Economy::fBarterBuyMax",
+      "type": "float",
+      "default": 1.2,
+      "iniDefault": "1.2",
+      "ui": {
+        "page": "economy",
+        "group": "Buy / Sell Pricing",
+        "label": "Max Buy Multiplier",
+        "help": "Cap on item value when buying. Vanilla 1.2.",
+        "control": "slider",
+        "order": 2,
+        "min": 0.5,
+        "max": 3.0,
+        "step": 0.05
+      }
+    },
+    {
+      "id": "fBarterSellMax:Economy",
+      "section": "Economy",
+      "key": "fBarterSellMax",
+      "cpp": "Economy::fBarterSellMax",
+      "type": "float",
+      "default": 0.8,
+      "iniDefault": "0.8",
+      "ui": {
+        "page": "economy",
+        "group": "Buy / Sell Pricing",
+        "label": "Max Sell Multiplier",
+        "help": "Cap on item value when selling. Vanilla 0.8.",
+        "control": "slider",
+        "order": 3,
+        "min": 0.1,
+        "max": 2.0,
+        "step": 0.05
+      }
+    },
+    {
+      "id": "fSpeechcraftFavorMin:Economy",
+      "section": "Economy",
+      "key": "fSpeechcraftFavorMin",
+      "cpp": "Economy::fSpeechcraftFavorMin",
+      "type": "float",
+      "default": 0.5,
+      "iniDefault": "0.5",
+      "ui": {
+        "page": "economy",
+        "group": "Persuasion",
+        "label": "Persuasion Floor",
+        "help": "Minimum success chance the Charisma speech-check curve can fall to. Vanilla 0.5.",
+        "control": "slider",
+        "order": 4,
+        "min": 0.0,
+        "max": 1.0,
+        "step": 0.05
+      }
+    },
+    {
+      "id": "fSpeechcraftFavorMax:Economy",
+      "section": "Economy",
+      "key": "fSpeechcraftFavorMax",
+      "cpp": "Economy::fSpeechcraftFavorMax",
+      "type": "float",
+      "default": 1.0,
+      "iniDefault": "1.0",
+      "ui": {
+        "page": "economy",
+        "group": "Persuasion",
+        "label": "Persuasion Ceiling",
+        "help": "Maximum success chance the Charisma speech-check curve can reach. Vanilla 1.0.",
+        "control": "slider",
+        "order": 5,
+        "min": 0.0,
+        "max": 1.0,
+        "step": 0.05
+      }
+    },
+    {
+      "id": "fCookingExpBase:Progression",
+      "section": "Progression",
+      "key": "fCookingExpBase",
+      "cpp": "Progression::fCookingExpBase",
+      "type": "float",
+      "default": 1.0,
+      "iniDefault": "1.0",
+      "ui": {
+        "page": "progression",
+        "group": "Crafting XP — Cooking",
+        "label": "Cooking — Base XP",
+        "help": "Flat XP per cook. Vanilla 1.",
+        "control": "slider",
+        "order": 0,
+        "min": 0.0,
+        "max": 100.0,
+        "step": 1.0
+      }
+    },
+    {
+      "id": "fCookingExpMax:Progression",
+      "section": "Progression",
+      "key": "fCookingExpMax",
+      "cpp": "Progression::fCookingExpMax",
+      "type": "float",
+      "default": 10.0,
+      "iniDefault": "10.0",
+      "ui": {
+        "page": "progression",
+        "group": "Crafting XP — Cooking",
+        "label": "Cooking — Max XP",
+        "help": "Cap on cook XP. Vanilla 10.",
+        "control": "slider",
+        "order": 1,
+        "min": 0.0,
+        "max": 500.0,
+        "step": 1.0
+      }
+    },
+    {
+      "id": "fCookingExpMult:Progression",
+      "section": "Progression",
+      "key": "fCookingExpMult",
+      "cpp": "Progression::fCookingExpMult",
+      "type": "float",
+      "default": 0.15,
+      "iniDefault": "0.15",
+      "ui": {
+        "page": "progression",
+        "group": "Crafting XP — Cooking",
+        "label": "Cooking — Value Mult",
+        "help": "XP scaler from recipe value. Vanilla 0.15.",
+        "control": "slider",
+        "order": 2,
+        "min": 0.0,
+        "max": 2.0,
+        "step": 0.01
+      }
+    },
+    {
+      "id": "fWorkbenchExpBase:Progression",
+      "section": "Progression",
+      "key": "fWorkbenchExpBase",
+      "cpp": "Progression::fWorkbenchExpBase",
+      "type": "float",
+      "default": 2.0,
+      "iniDefault": "2.0",
+      "ui": {
+        "page": "progression",
+        "group": "Crafting XP — Weapon/Armor Workbench",
+        "label": "Workbench — Base XP",
+        "help": "Flat XP per craft. Vanilla 2.",
+        "control": "slider",
+        "order": 3,
+        "min": 0.0,
+        "max": 100.0,
+        "step": 1.0
+      }
+    },
+    {
+      "id": "fWorkbenchExpMax:Progression",
+      "section": "Progression",
+      "key": "fWorkbenchExpMax",
+      "cpp": "Progression::fWorkbenchExpMax",
+      "type": "float",
+      "default": 50.0,
+      "iniDefault": "50.0",
+      "ui": {
+        "page": "progression",
+        "group": "Crafting XP — Weapon/Armor Workbench",
+        "label": "Workbench — Max XP",
+        "help": "Cap on craft XP. Vanilla 50.",
+        "control": "slider",
+        "order": 4,
+        "min": 0.0,
+        "max": 1000.0,
+        "step": 5.0
+      }
+    },
+    {
+      "id": "fWorkbenchExpMult:Progression",
+      "section": "Progression",
+      "key": "fWorkbenchExpMult",
+      "cpp": "Progression::fWorkbenchExpMult",
+      "type": "float",
+      "default": 0.03,
+      "iniDefault": "0.03",
+      "ui": {
+        "page": "progression",
+        "group": "Crafting XP — Weapon/Armor Workbench",
+        "label": "Workbench — Value Mult",
+        "help": "XP scaler from craft value. Vanilla 0.03.",
+        "control": "slider",
+        "order": 5,
+        "min": 0.0,
+        "max": 2.0,
+        "step": 0.01
+      }
+    },
+    {
+      "id": "fWorkshopExpBase:Progression",
+      "section": "Progression",
+      "key": "fWorkshopExpBase",
+      "cpp": "Progression::fWorkshopExpBase",
+      "type": "float",
+      "default": 2.0,
+      "iniDefault": "2.0",
+      "ui": {
+        "page": "progression",
+        "group": "Crafting XP — Settlement Workshop",
+        "label": "Workshop — Base XP",
+        "help": "Flat XP per build. Vanilla 2.",
+        "control": "slider",
+        "order": 6,
+        "min": 0.0,
+        "max": 100.0,
+        "step": 1.0
+      }
+    },
+    {
+      "id": "fWorkshopExpMax:Progression",
+      "section": "Progression",
+      "key": "fWorkshopExpMax",
+      "cpp": "Progression::fWorkshopExpMax",
+      "type": "float",
+      "default": 25.0,
+      "iniDefault": "25.0",
+      "ui": {
+        "page": "progression",
+        "group": "Crafting XP — Settlement Workshop",
+        "label": "Workshop — Max XP",
+        "help": "Cap on build XP. Vanilla 25.",
+        "control": "slider",
+        "order": 7,
+        "min": 0.0,
+        "max": 1000.0,
+        "step": 5.0
+      }
+    },
+    {
+      "id": "fWorkshopExpMult:Progression",
+      "section": "Progression",
+      "key": "fWorkshopExpMult",
+      "cpp": "Progression::fWorkshopExpMult",
+      "type": "float",
+      "default": 0.1,
+      "iniDefault": "0.10",
+      "ui": {
+        "page": "progression",
+        "group": "Crafting XP — Settlement Workshop",
+        "label": "Workshop — Value Mult",
+        "help": "XP scaler from build value. Vanilla 0.10.",
+        "control": "slider",
+        "order": 8,
+        "min": 0.0,
+        "max": 2.0,
+        "step": 0.01
+      }
+    },
+    {
+      "id": "fLockpickXPApprentice:Progression",
+      "section": "Progression",
+      "key": "fLockpickXPApprentice",
+      "cpp": "Progression::fLockpickXPApprentice",
+      "type": "float",
+      "default": 5.0,
+      "iniDefault": "5.0",
+      "ui": {
+        "page": "progression",
+        "group": "Lockpick XP",
+        "label": "Lockpick — Apprentice",
+        "help": "XP per Apprentice pick. Vanilla 5.",
+        "control": "slider",
+        "order": 9,
+        "min": 0.0,
+        "max": 200.0,
+        "step": 1.0
+      }
+    },
+    {
+      "id": "fLockpickXPAdept:Progression",
+      "section": "Progression",
+      "key": "fLockpickXPAdept",
+      "cpp": "Progression::fLockpickXPAdept",
+      "type": "float",
+      "default": 10.0,
+      "iniDefault": "10.0",
+      "ui": {
+        "page": "progression",
+        "group": "Lockpick XP",
+        "label": "Lockpick — Adept",
+        "help": "XP per Adept pick. Vanilla 10.",
+        "control": "slider",
+        "order": 10,
+        "min": 0.0,
+        "max": 200.0,
+        "step": 1.0
+      }
+    },
+    {
+      "id": "fLockpickXPExpert:Progression",
+      "section": "Progression",
+      "key": "fLockpickXPExpert",
+      "cpp": "Progression::fLockpickXPExpert",
+      "type": "float",
+      "default": 15.0,
+      "iniDefault": "15.0",
+      "ui": {
+        "page": "progression",
+        "group": "Lockpick XP",
+        "label": "Lockpick — Expert",
+        "help": "XP per Expert pick. Vanilla 15.",
+        "control": "slider",
+        "order": 11,
+        "min": 0.0,
+        "max": 200.0,
+        "step": 1.0
+      }
+    },
+    {
+      "id": "fLockpickXPMaster:Progression",
+      "section": "Progression",
+      "key": "fLockpickXPMaster",
+      "cpp": "Progression::fLockpickXPMaster",
+      "type": "float",
+      "default": 20.0,
+      "iniDefault": "20.0",
+      "ui": {
+        "page": "progression",
+        "group": "Lockpick XP",
+        "label": "Lockpick — Master",
+        "help": "XP per Master pick. Vanilla 20.",
+        "control": "slider",
+        "order": 12,
+        "min": 0.0,
+        "max": 200.0,
+        "step": 1.0
+      }
+    },
+    {
+      "id": "iMineDisarmXP:Progression",
+      "section": "Progression",
+      "key": "iMineDisarmXP",
+      "cpp": "Progression::iMineDisarmXP",
+      "type": "int",
+      "default": 5,
+      "iniDefault": "5",
+      "ui": {
+        "page": "progression",
+        "group": "Other",
+        "label": "Mine Disarm XP",
+        "help": "XP per disarmed mine/object. Vanilla 5.",
+        "control": "slider",
+        "order": 13,
+        "min": 0,
+        "max": 200,
+        "step": 1
+      }
+    },
+    {
+      "id": "iXPRewardKillOpponent:Progression",
+      "section": "Progression",
+      "key": "iXPRewardKillOpponent",
+      "cpp": "Progression::iXPRewardKillOpponent",
+      "type": "int",
+      "default": 20,
+      "iniDefault": "20",
+      "ui": {
+        "page": "progression",
+        "group": "Kill & Discovery XP",
+        "label": "Kill XP",
+        "help": "XP per killed opponent. Vanilla 20.",
+        "control": "slider",
+        "order": 14,
+        "min": 0,
+        "max": 500,
+        "step": 1
+      }
+    },
+    {
+      "id": "iXPRewardDiscoverMapMarker:Progression",
+      "section": "Progression",
+      "key": "iXPRewardDiscoverMapMarker",
+      "cpp": "Progression::iXPRewardDiscoverMapMarker",
+      "type": "int",
+      "default": 20,
+      "iniDefault": "20",
+      "ui": {
+        "page": "progression",
+        "group": "Kill & Discovery XP",
+        "label": "Map Marker XP",
+        "help": "XP per newly discovered map marker. Vanilla 20.",
+        "control": "slider",
+        "order": 15,
+        "min": 0,
+        "max": 500,
+        "step": 1
+      }
+    },
+    {
+      "id": "iXPRewardDiscoverSecretArea:Progression",
+      "section": "Progression",
+      "key": "iXPRewardDiscoverSecretArea",
+      "cpp": "Progression::iXPRewardDiscoverSecretArea",
+      "type": "int",
+      "default": 20,
+      "iniDefault": "20",
+      "ui": {
+        "page": "progression",
+        "group": "Kill & Discovery XP",
+        "label": "Secret Area XP",
+        "help": "XP per discovered secret area. Vanilla 20.",
+        "control": "slider",
+        "order": 16,
+        "min": 0,
+        "max": 500,
+        "step": 1
+      }
+    },
+    {
+      "id": "iXPBase:Progression",
+      "section": "Progression",
+      "key": "iXPBase",
+      "cpp": "Progression::iXPBase",
+      "type": "int",
+      "default": 200,
+      "iniDefault": "200",
+      "ui": {
+        "page": "progression",
+        "group": "XP Formula",
+        "label": "XP Base",
+        "help": "Base XP scalar used by the level-up curve. Vanilla 200.",
+        "control": "slider",
+        "order": 17,
+        "min": 0,
+        "max": 1000,
+        "step": 10
+      }
+    },
+    {
+      "id": "iXPBumpBase:Progression",
+      "section": "Progression",
+      "key": "iXPBumpBase",
+      "cpp": "Progression::iXPBumpBase",
+      "type": "int",
+      "default": 75,
+      "iniDefault": "75",
+      "ui": {
+        "page": "progression",
+        "group": "XP Formula",
+        "label": "Level-Up Bump",
+        "help": "Per-level XP bump value. Vanilla 75.",
+        "control": "slider",
+        "order": 18,
+        "min": 0,
+        "max": 500,
+        "step": 5
+      }
+    },
+    {
+      "id": "fXPModBase:Progression",
+      "section": "Progression",
+      "key": "fXPModBase",
+      "cpp": "Progression::fXPModBase",
+      "type": "float",
+      "default": 1.0,
+      "iniDefault": "1.0",
+      "ui": {
+        "page": "progression",
+        "group": "XP Formula",
+        "label": "Mod XP Base",
+        "help": "Base XP for installing or removing a weapon/armor mod at a workbench. Vanilla 1.0.",
+        "control": "slider",
+        "order": 19,
+        "min": 0.0,
+        "max": 50.0,
+        "step": 0.5
+      }
+    },
+    {
+      "id": "fXPModMult:Progression",
+      "section": "Progression",
+      "key": "fXPModMult",
+      "cpp": "Progression::fXPModMult",
+      "type": "float",
+      "default": 0.03,
+      "iniDefault": "0.03",
+      "ui": {
+        "page": "progression",
+        "group": "XP Formula",
+        "label": "Mod XP Multiplier",
+        "help": "Multiplier on Mod XP. Vanilla 0.03.",
+        "control": "slider",
+        "order": 20,
+        "min": 0.0,
+        "max": 5.0,
+        "step": 0.01
+      }
+    },
+    {
+      "id": "fXPDeathRewardHealthThreshold:Progression",
+      "section": "Progression",
+      "key": "fXPDeathRewardHealthThreshold",
+      "cpp": "Progression::fXPDeathRewardHealthThreshold",
+      "type": "float",
+      "default": 0.25,
+      "iniDefault": "0.25",
+      "ui": {
+        "page": "progression",
+        "group": "XP Formula",
+        "label": "Death Reward Health Threshold",
+        "help": "Engine penalty threshold for kills made just before the player's death. Vanilla 0.25.",
+        "control": "slider",
+        "order": 21,
+        "min": 0.0,
+        "max": 1.0,
+        "step": 0.05
+      }
+    },
+    {
+      "id": "fVATSMaxEngageDistance:VATS",
+      "section": "VATS",
+      "key": "fVATSMaxEngageDistance",
+      "cpp": "VATS::fVATSMaxEngageDistance",
+      "type": "float",
+      "default": 5000.0,
+      "iniDefault": "5000.0",
+      "ui": {
+        "page": "vats",
+        "group": "Targeting",
+        "label": "Max Engage Distance",
+        "help": "Range where VATS can activate. 0 disables targeting. Vanilla 5000.",
+        "control": "slider",
+        "order": 0,
+        "min": 0.0,
+        "max": 25000.0,
+        "step": 500.0
+      }
+    },
+    {
+      "id": "fVATSTimeMultTargetSelect:VATS",
+      "section": "VATS",
+      "key": "fVATSTimeMultTargetSelect",
+      "cpp": "VATS::fVATSTimeMultTargetSelect",
+      "type": "float",
+      "default": 0.04,
+      "iniDefault": "0.04",
+      "ui": {
+        "page": "vats",
+        "group": "Timing",
+        "label": "Target-Select Time",
+        "help": "Lower = slower target selection. Vanilla 0.04.",
+        "control": "slider",
+        "order": 1,
+        "min": 0.0,
+        "max": 1.0,
+        "step": 0.01
+      }
+    },
+    {
+      "id": "fVATSPlayerDamageMult:VATS",
+      "section": "VATS",
+      "key": "fVATSPlayerDamageMult",
+      "cpp": "VATS::fVATSPlayerDamageMult",
+      "type": "float",
+      "default": 0.1,
+      "iniDefault": "0.10",
+      "ui": {
+        "page": "vats",
+        "group": "Damage Taken",
+        "label": "Player Damage Mult",
+        "help": "Damage taken in VATS. Vanilla 0.10; 1 = no reduction.",
+        "control": "slider",
+        "order": 2,
+        "min": 0.0,
+        "max": 1.0,
+        "step": 0.01
+      }
+    },
+    {
+      "id": "fPickPocketMinChance:Skills",
+      "section": "Skills",
+      "key": "fPickPocketMinChance",
+      "cpp": "Skills::fPickPocketMinChance",
+      "type": "float",
+      "default": 0.0,
+      "iniDefault": "0.0",
+      "ui": {
+        "page": "skills",
+        "group": "Pickpocket",
+        "label": "Minimum Chance",
+        "help": "Lowest possible pickpocket chance. Vanilla 0%.",
+        "control": "slider",
+        "order": 0,
+        "min": 0.0,
+        "max": 100.0,
+        "step": 1.0
+      }
+    },
+    {
+      "id": "fPickPocketMaxChance:Skills",
+      "section": "Skills",
+      "key": "fPickPocketMaxChance",
+      "cpp": "Skills::fPickPocketMaxChance",
+      "type": "float",
+      "default": 90.0,
+      "iniDefault": "90.0",
+      "ui": {
+        "page": "skills",
+        "group": "Pickpocket",
+        "label": "Maximum Chance",
+        "help": "Highest possible pickpocket chance. Vanilla 90%.",
+        "control": "slider",
+        "order": 1,
+        "min": 0.0,
+        "max": 100.0,
+        "step": 1.0
+      }
+    },
+    {
+      "id": "fReversePickpocketTimer:Skills",
+      "section": "Skills",
+      "key": "fReversePickpocketTimer",
+      "cpp": "Skills::fReversePickpocketTimer",
+      "type": "float",
+      "default": 2.0,
+      "iniDefault": "2.0",
+      "ui": {
+        "page": "skills",
+        "group": "Pickpocket",
+        "label": "Explosive Timer",
+        "help": "Seconds before reverse-pickpocketed explosives detonate. Vanilla 2.",
+        "control": "slider",
+        "order": 2,
+        "min": 1.0,
+        "max": 60.0,
+        "step": 1.0
+      }
+    },
+    {
+      "id": "iHackingMinWords:Skills",
+      "section": "Skills",
+      "key": "iHackingMinWords",
+      "cpp": "Skills::iHackingMinWords",
+      "type": "int",
+      "default": 6,
+      "iniDefault": "6",
+      "ui": {
+        "page": "skills",
+        "group": "Hacking",
+        "label": "Minimum Words",
+        "help": "Fewest terminal password choices. Vanilla 6.",
+        "control": "slider",
+        "order": 3,
+        "min": 1,
+        "max": 40,
+        "step": 1
+      }
+    },
+    {
+      "id": "iHackingMaxWords:Skills",
+      "section": "Skills",
+      "key": "iHackingMaxWords",
+      "cpp": "Skills::iHackingMaxWords",
+      "type": "int",
+      "default": 20,
+      "iniDefault": "20",
+      "ui": {
+        "page": "skills",
+        "group": "Hacking",
+        "label": "Maximum Words",
+        "help": "Most terminal password choices. Vanilla 20.",
+        "control": "slider",
+        "order": 4,
+        "min": 1,
+        "max": 40,
+        "step": 1
+      }
+    },
+    {
+      "id": "fLockPickBreakBase:Skills",
+      "section": "Skills",
+      "key": "fLockPickBreakBase",
+      "cpp": "Skills::fLockPickBreakBase",
+      "type": "float",
+      "default": 0.05,
+      "iniDefault": "0.05",
+      "ui": {
+        "page": "skills",
+        "group": "Lockpicking",
+        "label": "Break Base",
+        "help": "Base pick-break constant. Vanilla 0.05.",
+        "control": "slider",
+        "order": 5,
+        "min": 0.0,
+        "max": 10.0,
+        "step": 0.01
+      }
+    },
+    {
+      "id": "fLockpickSkillSweetSpotBase:Skills",
+      "section": "Skills",
+      "key": "fLockpickSkillSweetSpotBase",
+      "cpp": "Skills::fLockpickSkillSweetSpotBase",
+      "type": "float",
+      "default": 0.2,
+      "iniDefault": "0.20",
+      "ui": {
+        "page": "skills",
+        "group": "Lockpicking",
+        "label": "Sweet Spot Base",
+        "help": "Base sweet-spot constant. Vanilla 0.20.",
+        "control": "slider",
+        "order": 6,
+        "min": 0.0,
+        "max": 10.0,
+        "step": 0.01
+      }
+    },
+    {
+      "id": "fLockpickBreakApprentice:Skills",
+      "section": "Skills",
+      "key": "fLockpickBreakApprentice",
+      "cpp": "Skills::fLockpickBreakApprentice",
+      "type": "float",
+      "default": 2.0,
+      "iniDefault": "2.0",
+      "ui": {
+        "page": "skills",
+        "group": "Lockpick Durability",
+        "label": "Apprentice Durability",
+        "help": "Higher = picks last longer. Vanilla 2.",
+        "control": "slider",
+        "order": 7,
+        "min": 0.0,
+        "max": 20.0,
+        "step": 0.01
+      }
+    },
+    {
+      "id": "fLockpickBreakAdept:Skills",
+      "section": "Skills",
+      "key": "fLockpickBreakAdept",
+      "cpp": "Skills::fLockpickBreakAdept",
+      "type": "float",
+      "default": 2.0,
+      "iniDefault": "2.0",
+      "ui": {
+        "page": "skills",
+        "group": "Lockpick Durability",
+        "label": "Adept Durability",
+        "help": "Higher = picks last longer. Vanilla 2.",
+        "control": "slider",
+        "order": 8,
+        "min": 0.0,
+        "max": 20.0,
+        "step": 0.01
+      }
+    },
+    {
+      "id": "fLockpickBreakExpert:Skills",
+      "section": "Skills",
+      "key": "fLockpickBreakExpert",
+      "cpp": "Skills::fLockpickBreakExpert",
+      "type": "float",
+      "default": 2.0,
+      "iniDefault": "2.0",
+      "ui": {
+        "page": "skills",
+        "group": "Lockpick Durability",
+        "label": "Expert Durability",
+        "help": "Higher = picks last longer. Vanilla 2.",
+        "control": "slider",
+        "order": 9,
+        "min": 0.0,
+        "max": 20.0,
+        "step": 0.01
+      }
+    },
+    {
+      "id": "fLockpickBreakMaster:Skills",
+      "section": "Skills",
+      "key": "fLockpickBreakMaster",
+      "cpp": "Skills::fLockpickBreakMaster",
+      "type": "float",
+      "default": 2.0,
+      "iniDefault": "2.0",
+      "ui": {
+        "page": "skills",
+        "group": "Lockpick Durability",
+        "label": "Master Durability",
+        "help": "Higher = picks last longer. Vanilla 2.",
+        "control": "slider",
+        "order": 10,
+        "min": 0.0,
+        "max": 20.0,
+        "step": 0.01
+      }
+    },
+    {
+      "id": "fSweetspotApprentice:Skills",
+      "section": "Skills",
+      "key": "fSweetspotApprentice",
+      "cpp": "Skills::fSweetspotApprentice",
+      "type": "float",
+      "default": 80.0,
+      "iniDefault": "80.0",
+      "ui": {
+        "page": "skills",
+        "group": "Sweet Spot by Lock Level",
+        "label": "Apprentice Sweet Spot",
+        "help": "Sweet-spot width for Apprentice locks. Vanilla 80.",
+        "control": "slider",
+        "order": 11,
+        "min": 0.0,
+        "max": 100.0,
+        "step": 1.0
+      }
+    },
+    {
+      "id": "fSweetspotAdept:Skills",
+      "section": "Skills",
+      "key": "fSweetspotAdept",
+      "cpp": "Skills::fSweetspotAdept",
+      "type": "float",
+      "default": 60.0,
+      "iniDefault": "60.0",
+      "ui": {
+        "page": "skills",
+        "group": "Sweet Spot by Lock Level",
+        "label": "Adept Sweet Spot",
+        "help": "Sweet-spot width for Adept locks. Vanilla 60.",
+        "control": "slider",
+        "order": 12,
+        "min": 0.0,
+        "max": 100.0,
+        "step": 1.0
+      }
+    },
+    {
+      "id": "fSweetspotExpert:Skills",
+      "section": "Skills",
+      "key": "fSweetspotExpert",
+      "cpp": "Skills::fSweetspotExpert",
+      "type": "float",
+      "default": 40.0,
+      "iniDefault": "40.0",
+      "ui": {
+        "page": "skills",
+        "group": "Sweet Spot by Lock Level",
+        "label": "Expert Sweet Spot",
+        "help": "Sweet-spot width for Expert locks. Vanilla 40.",
+        "control": "slider",
+        "order": 13,
+        "min": 0.0,
+        "max": 100.0,
+        "step": 1.0
+      }
+    },
+    {
+      "id": "fSweetspotMaster:Skills",
+      "section": "Skills",
+      "key": "fSweetspotMaster",
+      "cpp": "Skills::fSweetspotMaster",
+      "type": "float",
+      "default": 20.0,
+      "iniDefault": "20.0",
+      "ui": {
+        "page": "skills",
+        "group": "Sweet Spot by Lock Level",
+        "label": "Master Sweet Spot",
+        "help": "Sweet-spot width for Master locks. Vanilla 20.",
+        "control": "slider",
+        "order": 14,
+        "min": 0.0,
+        "max": 100.0,
+        "step": 1.0
+      }
+    },
+    {
+      "id": "fLove:CompanionsAffinity",
+      "section": "CompanionsAffinity",
+      "key": "fLove",
+      "cpp": "CompanionsAffinity::fLove",
+      "type": "float",
+      "default": 35.0,
+      "iniDefault": "35.0",
+      "ui": {
+        "page": "companions",
+        "group": "Affinity Per Reaction",
+        "label": "Loves Reaction",
+        "help": "Affinity gained when a companion 'Loves' your action. Higher = bigger gain. Vanilla +35.",
+        "control": "slider",
+        "order": 0,
+        "min": -250.0,
+        "max": 250.0,
+        "step": 1.0
+      }
+    },
+    {
+      "id": "fLike:CompanionsAffinity",
+      "section": "CompanionsAffinity",
+      "key": "fLike",
+      "cpp": "CompanionsAffinity::fLike",
+      "type": "float",
+      "default": 15.0,
+      "iniDefault": "15.0",
+      "ui": {
+        "page": "companions",
+        "group": "Affinity Per Reaction",
+        "label": "Likes Reaction",
+        "help": "Affinity gained when a companion 'Likes' your action. Vanilla +15.",
+        "control": "slider",
+        "order": 1,
+        "min": -250.0,
+        "max": 250.0,
+        "step": 1.0
+      }
+    },
+    {
+      "id": "fIndifferent:CompanionsAffinity",
+      "section": "CompanionsAffinity",
+      "key": "fIndifferent",
+      "cpp": "CompanionsAffinity::fIndifferent",
+      "type": "float",
+      "default": 0.0,
+      "iniDefault": "0.0",
+      "ui": {
+        "page": "companions",
+        "group": "Affinity Per Reaction",
+        "label": "Indifferent Reaction",
+        "help": "Affinity change for a neutral reaction. Vanilla 0 (no change).",
+        "control": "slider",
+        "order": 2,
+        "min": -250.0,
+        "max": 250.0,
+        "step": 1.0
+      }
+    },
+    {
+      "id": "fDislike:CompanionsAffinity",
+      "section": "CompanionsAffinity",
+      "key": "fDislike",
+      "cpp": "CompanionsAffinity::fDislike",
+      "type": "float",
+      "default": -15.0,
+      "iniDefault": "-15.0",
+      "ui": {
+        "page": "companions",
+        "group": "Affinity Per Reaction",
+        "label": "Dislikes Reaction",
+        "help": "Affinity lost when a companion 'Dislikes' your action. More negative = bigger loss. Vanilla -15.",
+        "control": "slider",
+        "order": 3,
+        "min": -250.0,
+        "max": 250.0,
+        "step": 1.0
+      }
+    },
+    {
+      "id": "fHates:CompanionsAffinity",
+      "section": "CompanionsAffinity",
+      "key": "fHates",
+      "cpp": "CompanionsAffinity::fHates",
+      "type": "float",
+      "default": -35.0,
+      "iniDefault": "-35.0",
+      "ui": {
+        "page": "companions",
+        "group": "Affinity Per Reaction",
+        "label": "Hates Reaction",
+        "help": "Affinity lost when a companion 'Hates' your action. Vanilla -35.",
+        "control": "slider",
+        "order": 4,
+        "min": -250.0,
+        "max": 250.0,
+        "step": 1.0
+      }
+    },
+    {
+      "id": "fCooldownImmediate:CompanionsAffinity",
+      "section": "CompanionsAffinity",
+      "key": "fCooldownImmediate",
+      "cpp": "CompanionsAffinity::fCooldownImmediate",
+      "type": "float",
+      "default": 0.0,
+      "iniDefault": "0.0",
+      "ui": {
+        "page": "companions",
+        "group": "Reaction Cooldowns",
+        "label": "Immediate Cooldown",
+        "help": "Cooldown in game days for back-to-back reactions of the same type. Vanilla 0.",
+        "control": "slider",
+        "order": 5,
+        "min": 0.0,
+        "max": 5.0,
+        "step": 0.05
+      }
+    },
+    {
+      "id": "fCooldownShort:CompanionsAffinity",
+      "section": "CompanionsAffinity",
+      "key": "fCooldownShort",
+      "cpp": "CompanionsAffinity::fCooldownShort",
+      "type": "float",
+      "default": 0.05,
+      "iniDefault": "0.05",
+      "ui": {
+        "page": "companions",
+        "group": "Reaction Cooldowns",
+        "label": "Short Cooldown",
+        "help": "Cooldown in game days for short-tier reactions. Vanilla 0.05.",
+        "control": "slider",
+        "order": 6,
+        "min": 0.0,
+        "max": 5.0,
+        "step": 0.05
+      }
+    },
+    {
+      "id": "fCooldownMedium:CompanionsAffinity",
+      "section": "CompanionsAffinity",
+      "key": "fCooldownMedium",
+      "cpp": "CompanionsAffinity::fCooldownMedium",
+      "type": "float",
+      "default": 2.0,
+      "iniDefault": "2.0",
+      "ui": {
+        "page": "companions",
+        "group": "Reaction Cooldowns",
+        "label": "Medium Cooldown",
+        "help": "Cooldown in game days for medium-tier reactions. Vanilla 2.",
+        "control": "slider",
+        "order": 7,
+        "min": 0.0,
+        "max": 5.0,
+        "step": 0.05
+      }
+    },
+    {
+      "id": "fCooldownLong:CompanionsAffinity",
+      "section": "CompanionsAffinity",
+      "key": "fCooldownLong",
+      "cpp": "CompanionsAffinity::fCooldownLong",
+      "type": "float",
+      "default": 5.0,
+      "iniDefault": "5.0",
+      "ui": {
+        "page": "companions",
+        "group": "Reaction Cooldowns",
+        "label": "Long Cooldown",
+        "help": "Cooldown in game days for long-tier reactions. Vanilla 5.",
+        "control": "slider",
+        "order": 8,
+        "min": 0.0,
+        "max": 5.0,
+        "step": 0.05
+      }
+    },
+    {
+      "id": "fSneakAttackGunMult:Sneak",
+      "section": "Sneak",
+      "key": "fSneakAttackGunMult",
+      "cpp": "Sneak::fSneakAttackGunMult",
+      "type": "float",
+      "default": 2.0,
+      "iniDefault": "2.0",
+      "ui": {
+        "page": "sneak",
+        "group": "Sneak Attack Damage",
+        "label": "Gun Multiplier",
+        "help": "Sneak attack damage multiplier for guns. Vanilla 2.",
+        "control": "slider",
+        "order": 0,
+        "min": 0.0,
+        "max": 25.0,
+        "step": 0.05
+      }
+    },
+    {
+      "id": "fSneakAttackUnarmedMult:Sneak",
+      "section": "Sneak",
+      "key": "fSneakAttackUnarmedMult",
+      "cpp": "Sneak::fSneakAttackUnarmedMult",
+      "type": "float",
+      "default": 3.0,
+      "iniDefault": "3.0",
+      "ui": {
+        "page": "sneak",
+        "group": "Sneak Attack Damage",
+        "label": "Unarmed Multiplier",
+        "help": "Sneak attack damage multiplier for fists and fist weapons. Vanilla 3.",
+        "control": "slider",
+        "order": 1,
+        "min": 0.0,
+        "max": 25.0,
+        "step": 0.05
+      }
+    },
+    {
+      "id": "fSneakAttackOneHandMult:Sneak",
+      "section": "Sneak",
+      "key": "fSneakAttackOneHandMult",
+      "cpp": "Sneak::fSneakAttackOneHandMult",
+      "type": "float",
+      "default": 3.0,
+      "iniDefault": "3.0",
+      "ui": {
+        "page": "sneak",
+        "group": "Sneak Attack Damage",
+        "label": "One-Hand Multiplier",
+        "help": "Sneak attack damage multiplier for one-handed weapons. Vanilla 3.",
+        "control": "slider",
+        "order": 2,
+        "min": 0.0,
+        "max": 25.0,
+        "step": 0.05
+      }
+    },
+    {
+      "id": "fSneakAttackTwoHandMult:Sneak",
+      "section": "Sneak",
+      "key": "fSneakAttackTwoHandMult",
+      "cpp": "Sneak::fSneakAttackTwoHandMult",
+      "type": "float",
+      "default": 3.0,
+      "iniDefault": "3.0",
+      "ui": {
+        "page": "sneak",
+        "group": "Sneak Attack Damage",
+        "label": "Two-Hand Multiplier",
+        "help": "Sneak attack damage multiplier for two-handed weapons. Vanilla 3.",
+        "control": "slider",
+        "order": 3,
+        "min": 0.0,
+        "max": 25.0,
+        "step": 0.05
+      }
+    },
+    {
+      "id": "fSneakExteriorDistanceMult:Sneak",
+      "section": "Sneak",
+      "key": "fSneakExteriorDistanceMult",
+      "cpp": "Sneak::fSneakExteriorDistanceMult",
+      "type": "float",
+      "default": 1.25,
+      "iniDefault": "1.25",
+      "ui": {
+        "page": "sneak",
+        "group": "Detection",
+        "label": "Exterior Distance",
+        "help": "Exterior sneak detection distance multiplier. Vanilla 1.25.",
+        "control": "slider",
+        "order": 4,
+        "min": 0.0,
+        "max": 100.0,
+        "step": 0.05
+      }
+    },
+    {
+      "id": "fSneakLightMult:Sneak",
+      "section": "Sneak",
+      "key": "fSneakLightMult",
+      "cpp": "Sneak::fSneakLightMult",
+      "type": "float",
+      "default": 0.33,
+      "iniDefault": "0.33",
+      "ui": {
+        "page": "sneak",
+        "group": "Detection",
+        "label": "Light Sensitivity",
+        "help": "How much light affects detection while sneaking. Vanilla 0.33.",
+        "control": "slider",
+        "order": 5,
+        "min": 0.0,
+        "max": 10.0,
+        "step": 0.01
+      }
+    },
+    {
+      "id": "fSneakMaxDistance:Sneak",
+      "section": "Sneak",
+      "key": "fSneakMaxDistance",
+      "cpp": "Sneak::fSneakMaxDistance",
+      "type": "float",
+      "default": 4096.0,
+      "iniDefault": "4096.0",
+      "ui": {
+        "page": "sneak",
+        "group": "Detection",
+        "label": "Max Detection Distance",
+        "help": "Maximum distance where enemies can spot you. Vanilla 4096.",
+        "control": "slider",
+        "order": 6,
+        "min": 0.0,
+        "max": 20480.0,
+        "step": 256.0
+      }
+    },
+    {
+      "id": "iAttackDisarmChance:CombatPerks",
+      "section": "CombatPerks",
+      "key": "iAttackDisarmChance",
+      "cpp": "CombatPerks::iAttackDisarmChance",
+      "type": "int",
+      "default": 50,
+      "iniDefault": "50",
+      "ui": {
+        "page": "combat-perks",
+        "group": "Combat Chances",
+        "label": "Attack Disarm Chance",
+        "help": "Disarm chance from the Big Leagues / Iron Fist disarm rank. Vanilla 50.",
+        "control": "slider",
+        "order": 0,
+        "min": 0,
+        "max": 100,
+        "step": 1
+      }
+    },
+    {
+      "id": "iBlockDisarmChance:CombatPerks",
+      "section": "CombatPerks",
+      "key": "iBlockDisarmChance",
+      "cpp": "CombatPerks::iBlockDisarmChance",
+      "type": "int",
+      "default": 50,
+      "iniDefault": "50",
+      "ui": {
+        "page": "combat-perks",
+        "group": "Combat Chances",
+        "label": "Block Disarm Chance",
+        "help": "Disarm chance when blocking with a melee weapon. Vanilla 50.",
+        "control": "slider",
+        "order": 1,
+        "min": 0,
+        "max": 100,
+        "step": 1
+      }
+    },
+    {
+      "id": "iBlockStaggerChance:CombatPerks",
+      "section": "CombatPerks",
+      "key": "iBlockStaggerChance",
+      "cpp": "CombatPerks::iBlockStaggerChance",
+      "type": "int",
+      "default": 5,
+      "iniDefault": "5",
+      "ui": {
+        "page": "combat-perks",
+        "group": "Combat Chances",
+        "label": "Block Stagger Chance",
+        "help": "Stagger chance when blocking. Vanilla 5.",
+        "control": "slider",
+        "order": 2,
+        "min": 0,
+        "max": 100,
+        "step": 1
+      }
+    },
+    {
+      "id": "iHandToHandBlockRecoilChance:CombatPerks",
+      "section": "CombatPerks",
+      "key": "iHandToHandBlockRecoilChance",
+      "cpp": "CombatPerks::iHandToHandBlockRecoilChance",
+      "type": "int",
+      "default": 25,
+      "iniDefault": "25",
+      "ui": {
+        "page": "combat-perks",
+        "group": "Combat Chances",
+        "label": "Hand-to-Hand Block Recoil Chance",
+        "help": "Recoil chance when blocking unarmed attacks. Vanilla 25.",
+        "control": "slider",
+        "order": 3,
+        "min": 0,
+        "max": 100,
+        "step": 1
+      }
+    },
+    {
+      "id": "iMarksmanKnockdownChance:CombatPerks",
+      "section": "CombatPerks",
+      "key": "iMarksmanKnockdownChance",
+      "cpp": "CombatPerks::iMarksmanKnockdownChance",
+      "type": "int",
+      "default": 5,
+      "iniDefault": "5",
+      "ui": {
+        "page": "combat-perks",
+        "group": "Combat Chances",
+        "label": "Marksman Knockdown Chance",
+        "help": "Knockdown chance from the Rifleman / Gunslinger knockdown ranks. Vanilla 5.",
+        "control": "slider",
+        "order": 4,
+        "min": 0,
+        "max": 100,
+        "step": 1
+      }
+    },
+    {
+      "id": "iMarksmanParalyzeChance:CombatPerks",
+      "section": "CombatPerks",
+      "key": "iMarksmanParalyzeChance",
+      "cpp": "CombatPerks::iMarksmanParalyzeChance",
+      "type": "int",
+      "default": 5,
+      "iniDefault": "5",
+      "ui": {
+        "page": "combat-perks",
+        "group": "Combat Chances",
+        "label": "Marksman Paralyze Chance",
+        "help": "Paralyze chance from the Rifleman / Gunslinger paralyze ranks. Vanilla 5.",
+        "control": "slider",
+        "order": 5,
+        "min": 0,
+        "max": 100,
+        "step": 1
+      }
+    },
+    {
+      "id": "fLightArmorNoviceDamageMult:CombatPerks",
+      "section": "CombatPerks",
+      "key": "fLightArmorNoviceDamageMult",
+      "cpp": "CombatPerks::fLightArmorNoviceDamageMult",
+      "type": "float",
+      "default": 1.5,
+      "iniDefault": "1.5",
+      "ui": {
+        "page": "combat-perks",
+        "group": "Light Armor Perk",
+        "label": "Novice Damage Multiplier",
+        "help": "Damage taken multiplier at Light Armor rank 1. Vanilla 1.5.",
+        "control": "slider",
+        "order": 6,
+        "min": 0.0,
+        "max": 5.0,
+        "step": 0.05
+      }
+    },
+    {
+      "id": "fLightArmorJourneymanDamageMult:CombatPerks",
+      "section": "CombatPerks",
+      "key": "fLightArmorJourneymanDamageMult",
+      "cpp": "CombatPerks::fLightArmorJourneymanDamageMult",
+      "type": "float",
+      "default": 0.5,
+      "iniDefault": "0.5",
+      "ui": {
+        "page": "combat-perks",
+        "group": "Light Armor Perk",
+        "label": "Journeyman Damage Multiplier",
+        "help": "Damage taken multiplier at Light Armor rank 2. Vanilla 0.5.",
+        "control": "slider",
+        "order": 7,
+        "min": 0.0,
+        "max": 5.0,
+        "step": 0.05
+      }
+    },
+    {
+      "id": "fLightArmorExpertSpeedMult:CombatPerks",
+      "section": "CombatPerks",
+      "key": "fLightArmorExpertSpeedMult",
+      "cpp": "CombatPerks::fLightArmorExpertSpeedMult",
+      "type": "float",
+      "default": 0.0,
+      "iniDefault": "0.0",
+      "ui": {
+        "page": "combat-perks",
+        "group": "Light Armor Perk",
+        "label": "Expert Speed Multiplier",
+        "help": "Speed bonus at Light Armor rank 3. Vanilla 0.0.",
+        "control": "slider",
+        "order": 8,
+        "min": 0.0,
+        "max": 2.0,
+        "step": 0.05
+      }
+    },
+    {
+      "id": "fLightArmorMasterRatingMult:CombatPerks",
+      "section": "CombatPerks",
+      "key": "fLightArmorMasterRatingMult",
+      "cpp": "CombatPerks::fLightArmorMasterRatingMult",
+      "type": "float",
+      "default": 1.5,
+      "iniDefault": "1.5",
+      "ui": {
+        "page": "combat-perks",
+        "group": "Light Armor Perk",
+        "label": "Master Rating Multiplier",
+        "help": "Armor rating multiplier at Light Armor rank 4. Vanilla 1.5.",
+        "control": "slider",
+        "order": 9,
+        "min": 0.0,
+        "max": 5.0,
+        "step": 0.05
+      }
+    },
+    {
+      "id": "iLightArmorMasterMinSum:CombatPerks",
+      "section": "CombatPerks",
+      "key": "iLightArmorMasterMinSum",
+      "cpp": "CombatPerks::iLightArmorMasterMinSum",
+      "type": "int",
+      "default": 5,
+      "iniDefault": "5",
+      "ui": {
+        "page": "combat-perks",
+        "group": "Light Armor Perk",
+        "label": "Master Min Sum",
+        "help": "Minimum number of light armor pieces required to trigger the Master rating bonus. Vanilla 5.",
+        "control": "slider",
+        "order": 10,
+        "min": 0,
+        "max": 10,
+        "step": 1
+      }
+    },
+    {
+      "id": "fHeavyArmorNoviceDamageMult:CombatPerks",
+      "section": "CombatPerks",
+      "key": "fHeavyArmorNoviceDamageMult",
+      "cpp": "CombatPerks::fHeavyArmorNoviceDamageMult",
+      "type": "float",
+      "default": 1.5,
+      "iniDefault": "1.5",
+      "ui": {
+        "page": "combat-perks",
+        "group": "Heavy Armor Perk",
+        "label": "Novice Damage Multiplier",
+        "help": "Damage taken multiplier at Heavy Armor rank 1. Vanilla 1.5.",
+        "control": "slider",
+        "order": 11,
+        "min": 0.0,
+        "max": 5.0,
+        "step": 0.05
+      }
+    },
+    {
+      "id": "fHeavyArmorJourneymanDamageMult:CombatPerks",
+      "section": "CombatPerks",
+      "key": "fHeavyArmorJourneymanDamageMult",
+      "cpp": "CombatPerks::fHeavyArmorJourneymanDamageMult",
+      "type": "float",
+      "default": 0.5,
+      "iniDefault": "0.5",
+      "ui": {
+        "page": "combat-perks",
+        "group": "Heavy Armor Perk",
+        "label": "Journeyman Damage Multiplier",
+        "help": "Damage taken multiplier at Heavy Armor rank 2. Vanilla 0.5.",
+        "control": "slider",
+        "order": 12,
+        "min": 0.0,
+        "max": 5.0,
+        "step": 0.05
+      }
+    },
+    {
+      "id": "fHeavyArmorExpertSpeedMult:CombatPerks",
+      "section": "CombatPerks",
+      "key": "fHeavyArmorExpertSpeedMult",
+      "cpp": "CombatPerks::fHeavyArmorExpertSpeedMult",
+      "type": "float",
+      "default": 0.5,
+      "iniDefault": "0.5",
+      "ui": {
+        "page": "combat-perks",
+        "group": "Heavy Armor Perk",
+        "label": "Expert Speed Multiplier",
+        "help": "Speed multiplier at Heavy Armor rank 3. Vanilla 0.5.",
+        "control": "slider",
+        "order": 13,
+        "min": 0.0,
+        "max": 2.0,
+        "step": 0.05
+      }
+    },
+    {
+      "id": "fHeavyArmorMasterSpeedMult:CombatPerks",
+      "section": "CombatPerks",
+      "key": "fHeavyArmorMasterSpeedMult",
+      "cpp": "CombatPerks::fHeavyArmorMasterSpeedMult",
+      "type": "float",
+      "default": 0.0,
+      "iniDefault": "0.0",
+      "ui": {
+        "page": "combat-perks",
+        "group": "Heavy Armor Perk",
+        "label": "Master Speed Multiplier",
+        "help": "Speed multiplier at Heavy Armor rank 4. Vanilla 0.0.",
+        "control": "slider",
+        "order": 14,
+        "min": 0.0,
+        "max": 2.0,
+        "step": 0.05
+      }
+    },
+    {
+      "id": "fHeavyArmorSinkGravityMult:CombatPerks",
+      "section": "CombatPerks",
+      "key": "fHeavyArmorSinkGravityMult",
+      "cpp": "CombatPerks::fHeavyArmorSinkGravityMult",
+      "type": "float",
+      "default": 15.0,
+      "iniDefault": "15.0",
+      "ui": {
+        "page": "combat-perks",
+        "group": "Heavy Armor Perk",
+        "label": "Sink Gravity Multiplier",
+        "help": "Underwater gravity multiplier when wearing the heavy armor sink threshold. Vanilla 15.",
+        "control": "slider",
+        "order": 15,
+        "min": 0.0,
+        "max": 50.0,
+        "step": 0.5
+      }
+    },
+    {
+      "id": "iHeavyArmorJumpSum:CombatPerks",
+      "section": "CombatPerks",
+      "key": "iHeavyArmorJumpSum",
+      "cpp": "CombatPerks::iHeavyArmorJumpSum",
+      "type": "int",
+      "default": 35,
+      "iniDefault": "35",
+      "ui": {
+        "page": "combat-perks",
+        "group": "Heavy Armor Perk",
+        "label": "Jump Sum Threshold",
+        "help": "Total armor weight at which heavy armor jump penalty triggers. Vanilla 35.",
+        "control": "slider",
+        "order": 16,
+        "min": 0,
+        "max": 200,
+        "step": 1
+      }
+    },
+    {
+      "id": "iHeavyArmorSinkSum:CombatPerks",
+      "section": "CombatPerks",
+      "key": "iHeavyArmorSinkSum",
+      "cpp": "CombatPerks::iHeavyArmorSinkSum",
+      "type": "int",
+      "default": 35,
+      "iniDefault": "35",
+      "ui": {
+        "page": "combat-perks",
+        "group": "Heavy Armor Perk",
+        "label": "Sink Sum Threshold",
+        "help": "Total armor weight at which heavy armor sink (faster water descent) triggers. Vanilla 35.",
+        "control": "slider",
+        "order": 17,
+        "min": 0,
+        "max": 200,
+        "step": 1
+      }
+    },
+    {
+      "id": "iSettlerPopulationMax:Settlements",
+      "section": "Settlements",
+      "key": "iSettlerPopulationMax",
+      "cpp": "Settlements::iSettlerPopulationMax",
+      "type": "int",
+      "default": 10,
+      "iniDefault": "10",
+      "ui": {
+        "page": "settlements",
+        "group": "Settler & Building",
+        "label": "Settler Population Cap",
+        "help": "Hard cap on settlers per settlement (before Charisma bonuses). Vanilla 10.",
+        "control": "slider",
+        "order": 0,
+        "min": 1,
+        "max": 50,
+        "step": 1
+      }
+    },
+    {
+      "id": "fBuildBaseTimer:Settlements",
+      "section": "Settlements",
+      "key": "fBuildBaseTimer",
+      "cpp": "Settlements::fBuildBaseTimer",
+      "type": "float",
+      "default": 0.1,
+      "iniDefault": "0.1",
+      "ui": {
+        "page": "settlements",
+        "group": "Settler & Building",
+        "label": "Build Base Timer",
+        "help": "Seconds the workshop UI takes to register a build. Vanilla 0.1.",
+        "control": "slider",
+        "order": 1,
+        "min": 0.0,
+        "max": 5.0,
+        "step": 0.05
+      }
+    },
+    {
+      "id": "fBuildResourceTimer:Settlements",
+      "section": "Settlements",
+      "key": "fBuildResourceTimer",
+      "cpp": "Settlements::fBuildResourceTimer",
+      "type": "float",
+      "default": 0.4,
+      "iniDefault": "0.4",
+      "ui": {
+        "page": "settlements",
+        "group": "Settler & Building",
+        "label": "Build Resource Timer",
+        "help": "Seconds the workshop UI takes to deduct resources. Vanilla 0.4.",
+        "control": "slider",
+        "order": 2,
+        "min": 0.0,
+        "max": 5.0,
+        "step": 0.05
+      }
+    },
+    {
+      "id": "fRepairComponentMult:Settlements",
+      "section": "Settlements",
+      "key": "fRepairComponentMult",
+      "cpp": "Settlements::fRepairComponentMult",
+      "type": "float",
+      "default": 0.1,
+      "iniDefault": "0.1",
+      "ui": {
+        "page": "settlements",
+        "group": "Settler & Building",
+        "label": "Repair Component Multiplier",
+        "help": "Component cost multiplier when repairing damaged objects. Vanilla 0.1.",
+        "control": "slider",
+        "order": 3,
+        "min": 0.0,
+        "max": 2.0,
+        "step": 0.05
+      }
+    },
+    {
+      "id": "fWireMaxLength:Settlements",
+      "section": "Settlements",
+      "key": "fWireMaxLength",
+      "cpp": "Settlements::fWireMaxLength",
+      "type": "float",
+      "default": 1100.0,
+      "iniDefault": "1100.0",
+      "ui": {
+        "page": "settlements",
+        "group": "Settler & Building",
+        "label": "Power Wire Max Length",
+        "help": "Maximum reach of a single power wire connection. Vanilla 1100.",
+        "control": "slider",
+        "order": 4,
+        "min": 100.0,
+        "max": 5000.0,
+        "step": 50.0
+      }
+    },
+    {
+      "id": "fRestrictedBuildSpacing:Settlements",
+      "section": "Settlements",
+      "key": "fRestrictedBuildSpacing",
+      "cpp": "Settlements::fRestrictedBuildSpacing",
+      "type": "float",
+      "default": 32.0,
+      "iniDefault": "32.0",
+      "ui": {
+        "page": "settlements",
+        "group": "Placement Constraints",
+        "label": "Restricted Build Spacing",
+        "help": "Minimum spacing between restricted build objects. Vanilla 32.",
+        "control": "slider",
+        "order": 5,
+        "min": 0.0,
+        "max": 200.0,
+        "step": 1.0
+      }
+    },
+    {
+      "id": "fRestrictedBuildMaxFloraRadius:Settlements",
+      "section": "Settlements",
+      "key": "fRestrictedBuildMaxFloraRadius",
+      "cpp": "Settlements::fRestrictedBuildMaxFloraRadius",
+      "type": "float",
+      "default": 50.0,
+      "iniDefault": "50.0",
+      "ui": {
+        "page": "settlements",
+        "group": "Placement Constraints",
+        "label": "Max Flora Build Radius",
+        "help": "Radius around flora where restricted objects cannot be placed. Vanilla 50.",
+        "control": "slider",
+        "order": 6,
+        "min": 0.0,
+        "max": 500.0,
+        "step": 5.0
+      }
+    },
+    {
+      "id": "fRestrictedBuildMaxKeywordRadius:Settlements",
+      "section": "Settlements",
+      "key": "fRestrictedBuildMaxKeywordRadius",
+      "cpp": "Settlements::fRestrictedBuildMaxKeywordRadius",
+      "type": "float",
+      "default": 50.0,
+      "iniDefault": "50.0",
+      "ui": {
+        "page": "settlements",
+        "group": "Placement Constraints",
+        "label": "Max Keyword Build Radius",
+        "help": "Radius around keyword-tagged objects where restricted builds are blocked. Vanilla 50.",
+        "control": "slider",
+        "order": 7,
+        "min": 0.0,
+        "max": 500.0,
+        "step": 5.0
+      }
+    },
+    {
+      "id": "fRestrictedBuildMaxTurretRadius:Settlements",
+      "section": "Settlements",
+      "key": "fRestrictedBuildMaxTurretRadius",
+      "cpp": "Settlements::fRestrictedBuildMaxTurretRadius",
+      "type": "float",
+      "default": 70.0,
+      "iniDefault": "70.0",
+      "ui": {
+        "page": "settlements",
+        "group": "Placement Constraints",
+        "label": "Max Turret Build Radius",
+        "help": "Minimum spacing between automated turrets. Vanilla 70.",
+        "control": "slider",
+        "order": 8,
+        "min": 0.0,
+        "max": 500.0,
+        "step": 5.0
+      }
+    },
+    {
+      "id": "bDisableSustenance:Survival",
+      "section": "Survival",
+      "key": "bDisableSustenance",
+      "cpp": "Survival::bDisableSustenance",
+      "type": "bool",
+      "default": false,
+      "iniDefault": "0",
+      "ui": {
+        "page": "survival",
+        "group": "Hardcore Rules",
+        "label": "Disable Hunger and Thirst",
+        "help": "ON disables the food and water need system. Stages no longer accumulate or apply. Survival difficulty stays active otherwise.",
+        "control": "switcher",
+        "order": 0
+      }
+    },
+    {
+      "id": "bDisableSleepDeprivation:Survival",
+      "section": "Survival",
+      "key": "bDisableSleepDeprivation",
+      "cpp": "Survival::bDisableSleepDeprivation",
+      "type": "bool",
+      "default": false,
+      "iniDefault": "0",
+      "ui": {
+        "page": "survival",
+        "group": "Hardcore Rules",
+        "label": "Disable Sleep Deprivation",
+        "help": "ON disables the sleep deprivation system. Sleep timer no longer accumulates and stages no longer apply. Survival difficulty stays active otherwise.",
+        "control": "switcher",
+        "order": 1
+      }
+    },
+    {
+      "id": "bDisableDiseases:Survival",
+      "section": "Survival",
+      "key": "bDisableDiseases",
+      "cpp": "Survival::bDisableDiseases",
+      "type": "bool",
+      "default": false,
+      "iniDefault": "0",
+      "ui": {
+        "page": "survival",
+        "group": "Hardcore Rules",
+        "label": "Disable Diseases",
+        "help": "ON disables the Survival disease system. Risk events no longer roll and disease effects no longer apply. Survival difficulty stays active otherwise.",
+        "control": "switcher",
+        "order": 2
+      }
+    },
+    {
+      "id": "bDisableAdrenaline:Survival",
+      "section": "Survival",
+      "key": "bDisableAdrenaline",
+      "cpp": "Survival::bDisableAdrenaline",
+      "type": "bool",
+      "default": false,
+      "iniDefault": "0",
+      "ui": {
+        "page": "survival",
+        "group": "Hardcore Rules",
+        "label": "Disable Adrenaline",
+        "help": "ON disables the Survival Adrenaline perk system. Kill streaks no longer build the Adrenaline rank, and the perk's damage bonus no longer applies. Survival difficulty stays active otherwise.",
+        "control": "switcher",
+        "order": 3
+      }
+    },
+    {
+      "id": "iFoodCostPerTick:Survival",
+      "section": "Survival",
+      "key": "iFoodCostPerTick",
+      "cpp": "Survival::iFoodCostPerTick",
+      "type": "int",
+      "default": 4,
+      "iniDefault": "4",
+      "ui": {
+        "page": "survival",
+        "group": "Sustenance Tuning",
+        "label": "Food Cost Per Tick",
+        "help": "How much the food pool decreases each tick. Lower = needs accumulate slower. Vanilla 4.",
+        "control": "slider",
+        "order": 4,
+        "min": 0,
+        "max": 20,
+        "step": 1
+      }
+    },
+    {
+      "id": "iDrinkCostPerTick:Survival",
+      "section": "Survival",
+      "key": "iDrinkCostPerTick",
+      "cpp": "Survival::iDrinkCostPerTick",
+      "type": "int",
+      "default": 4,
+      "iniDefault": "4",
+      "ui": {
+        "page": "survival",
+        "group": "Sustenance Tuning",
+        "label": "Drink Cost Per Tick",
+        "help": "How much the drink pool decreases each tick. Lower = needs accumulate slower. Vanilla 4.",
+        "control": "slider",
+        "order": 5,
+        "min": 0,
+        "max": 20,
+        "step": 1
+      }
+    },
+    {
+      "id": "fGamesHoursPerTick:Survival",
+      "section": "Survival",
+      "key": "fGamesHoursPerTick",
+      "cpp": "Survival::fGamesHoursPerTick",
+      "type": "float",
+      "default": 1.0,
+      "iniDefault": "1.0",
+      "ui": {
+        "page": "survival",
+        "group": "Sustenance Tuning",
+        "label": "Game Hours Per Tick",
+        "help": "How many in-game hours between sustenance ticks. Higher = needs accumulate slower. Vanilla 1.0.",
+        "control": "slider",
+        "order": 6,
+        "min": 0.1,
+        "max": 24.0,
+        "step": 0.1
+      }
+    },
+    {
+      "id": "fBonusDigestionHours:Survival",
+      "section": "Survival",
+      "key": "fBonusDigestionHours",
+      "cpp": "Survival::fBonusDigestionHours",
+      "type": "float",
+      "default": 1.0,
+      "iniDefault": "1.0",
+      "ui": {
+        "page": "survival",
+        "group": "Sustenance Tuning",
+        "label": "Bonus Digestion Hours",
+        "help": "Protected window after eating during which no further need accumulates. Vanilla 1.0.",
+        "control": "slider",
+        "order": 7,
+        "min": 0.0,
+        "max": 24.0,
+        "step": 0.1
+      }
+    },
+    {
+      "id": "fSustenanceTickWhileSleepingMult:Survival",
+      "section": "Survival",
+      "key": "fSustenanceTickWhileSleepingMult",
+      "cpp": "Survival::fSustenanceTickWhileSleepingMult",
+      "type": "float",
+      "default": 0.25,
+      "iniDefault": "0.25",
+      "ui": {
+        "page": "survival",
+        "group": "Sustenance Tuning",
+        "label": "Tick Multiplier While Sleeping",
+        "help": "Multiplier on sustenance accrual while asleep. Vanilla 0.25 (sleep slows need accumulation).",
+        "control": "slider",
+        "order": 8,
+        "min": 0.0,
+        "max": 5.0,
+        "step": 0.05
+      }
+    },
+    {
+      "id": "fTickHoursCostPerCombat:Survival",
+      "section": "Survival",
+      "key": "fTickHoursCostPerCombat",
+      "cpp": "Survival::fTickHoursCostPerCombat",
+      "type": "float",
+      "default": 0.25,
+      "iniDefault": "0.25",
+      "ui": {
+        "page": "survival",
+        "group": "Sustenance Tuning",
+        "label": "Extra Hours Per Combat",
+        "help": "Extra in-game hours added to the sustenance tick during combat. Higher = combat makes you hungrier/thirstier faster. Vanilla 0.25.",
+        "control": "slider",
+        "order": 9,
+        "min": 0.0,
+        "max": 5.0,
+        "step": 0.05
+      }
+    },
+    {
+      "id": "iFoodPoolPeckishAmount:Survival",
+      "section": "Survival",
+      "key": "iFoodPoolPeckishAmount",
+      "cpp": "Survival::iFoodPoolPeckishAmount",
+      "type": "int",
+      "default": -24,
+      "iniDefault": "-24",
+      "ui": {
+        "page": "survival",
+        "group": "Food Stage Thresholds",
+        "label": "Peckish At",
+        "help": "Food pool value where the Peckish stage triggers. Lower (more negative) = later onset. Vanilla -24.",
+        "control": "slider",
+        "order": 10,
+        "min": -1000,
+        "max": 0,
+        "step": 1
+      }
+    },
+    {
+      "id": "iFoodPoolHungryAmount:Survival",
+      "section": "Survival",
+      "key": "iFoodPoolHungryAmount",
+      "cpp": "Survival::iFoodPoolHungryAmount",
+      "type": "int",
+      "default": -48,
+      "iniDefault": "-48",
+      "ui": {
+        "page": "survival",
+        "group": "Food Stage Thresholds",
+        "label": "Hungry At",
+        "help": "Food pool value where the Hungry stage triggers. Vanilla -48.",
+        "control": "slider",
+        "order": 11,
+        "min": -1000,
+        "max": 0,
+        "step": 1
+      }
+    },
+    {
+      "id": "iFoodPoolFamishedAmount:Survival",
+      "section": "Survival",
+      "key": "iFoodPoolFamishedAmount",
+      "cpp": "Survival::iFoodPoolFamishedAmount",
+      "type": "int",
+      "default": -96,
+      "iniDefault": "-96",
+      "ui": {
+        "page": "survival",
+        "group": "Food Stage Thresholds",
+        "label": "Famished At",
+        "help": "Food pool value where the Famished stage triggers. Vanilla -96.",
+        "control": "slider",
+        "order": 12,
+        "min": -2000,
+        "max": 0,
+        "step": 1
+      }
+    },
+    {
+      "id": "iFoodPoolRavenousAmount:Survival",
+      "section": "Survival",
+      "key": "iFoodPoolRavenousAmount",
+      "cpp": "Survival::iFoodPoolRavenousAmount",
+      "type": "int",
+      "default": -144,
+      "iniDefault": "-144",
+      "ui": {
+        "page": "survival",
+        "group": "Food Stage Thresholds",
+        "label": "Ravenous At",
+        "help": "Food pool value where the Ravenous stage triggers. Vanilla -144.",
+        "control": "slider",
+        "order": 13,
+        "min": -2000,
+        "max": 0,
+        "step": 1
+      }
+    },
+    {
+      "id": "iFoodPoolStarvingAmount:Survival",
+      "section": "Survival",
+      "key": "iFoodPoolStarvingAmount",
+      "cpp": "Survival::iFoodPoolStarvingAmount",
+      "type": "int",
+      "default": -256,
+      "iniDefault": "-256",
+      "ui": {
+        "page": "survival",
+        "group": "Food Stage Thresholds",
+        "label": "Starving At",
+        "help": "Food pool value where the Starving stage triggers. Vanilla -256.",
+        "control": "slider",
+        "order": 14,
+        "min": -5000,
+        "max": 0,
+        "step": 1
+      }
+    },
+    {
+      "id": "iDrinkPoolParchedAmount:Survival",
+      "section": "Survival",
+      "key": "iDrinkPoolParchedAmount",
+      "cpp": "Survival::iDrinkPoolParchedAmount",
+      "type": "int",
+      "default": -16,
+      "iniDefault": "-16",
+      "ui": {
+        "page": "survival",
+        "group": "Drink Stage Thresholds",
+        "label": "Parched At",
+        "help": "Drink pool value where the Parched stage triggers. Vanilla -16.",
+        "control": "slider",
+        "order": 15,
+        "min": -1000,
+        "max": 0,
+        "step": 1
+      }
+    },
+    {
+      "id": "iDrinkPoolThirstyAmount:Survival",
+      "section": "Survival",
+      "key": "iDrinkPoolThirstyAmount",
+      "cpp": "Survival::iDrinkPoolThirstyAmount",
+      "type": "int",
+      "default": -36,
+      "iniDefault": "-36",
+      "ui": {
+        "page": "survival",
+        "group": "Drink Stage Thresholds",
+        "label": "Thirsty At",
+        "help": "Drink pool value where the Thirsty stage triggers. Vanilla -36.",
+        "control": "slider",
+        "order": 16,
+        "min": -1000,
+        "max": 0,
+        "step": 1
+      }
+    },
+    {
+      "id": "iDrinkPoolMildlyDehydratedAmount:Survival",
+      "section": "Survival",
+      "key": "iDrinkPoolMildlyDehydratedAmount",
+      "cpp": "Survival::iDrinkPoolMildlyDehydratedAmount",
+      "type": "int",
+      "default": -72,
+      "iniDefault": "-72",
+      "ui": {
+        "page": "survival",
+        "group": "Drink Stage Thresholds",
+        "label": "Mildly Dehydrated At",
+        "help": "Drink pool value where the Mildly Dehydrated stage triggers. Vanilla -72.",
+        "control": "slider",
+        "order": 17,
+        "min": -2000,
+        "max": 0,
+        "step": 1
+      }
+    },
+    {
+      "id": "iDrinkPoolDehydratedAmount:Survival",
+      "section": "Survival",
+      "key": "iDrinkPoolDehydratedAmount",
+      "cpp": "Survival::iDrinkPoolDehydratedAmount",
+      "type": "int",
+      "default": -120,
+      "iniDefault": "-120",
+      "ui": {
+        "page": "survival",
+        "group": "Drink Stage Thresholds",
+        "label": "Dehydrated At",
+        "help": "Drink pool value where the Dehydrated stage triggers. Vanilla -120.",
+        "control": "slider",
+        "order": 18,
+        "min": -2000,
+        "max": 0,
+        "step": 1
+      }
+    },
+    {
+      "id": "iDrinkPoolSeverelyDehydratedAmount:Survival",
+      "section": "Survival",
+      "key": "iDrinkPoolSeverelyDehydratedAmount",
+      "cpp": "Survival::iDrinkPoolSeverelyDehydratedAmount",
+      "type": "int",
+      "default": -180,
+      "iniDefault": "-180",
+      "ui": {
+        "page": "survival",
+        "group": "Drink Stage Thresholds",
+        "label": "Severely Dehydrated At",
+        "help": "Drink pool value where the Severely Dehydrated stage triggers. Vanilla -180.",
+        "control": "slider",
+        "order": 19,
+        "min": -5000,
+        "max": 0,
+        "step": 1
+      }
+    },
+    {
+      "id": "fGameTimerIntervalSleepDeprivation:Survival",
+      "section": "Survival",
+      "key": "fGameTimerIntervalSleepDeprivation",
+      "cpp": "Survival::fGameTimerIntervalSleepDeprivation",
+      "type": "float",
+      "default": 14.0,
+      "iniDefault": "14.0",
+      "ui": {
+        "page": "survival",
+        "group": "Sleep Tuning",
+        "label": "Sleep Deprivation Interval",
+        "help": "In-game hours between sleep-deprivation checks. Higher = sleep stages progress slower. Vanilla 14.",
+        "control": "slider",
+        "order": 20,
+        "min": 0.5,
+        "max": 96.0,
+        "step": 0.5
+      }
+    },
+    {
+      "id": "fInsomniaSleepMult:Survival",
+      "section": "Survival",
+      "key": "fInsomniaSleepMult",
+      "cpp": "Survival::fInsomniaSleepMult",
+      "type": "float",
+      "default": 0.5,
+      "iniDefault": "0.5",
+      "ui": {
+        "page": "survival",
+        "group": "Sleep Tuning",
+        "label": "Insomnia Sleep Multiplier",
+        "help": "Multiplier on sleep recovery when the Insomnia disease is active. Vanilla 0.5.",
+        "control": "slider",
+        "order": 21,
+        "min": 0.0,
+        "max": 5.0,
+        "step": 0.05
+      }
+    },
+    {
+      "id": "iMinHoursForCuringSleepEffects:Survival",
+      "section": "Survival",
+      "key": "iMinHoursForCuringSleepEffects",
+      "cpp": "Survival::iMinHoursForCuringSleepEffects",
+      "type": "int",
+      "default": 2,
+      "iniDefault": "2",
+      "ui": {
+        "page": "survival",
+        "group": "Sleep Tuning",
+        "label": "Minimum Hours to Cure Sleep",
+        "help": "Minimum in-game hours of sleep needed to cure any sleep stage effects. Vanilla 2.",
+        "control": "slider",
+        "order": 22,
+        "min": 1,
+        "max": 24,
+        "step": 1
+      }
+    },
+    {
+      "id": "fCaffeineInducedSleepDelay:Survival",
+      "section": "Survival",
+      "key": "fCaffeineInducedSleepDelay",
+      "cpp": "Survival::fCaffeineInducedSleepDelay",
+      "type": "float",
+      "default": 2.333,
+      "iniDefault": "2.333",
+      "ui": {
+        "page": "survival",
+        "group": "Sleep Tuning",
+        "label": "Caffeine Sleep Delay",
+        "help": "Hours of sleep delay imposed after consuming a caffeinated item. Vanilla 2.333.",
+        "control": "slider",
+        "order": 23,
+        "min": 0.0,
+        "max": 24.0,
+        "step": 0.1
+      }
+    },
+    {
+      "id": "fExtraCaffeineInducedSleepDelay:Survival",
+      "section": "Survival",
+      "key": "fExtraCaffeineInducedSleepDelay",
+      "cpp": "Survival::fExtraCaffeineInducedSleepDelay",
+      "type": "float",
+      "default": 7.0,
+      "iniDefault": "7.0",
+      "ui": {
+        "page": "survival",
+        "group": "Sleep Tuning",
+        "label": "Extra Caffeine Sleep Delay",
+        "help": "Additional sleep-delay hours stacked for repeated caffeine use. Vanilla 7.",
+        "control": "slider",
+        "order": 24,
+        "min": 0.0,
+        "max": 24.0,
+        "step": 0.1
+      }
+    },
+    {
+      "id": "fDiseasedSleepinessTimerMult:Survival",
+      "section": "Survival",
+      "key": "fDiseasedSleepinessTimerMult",
+      "cpp": "Survival::fDiseasedSleepinessTimerMult",
+      "type": "float",
+      "default": 0.5,
+      "iniDefault": "0.5",
+      "ui": {
+        "page": "survival",
+        "group": "Sleep Tuning",
+        "label": "Sleepiness Disease Timer Mult",
+        "help": "Multiplier on sleep-deprivation timer when Sleepiness disease is active. Lower = sleep stages progress faster while diseased. Vanilla 0.5.",
+        "control": "slider",
+        "order": 25,
+        "min": 0.0,
+        "max": 5.0,
+        "step": 0.05
+      }
+    },
+    {
+      "id": "fDiseaseGracePeriod:Survival",
+      "section": "Survival",
+      "key": "fDiseaseGracePeriod",
+      "cpp": "Survival::fDiseaseGracePeriod",
+      "type": "float",
+      "default": 1.0,
+      "iniDefault": "1.0",
+      "ui": {
+        "page": "survival",
+        "group": "Disease Tuning",
+        "label": "Disease Grace Period",
+        "help": "In-game days after the last disease before another can trigger. Vanilla 1.0.",
+        "control": "slider",
+        "order": 27,
+        "min": 0.0,
+        "max": 30.0,
+        "step": 0.5
+      }
+    },
+    {
+      "id": "fDiseaseRiskRollThreshold:Survival",
+      "section": "Survival",
+      "key": "fDiseaseRiskRollThreshold",
+      "cpp": "Survival::fDiseaseRiskRollThreshold",
+      "type": "float",
+      "default": 0.25,
+      "iniDefault": "0.25",
+      "ui": {
+        "page": "survival",
+        "group": "Disease Tuning",
+        "label": "Disease Risk Threshold",
+        "help": "Risk pool value above which a disease roll is made. Higher = diseases trigger less often. Vanilla 0.25.",
+        "control": "slider",
+        "order": 26,
+        "min": 0.0,
+        "max": 1.0,
+        "step": 0.01
+      }
+    },
+    {
+      "id": "fDiseaseRiskDrainPerCycle:Survival",
+      "section": "Survival",
+      "key": "fDiseaseRiskDrainPerCycle",
+      "cpp": "Survival::fDiseaseRiskDrainPerCycle",
+      "type": "float",
+      "default": -0.01,
+      "iniDefault": "-0.01",
+      "ui": {
+        "page": "survival",
+        "group": "Disease Tuning",
+        "label": "Disease Risk Drain Per Cycle",
+        "help": "Passive disease-risk drain per cycle when no risk events fire. Vanilla -0.01 (negative drains pool).",
+        "control": "slider",
+        "order": 28,
+        "min": -0.5,
+        "max": 0.5,
+        "step": 0.005
+      }
+    },
+    {
+      "id": "fCurrentDiseasePoolValueMult:Survival",
+      "section": "Survival",
+      "key": "fCurrentDiseasePoolValueMult",
+      "cpp": "Survival::fCurrentDiseasePoolValueMult",
+      "type": "float",
+      "default": 1.75,
+      "iniDefault": "1.75",
+      "ui": {
+        "page": "survival",
+        "group": "Disease Tuning",
+        "label": "Disease Pool Value Mult",
+        "help": "Multiplier on the disease pool's current value. Vanilla 1.75.",
+        "control": "slider",
+        "order": 29,
+        "min": 0.0,
+        "max": 5.0,
+        "step": 0.05
+      }
+    },
+    {
+      "id": "fDiseaseNeedMoreFoodMult:Survival",
+      "section": "Survival",
+      "key": "fDiseaseNeedMoreFoodMult",
+      "cpp": "Survival::fDiseaseNeedMoreFoodMult",
+      "type": "float",
+      "default": 0.5,
+      "iniDefault": "0.5",
+      "ui": {
+        "page": "survival",
+        "group": "Disease Tuning",
+        "label": "Need More Food Multiplier",
+        "help": "Sustenance-cost multiplier when the Need More Food disease is active. Vanilla 0.5.",
+        "control": "slider",
+        "order": 30,
+        "min": 0.0,
+        "max": 5.0,
+        "step": 0.05
+      }
+    },
+    {
+      "id": "fImmunodeficiencyDiseaseMult:Survival",
+      "section": "Survival",
+      "key": "fImmunodeficiencyDiseaseMult",
+      "cpp": "Survival::fImmunodeficiencyDiseaseMult",
+      "type": "float",
+      "default": 1.2,
+      "iniDefault": "1.2",
+      "ui": {
+        "page": "survival",
+        "group": "Disease Tuning",
+        "label": "Immunodeficiency Mult",
+        "help": "Disease-chance multiplier when Immunodeficiency is active. Vanilla 1.2.",
+        "control": "slider",
+        "order": 31,
+        "min": 0.0,
+        "max": 5.0,
+        "step": 0.05
+      }
+    },
+    {
+      "id": "fDiseaseRiskCannibalAmount:Survival",
+      "section": "Survival",
+      "key": "fDiseaseRiskCannibalAmount",
+      "cpp": "Survival::fDiseaseRiskCannibalAmount",
+      "type": "float",
+      "default": 0.05,
+      "iniDefault": "0.05",
+      "ui": {
+        "page": "survival",
+        "group": "Disease Tuning",
+        "label": "Risk: Cannibalism",
+        "help": "Risk pool gain per cannibalism event. Vanilla 0.05.",
+        "control": "slider",
+        "order": 32,
+        "min": 0.0,
+        "max": 1.0,
+        "step": 0.005
+      }
+    },
+    {
+      "id": "fDiseaseRiskChemsAmount:Survival",
+      "section": "Survival",
+      "key": "fDiseaseRiskChemsAmount",
+      "cpp": "Survival::fDiseaseRiskChemsAmount",
+      "type": "float",
+      "default": 0.07,
+      "iniDefault": "0.07",
+      "ui": {
+        "page": "survival",
+        "group": "Disease Tuning",
+        "label": "Risk: Chems",
+        "help": "Risk pool gain per chem use. Vanilla 0.07.",
+        "control": "slider",
+        "order": 33,
+        "min": 0.0,
+        "max": 1.0,
+        "step": 0.005
+      }
+    },
+    {
+      "id": "fDiseaseRiskCombatantAmount:Survival",
+      "section": "Survival",
+      "key": "fDiseaseRiskCombatantAmount",
+      "cpp": "Survival::fDiseaseRiskCombatantAmount",
+      "type": "float",
+      "default": 0.05,
+      "iniDefault": "0.05",
+      "ui": {
+        "page": "survival",
+        "group": "Disease Tuning",
+        "label": "Risk: Combat",
+        "help": "Risk pool gain from combat exposure to disease-carrying enemies. Vanilla 0.05.",
+        "control": "slider",
+        "order": 34,
+        "min": 0.0,
+        "max": 1.0,
+        "step": 0.005
+      }
+    },
+    {
+      "id": "fDiseaseRiskFoodHighAmount:Survival",
+      "section": "Survival",
+      "key": "fDiseaseRiskFoodHighAmount",
+      "cpp": "Survival::fDiseaseRiskFoodHighAmount",
+      "type": "float",
+      "default": 0.12,
+      "iniDefault": "0.12",
+      "ui": {
+        "page": "survival",
+        "group": "Disease Tuning",
+        "label": "Risk: Risky Food",
+        "help": "Risk pool gain from high-risk food (raw, irradiated, etc.). Vanilla 0.12.",
+        "control": "slider",
+        "order": 35,
+        "min": 0.0,
+        "max": 1.0,
+        "step": 0.005
+      }
+    },
+    {
+      "id": "fDiseaseRiskFoodStandardAmount:Survival",
+      "section": "Survival",
+      "key": "fDiseaseRiskFoodStandardAmount",
+      "cpp": "Survival::fDiseaseRiskFoodStandardAmount",
+      "type": "float",
+      "default": 0.07,
+      "iniDefault": "0.07",
+      "ui": {
+        "page": "survival",
+        "group": "Disease Tuning",
+        "label": "Risk: Standard Food",
+        "help": "Risk pool gain from standard food. Vanilla 0.07.",
+        "control": "slider",
+        "order": 36,
+        "min": 0.0,
+        "max": 1.0,
+        "step": 0.005
+      }
+    },
+    {
+      "id": "fDiseaseRiskRainAmount:Survival",
+      "section": "Survival",
+      "key": "fDiseaseRiskRainAmount",
+      "cpp": "Survival::fDiseaseRiskRainAmount",
+      "type": "float",
+      "default": 0.03,
+      "iniDefault": "0.03",
+      "ui": {
+        "page": "survival",
+        "group": "Disease Tuning",
+        "label": "Risk: Rain Exposure",
+        "help": "Risk pool gain from being out in radioactive rain. Vanilla 0.03.",
+        "control": "slider",
+        "order": 37,
+        "min": 0.0,
+        "max": 1.0,
+        "step": 0.005
+      }
+    },
+    {
+      "id": "fDiseaseRiskSwimmingAmount:Survival",
+      "section": "Survival",
+      "key": "fDiseaseRiskSwimmingAmount",
+      "cpp": "Survival::fDiseaseRiskSwimmingAmount",
+      "type": "float",
+      "default": 0.03,
+      "iniDefault": "0.03",
+      "ui": {
+        "page": "survival",
+        "group": "Disease Tuning",
+        "label": "Risk: Swimming",
+        "help": "Risk pool gain from swimming. Vanilla 0.03.",
+        "control": "slider",
+        "order": 38,
+        "min": 0.0,
+        "max": 1.0,
+        "step": 0.005
+      }
+    },
+    {
+      "id": "iKillsForAdrenalinePerkLevel:Survival",
+      "section": "Survival",
+      "key": "iKillsForAdrenalinePerkLevel",
+      "cpp": "Survival::iKillsForAdrenalinePerkLevel",
+      "type": "int",
+      "default": 5,
+      "iniDefault": "5",
+      "ui": {
+        "page": "survival",
+        "group": "Adrenaline",
+        "label": "Kills Per Perk Rank",
+        "help": "Kills needed to advance one Adrenaline perk rank. Vanilla 5.",
+        "control": "slider",
+        "order": 39,
+        "min": 1,
+        "max": 50,
+        "step": 1
+      }
+    },
+    {
+      "id": "iMaxAdrenalinePerkLevel:Survival",
+      "section": "Survival",
+      "key": "iMaxAdrenalinePerkLevel",
+      "cpp": "Survival::iMaxAdrenalinePerkLevel",
+      "type": "int",
+      "default": 10,
+      "iniDefault": "10",
+      "ui": {
+        "page": "survival",
+        "group": "Adrenaline",
+        "label": "Max Adrenaline Rank",
+        "help": "Maximum Adrenaline perk rank. Vanilla 10.",
+        "control": "slider",
+        "order": 40,
+        "min": 1,
+        "max": 20,
+        "step": 1
+      }
+    },
+    {
+      "id": "fGameTimerIntervalEncumbrance:Survival",
+      "section": "Survival",
+      "key": "fGameTimerIntervalEncumbrance",
+      "cpp": "Survival::fGameTimerIntervalEncumbrance",
+      "type": "float",
+      "default": 24.0,
+      "iniDefault": "24.0",
+      "ui": {
+        "page": "survival",
+        "group": "Encumbrance",
+        "label": "Encumbrance Check Interval",
+        "help": "In-game hours between over-encumbrance damage ticks. Vanilla 24.",
+        "control": "slider",
+        "order": 41,
+        "min": 0.5,
+        "max": 168.0,
+        "step": 0.5
+      }
+    },
+    {
+      "id": "bSurvivalObserver:Diagnostic",
+      "section": "Diagnostic",
+      "key": "bSurvivalObserver",
+      "cpp": "Diagnostic::bSurvivalObserver",
+      "type": "bool",
+      "default": false,
+      "iniDefault": "0"
+    },
+    {
+      "id": "bSurvivalObserverActorValues:Diagnostic",
+      "section": "Diagnostic",
+      "key": "bSurvivalObserverActorValues",
+      "cpp": "Diagnostic::bSurvivalObserverActorValues",
+      "type": "bool",
+      "default": true,
+      "iniDefault": "1"
+    },
+    {
+      "id": "bSurvivalObserverActiveEffects:Diagnostic",
+      "section": "Diagnostic",
+      "key": "bSurvivalObserverActiveEffects",
+      "cpp": "Diagnostic::bSurvivalObserverActiveEffects",
+      "type": "bool",
+      "default": true,
+      "iniDefault": "1"
+    },
+    {
+      "id": "bSurvivalObserverLifecycle:Diagnostic",
+      "section": "Diagnostic",
+      "key": "bSurvivalObserverLifecycle",
+      "cpp": "Diagnostic::bSurvivalObserverLifecycle",
+      "type": "bool",
+      "default": true,
+      "iniDefault": "1"
+    },
+    {
+      "id": "sSurvivalObserverFilter:Diagnostic",
+      "section": "Diagnostic",
+      "key": "sSurvivalObserverFilter",
+      "cpp": "Diagnostic::sSurvivalObserverFilter",
+      "type": "string",
+      "default": "Hardcore,Survival,Hunger,Thirst,Sleep,Fatigue,Peckish,Weary,Parched,Dehydr,Starv",
+      "iniDefault": "Hardcore,Survival,Hunger,Thirst,Sleep,Fatigue,Peckish,Weary,Parched,Dehydr,Starv"
+    },
+    {
+      "id": "bSleepWaitObserver:Diagnostic",
+      "section": "Diagnostic",
+      "key": "bSleepWaitObserver",
+      "cpp": "Diagnostic::bSleepWaitObserver",
+      "type": "bool",
+      "default": false,
+      "iniDefault": "0"
+    },
+    {
+      "id": "bSleepWaitObserverLifecycle:Diagnostic",
+      "section": "Diagnostic",
+      "key": "bSleepWaitObserverLifecycle",
+      "cpp": "Diagnostic::bSleepWaitObserverLifecycle",
+      "type": "bool",
+      "default": true,
+      "iniDefault": "1"
+    },
+    {
+      "id": "bSleepWaitObserverSnapshots:Diagnostic",
+      "section": "Diagnostic",
+      "key": "bSleepWaitObserverSnapshots",
+      "cpp": "Diagnostic::bSleepWaitObserverSnapshots",
+      "type": "bool",
+      "default": true,
+      "iniDefault": "1"
+    },
+    {
+      "id": "bDumpOnLoad:Diagnostic",
+      "section": "Diagnostic",
+      "key": "bDumpOnLoad",
+      "cpp": "Diagnostic::bDumpOnLoad",
+      "type": "bool",
+      "default": false,
+      "iniDefault": "0"
+    },
+    {
+      "id": "bActorValueProbe:Diagnostic",
+      "section": "Diagnostic",
+      "key": "bActorValueProbe",
+      "cpp": "Diagnostic::bActorValueProbe",
+      "type": "bool",
+      "default": false,
+      "iniDefault": "0"
+    },
+    {
+      "id": "bActorValueProbePhaseA:Diagnostic",
+      "section": "Diagnostic",
+      "key": "bActorValueProbePhaseA",
+      "cpp": "Diagnostic::bActorValueProbePhaseA",
+      "type": "bool",
+      "default": true,
+      "iniDefault": "1"
+    },
+    {
+      "id": "bActorValueProbePhaseB:Diagnostic",
+      "section": "Diagnostic",
+      "key": "bActorValueProbePhaseB",
+      "cpp": "Diagnostic::bActorValueProbePhaseB",
+      "type": "bool",
+      "default": true,
+      "iniDefault": "1"
+    },
+    {
+      "id": "bActorValueProbeDFOBArray:Diagnostic",
+      "section": "Diagnostic",
+      "key": "bActorValueProbeDFOBArray",
+      "cpp": "Diagnostic::bActorValueProbeDFOBArray",
+      "type": "bool",
+      "default": false,
+      "iniDefault": "0"
+    },
+    {
+      "id": "bActorValueProbePlayerSnapshot:Diagnostic",
+      "section": "Diagnostic",
+      "key": "bActorValueProbePlayerSnapshot",
+      "cpp": "Diagnostic::bActorValueProbePlayerSnapshot",
+      "type": "bool",
+      "default": true,
+      "iniDefault": "1"
+    },
+    {
+      "id": "bActorValueProbeRerunOnPause:Diagnostic",
+      "section": "Diagnostic",
+      "key": "bActorValueProbeRerunOnPause",
+      "cpp": "Diagnostic::bActorValueProbeRerunOnPause",
+      "type": "bool",
+      "default": false,
+      "iniDefault": "0"
+    },
+    {
+      "id": "sActorValueProbeFilter:Diagnostic",
+      "section": "Diagnostic",
+      "key": "sActorValueProbeFilter",
+      "cpp": "Diagnostic::sActorValueProbeFilter",
+      "type": "string",
+      "default": "apRateMult,restoreAPRate,actionPoints,healRateMult,restoreHealthRate,combatHealthRegenMult,health,fatigueAPMax,fatigue",
+      "iniDefault": "apRateMult,restoreAPRate,actionPoints,healRateMult,restoreHealthRate,combatHealthRegenMult,health,fatigueAPMax,fatigue"
+    },
+    {
+      "id": "sDefaultObjectProbeFilter:Diagnostic",
+      "section": "Diagnostic",
+      "key": "sDefaultObjectProbeFilter",
+      "cpp": "Diagnostic::sDefaultObjectProbeFilter",
+      "type": "string",
+      "default": "ActionPoint,APRate,HealRate,Regen,Hardcore,Combat",
+      "iniDefault": "ActionPoint,APRate,HealRate,Regen,Hardcore,Combat"
+    },
+    {
+      "id": "bHCManagerProbe:Diagnostic",
+      "section": "Diagnostic",
+      "key": "bHCManagerProbe",
+      "cpp": "Diagnostic::bHCManagerProbe",
+      "type": "bool",
+      "default": false,
+      "iniDefault": "0"
+    },
+    {
+      "id": "bHCManagerProbeRerunOnPause:Diagnostic",
+      "section": "Diagnostic",
+      "key": "bHCManagerProbeRerunOnPause",
+      "cpp": "Diagnostic::bHCManagerProbeRerunOnPause",
+      "type": "bool",
+      "default": false,
+      "iniDefault": "0"
+    },
+    {
+      "id": "sHCManagerProbeFilter:Diagnostic",
+      "section": "Diagnostic",
+      "key": "sHCManagerProbeFilter",
+      "cpp": "Diagnostic::sHCManagerProbeFilter",
+      "type": "string",
+      "default": "bHardcoreIsRunning,FoodCostPerTick,DrinkCostPerTick,GameTimerInterval_SleepDeprivation,GameTimerInterval_Sustenance,GamesHoursPerTick,BonusDigestionHours,SustenanceTickWhileSleepingMult,TickHoursCostPerCombat,FoodPool,FoodReqs,DrinkPool,DrinkReqs,NextSustenanceTickDay,LastSleepUpdateDay,NextSleepUpdateDay,ProcessingSleep,bFirstSleep,HC_Rule_SustenanceEffects,HC_Rule_SleepEffects,HC_HungerEffect,HC_ThirstEffect,HC_SleepEffect",
+      "iniDefault": "bHardcoreIsRunning,FoodCostPerTick,DrinkCostPerTick,GameTimerInterval_SleepDeprivation,GameTimerInterval_Sustenance,GamesHoursPerTick,BonusDigestionHours,SustenanceTickWhileSleepingMult,TickHoursCostPerCombat,FoodPool,FoodReqs,DrinkPool,DrinkReqs,NextSustenanceTickDay,LastSleepUpdateDay,NextSleepUpdateDay,ProcessingSleep,bFirstSleep,HC_Rule_SustenanceEffects,HC_Rule_SleepEffects,HC_HungerEffect,HC_ThirstEffect,HC_SleepEffect"
+    },
+    {
+      "id": "bMagnitudesTrace:Diagnostic",
+      "section": "Diagnostic",
+      "key": "bMagnitudesTrace",
+      "cpp": "Diagnostic::bMagnitudesTrace",
+      "type": "bool",
+      "default": false,
+      "iniDefault": "0"
+    },
+    {
+      "id": "bMagnitudesTraceDeltaOnly:Diagnostic",
+      "section": "Diagnostic",
+      "key": "bMagnitudesTraceDeltaOnly",
+      "cpp": "Diagnostic::bMagnitudesTraceDeltaOnly",
+      "type": "bool",
+      "default": true,
+      "iniDefault": "1"
+    },
+    {
+      "id": "bMagnitudesAlwaysSummarize:Diagnostic",
+      "section": "Diagnostic",
+      "key": "bMagnitudesAlwaysSummarize",
+      "cpp": "Diagnostic::bMagnitudesAlwaysSummarize",
+      "type": "bool",
+      "default": false,
+      "iniDefault": "0"
+    },
+    {
+      "id": "bDifficultyTrace:Diagnostic",
+      "section": "Diagnostic",
+      "key": "bDifficultyTrace",
+      "cpp": "Diagnostic::bDifficultyTrace",
+      "type": "bool",
+      "default": false,
+      "iniDefault": "0"
+    },
+    {
+      "id": "bGameSettingsTrace:Diagnostic",
+      "section": "Diagnostic",
+      "key": "bGameSettingsTrace",
+      "cpp": "Diagnostic::bGameSettingsTrace",
+      "type": "bool",
+      "default": false,
+      "iniDefault": "0"
+    },
+    {
+      "id": "iLogLevel:Diagnostic",
+      "section": "Diagnostic",
+      "key": "iLogLevel",
+      "cpp": "Diagnostic::iLogLevel",
+      "type": "int",
+      "default": 1,
+      "iniDefault": "1",
+      "ui": {
+        "page": "general",
+        "group": "Diagnostics",
+        "label": "Log Level",
+        "help": "Controls House Rules log verbosity. Normal is recommended.",
+        "control": "stepper",
+        "order": 1,
+        "options": [
+          "Quiet",
+          "Normal",
+          "Verbose",
+          "Trace"
+        ]
+      }
+    },
+    {
+      "id": "sLogLevel:Diagnostic",
+      "section": "Diagnostic",
+      "key": "sLogLevel",
+      "cpp": "Diagnostic::sLogLevel",
+      "type": "string",
+      "default": "Normal",
+      "iniDefault": "Normal"
+    },
+    {
+      "id": "bValidationAudit:Diagnostic",
+      "section": "Diagnostic",
+      "key": "bValidationAudit",
+      "cpp": "Diagnostic::bValidationAudit",
+      "type": "bool",
+      "default": false,
+      "iniDefault": "0"
+    },
+    {
+      "id": "sValidationAuditMode:Diagnostic",
+      "section": "Diagnostic",
+      "key": "sValidationAuditMode",
+      "cpp": "Diagnostic::sValidationAuditMode",
+      "type": "string",
+      "default": "Summary",
+      "iniDefault": "Summary"
+    },
+    {
+      "id": "sDumpFilter:Diagnostic",
+      "section": "Diagnostic",
+      "key": "sDumpFilter",
+      "cpp": "Diagnostic::sDumpFilter",
+      "type": "string",
+      "default": "Hardcore,Survival,Hunger,Thirst,Sleep,Fatigue,Stimpak,RadAway,RadX,Peckish,Weary,Parched,Dehydr,Starv",
+      "iniDefault": "Hardcore,Survival,Hunger,Thirst,Sleep,Fatigue,Stimpak,RadAway,RadX,Peckish,Weary,Parched,Dehydr,Starv"
+    }
+  ]
+}

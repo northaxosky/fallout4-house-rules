@@ -1,0 +1,3325 @@
+{
+  "$schema": "https://raw.githubusercontent.com/Neanka/mcm/master/doc/mcm.schema.json",
+  "minMcmVersion": 2,
+  "modName": "HouseRules",
+  "displayName": "House Rules",
+  "pluginRequirements": [],
+  "content": [
+    {
+      "text": "<font size='30'><p align='center'>House Rules</p></font>",
+      "html": true,
+      "type": "text"
+    },
+    {
+      "text": "",
+      "type": "section"
+    },
+    {
+      "text": "<font color='#AAAAAA'><p align='center'>Tune high-impact vanilla Fallout 4 systems through one MCM: combat, character, economy, progression, perks, settlements, companions, and Survival mechanics.</p></font>",
+      "html": true,
+      "type": "text"
+    },
+    {
+      "type": "image",
+      "libName": "HouseRules",
+      "className": "s1"
+    },
+    {
+      "type": "spacer"
+    },
+    {
+      "text": "General",
+      "type": "section"
+    },
+    {
+      "id": "bEnabled:General",
+      "text": "Enable Plugin",
+      "type": "switcher",
+      "help": "Master switch for gameplay tweaks. Diagnostics can still run while disabled.",
+      "valueOptions": {
+        "sourceType": "ModSettingBool"
+      }
+    },
+    {
+      "type": "spacer"
+    },
+    {
+      "text": "Diagnostics",
+      "type": "section"
+    },
+    {
+      "id": "iLogLevel:Diagnostic",
+      "text": "Log Level",
+      "type": "stepper",
+      "help": "Controls House Rules log verbosity. Normal is recommended.",
+      "valueOptions": {
+        "sourceType": "ModSettingInt",
+        "options": [
+          "Quiet",
+          "Normal",
+          "Verbose",
+          "Trace"
+        ]
+      }
+    }
+  ],
+  "pages": [
+    {
+      "pageDisplayName": "Survival Unlocks",
+      "content": [
+        {
+          "text": "<font size='24'><p align='center'>Survival Unlocks</p></font>",
+          "html": true,
+          "type": "text"
+        },
+        {
+          "text": "<font color='#AAAAAA'><p align='center'>Each toggle: OFF mirrors vanilla Survival, ON applies the tweak.</p></font>",
+          "html": true,
+          "type": "text"
+        },
+        {
+          "type": "spacer"
+        },
+        {
+          "text": "Menus & Saves",
+          "type": "section"
+        },
+        {
+          "id": "bConsole:Unlocks",
+          "text": "Allow Console",
+          "type": "switcher",
+          "help": "ON re-enables the developer console while in Survival.",
+          "valueOptions": {
+            "sourceType": "ModSettingBool"
+          }
+        },
+        {
+          "id": "bSaveSelf:Unlocks",
+          "text": "Allow Manual Saves",
+          "type": "switcher",
+          "help": "ON allows pause-menu saves and F5 quicksave in Survival.",
+          "valueOptions": {
+            "sourceType": "ModSettingBool"
+          }
+        },
+        {
+          "id": "bSaveAuto:Unlocks",
+          "text": "Allow Auto-Saves",
+          "type": "switcher",
+          "help": "ON allows queued vanilla auto-saves in Survival.",
+          "valueOptions": {
+            "sourceType": "ModSettingBool"
+          }
+        },
+        {
+          "type": "spacer"
+        },
+        {
+          "text": "Travel & Exploration",
+          "type": "section"
+        },
+        {
+          "id": "bFastTravel:Unlocks",
+          "text": "Allow Fast Travel",
+          "type": "switcher",
+          "help": "ON allows Pip-Boy fast travel in Survival. Fast-travel loads get targeted protection.",
+          "valueOptions": {
+            "sourceType": "ModSettingBool"
+          }
+        },
+        {
+          "id": "bCompassEnemies:Unlocks",
+          "text": "Show Enemies on Compass",
+          "type": "switcher",
+          "help": "ON restores vanilla red-dot enemy markers on the compass.",
+          "valueOptions": {
+            "sourceType": "ModSettingBool"
+          }
+        },
+        {
+          "id": "bCompassLocations:Unlocks",
+          "text": "Show Locations on Compass",
+          "type": "switcher",
+          "help": "ON restores vanilla undiscovered-location markers on the compass.",
+          "valueOptions": {
+            "sourceType": "ModSettingBool"
+          }
+        },
+        {
+          "type": "spacer"
+        },
+        {
+          "text": "Weight & Difficulty",
+          "type": "section"
+        },
+        {
+          "id": "bNoAlchWeight:Unlocks",
+          "text": "Remove Chem/Aid Weight",
+          "type": "switcher",
+          "help": "ON strips Survival's added weight from consumables (chems, stimpaks, food).",
+          "valueOptions": {
+            "sourceType": "ModSettingBool"
+          }
+        },
+        {
+          "id": "bNoAmmoWeight:Unlocks",
+          "text": "Remove Ammo Weight",
+          "type": "switcher",
+          "help": "ON strips Survival's added weight from ammunition.",
+          "valueOptions": {
+            "sourceType": "ModSettingBool"
+          }
+        },
+        {
+          "id": "bNoSurvivalCarryWeight:Unlocks",
+          "text": "Remove Survival Carry-Weight Penalty",
+          "type": "switcher",
+          "help": "ON neutralizes Survival's -100 carry-weight ability for player and companions. Save and reload after toggling for the change to take effect on already-applied characters.",
+          "valueOptions": {
+            "sourceType": "ModSettingBool"
+          }
+        },
+        {
+          "id": "bGodMode:Unlocks",
+          "text": "Allow God Mode",
+          "type": "switcher",
+          "help": "ON lets tgm and tim console cheats work in Survival.",
+          "valueOptions": {
+            "sourceType": "ModSettingBool"
+          }
+        },
+        {
+          "id": "bReenableSurvival:Unlocks",
+          "text": "Allow Re-entering Survival",
+          "type": "switcher",
+          "help": "ON lets you turn Survival back on after leaving it.",
+          "valueOptions": {
+            "sourceType": "ModSettingBool"
+          }
+        },
+        {
+          "id": "bKeepExitSave:Unlocks",
+          "text": "Keep Exit Save",
+          "type": "switcher",
+          "help": "ON keeps the exit save on load. Toggle OFF to delete it from the load menu.",
+          "valueOptions": {
+            "sourceType": "ModSettingBool"
+          }
+        }
+      ]
+    },
+    {
+      "pageDisplayName": "Survival",
+      "content": [
+        {
+          "text": "<font size='24'><p align='center'>Survival</p></font>",
+          "html": true,
+          "type": "text"
+        },
+        {
+          "text": "<font color='#AAAAAA'><p align='center'>Toggles for the vanilla Survival hardcore-rule systems (food/water and sleep deprivation). Save and reload after toggling so the script picks up the new state immediately; otherwise the change takes effect on the next in-game tick (within a few in-game minutes).</p></font>",
+          "html": true,
+          "type": "text"
+        },
+        {
+          "type": "spacer"
+        },
+        {
+          "text": "Hardcore Rules",
+          "type": "section"
+        },
+        {
+          "id": "bDisableSustenance:Survival",
+          "text": "Disable Hunger and Thirst",
+          "type": "switcher",
+          "help": "ON disables the food and water need system. Stages no longer accumulate or apply. Survival difficulty stays active otherwise.",
+          "valueOptions": {
+            "sourceType": "ModSettingBool"
+          }
+        },
+        {
+          "id": "bDisableSleepDeprivation:Survival",
+          "text": "Disable Sleep Deprivation",
+          "type": "switcher",
+          "help": "ON disables the sleep deprivation system. Sleep timer no longer accumulates and stages no longer apply. Survival difficulty stays active otherwise.",
+          "valueOptions": {
+            "sourceType": "ModSettingBool"
+          }
+        },
+        {
+          "id": "bDisableDiseases:Survival",
+          "text": "Disable Diseases",
+          "type": "switcher",
+          "help": "ON disables the Survival disease system. Risk events no longer roll and disease effects no longer apply. Survival difficulty stays active otherwise.",
+          "valueOptions": {
+            "sourceType": "ModSettingBool"
+          }
+        },
+        {
+          "id": "bDisableAdrenaline:Survival",
+          "text": "Disable Adrenaline",
+          "type": "switcher",
+          "help": "ON disables the Survival Adrenaline perk system. Kill streaks no longer build the Adrenaline rank, and the perk's damage bonus no longer applies. Survival difficulty stays active otherwise.",
+          "valueOptions": {
+            "sourceType": "ModSettingBool"
+          }
+        },
+        {
+          "type": "spacer"
+        },
+        {
+          "text": "Sustenance Tuning",
+          "type": "section"
+        },
+        {
+          "id": "iFoodCostPerTick:Survival",
+          "text": "Food Cost Per Tick",
+          "type": "slider",
+          "help": "How much the food pool decreases each tick. Lower = needs accumulate slower. Vanilla 4.",
+          "valueOptions": {
+            "min": 0,
+            "max": 20,
+            "step": 1,
+            "sourceType": "ModSettingInt"
+          }
+        },
+        {
+          "id": "iDrinkCostPerTick:Survival",
+          "text": "Drink Cost Per Tick",
+          "type": "slider",
+          "help": "How much the drink pool decreases each tick. Lower = needs accumulate slower. Vanilla 4.",
+          "valueOptions": {
+            "min": 0,
+            "max": 20,
+            "step": 1,
+            "sourceType": "ModSettingInt"
+          }
+        },
+        {
+          "id": "fGamesHoursPerTick:Survival",
+          "text": "Game Hours Per Tick",
+          "type": "slider",
+          "help": "How many in-game hours between sustenance ticks. Higher = needs accumulate slower. Vanilla 1.0.",
+          "valueOptions": {
+            "min": 0.1,
+            "max": 24.0,
+            "step": 0.1,
+            "sourceType": "ModSettingFloat"
+          }
+        },
+        {
+          "id": "fBonusDigestionHours:Survival",
+          "text": "Bonus Digestion Hours",
+          "type": "slider",
+          "help": "Protected window after eating during which no further need accumulates. Vanilla 1.0.",
+          "valueOptions": {
+            "min": 0.0,
+            "max": 24.0,
+            "step": 0.1,
+            "sourceType": "ModSettingFloat"
+          }
+        },
+        {
+          "id": "fSustenanceTickWhileSleepingMult:Survival",
+          "text": "Tick Multiplier While Sleeping",
+          "type": "slider",
+          "help": "Multiplier on sustenance accrual while asleep. Vanilla 0.25 (sleep slows need accumulation).",
+          "valueOptions": {
+            "min": 0.0,
+            "max": 5.0,
+            "step": 0.05,
+            "sourceType": "ModSettingFloat"
+          }
+        },
+        {
+          "id": "fTickHoursCostPerCombat:Survival",
+          "text": "Extra Hours Per Combat",
+          "type": "slider",
+          "help": "Extra in-game hours added to the sustenance tick during combat. Higher = combat makes you hungrier/thirstier faster. Vanilla 0.25.",
+          "valueOptions": {
+            "min": 0.0,
+            "max": 5.0,
+            "step": 0.05,
+            "sourceType": "ModSettingFloat"
+          }
+        },
+        {
+          "type": "spacer"
+        },
+        {
+          "text": "Food Stage Thresholds",
+          "type": "section"
+        },
+        {
+          "id": "iFoodPoolPeckishAmount:Survival",
+          "text": "Peckish At",
+          "type": "slider",
+          "help": "Food pool value where the Peckish stage triggers. Lower (more negative) = later onset. Vanilla -24.",
+          "valueOptions": {
+            "min": -1000,
+            "max": 0,
+            "step": 1,
+            "sourceType": "ModSettingInt"
+          }
+        },
+        {
+          "id": "iFoodPoolHungryAmount:Survival",
+          "text": "Hungry At",
+          "type": "slider",
+          "help": "Food pool value where the Hungry stage triggers. Vanilla -48.",
+          "valueOptions": {
+            "min": -1000,
+            "max": 0,
+            "step": 1,
+            "sourceType": "ModSettingInt"
+          }
+        },
+        {
+          "id": "iFoodPoolFamishedAmount:Survival",
+          "text": "Famished At",
+          "type": "slider",
+          "help": "Food pool value where the Famished stage triggers. Vanilla -96.",
+          "valueOptions": {
+            "min": -2000,
+            "max": 0,
+            "step": 1,
+            "sourceType": "ModSettingInt"
+          }
+        },
+        {
+          "id": "iFoodPoolRavenousAmount:Survival",
+          "text": "Ravenous At",
+          "type": "slider",
+          "help": "Food pool value where the Ravenous stage triggers. Vanilla -144.",
+          "valueOptions": {
+            "min": -2000,
+            "max": 0,
+            "step": 1,
+            "sourceType": "ModSettingInt"
+          }
+        },
+        {
+          "id": "iFoodPoolStarvingAmount:Survival",
+          "text": "Starving At",
+          "type": "slider",
+          "help": "Food pool value where the Starving stage triggers. Vanilla -256.",
+          "valueOptions": {
+            "min": -5000,
+            "max": 0,
+            "step": 1,
+            "sourceType": "ModSettingInt"
+          }
+        },
+        {
+          "type": "spacer"
+        },
+        {
+          "text": "Drink Stage Thresholds",
+          "type": "section"
+        },
+        {
+          "id": "iDrinkPoolParchedAmount:Survival",
+          "text": "Parched At",
+          "type": "slider",
+          "help": "Drink pool value where the Parched stage triggers. Vanilla -16.",
+          "valueOptions": {
+            "min": -1000,
+            "max": 0,
+            "step": 1,
+            "sourceType": "ModSettingInt"
+          }
+        },
+        {
+          "id": "iDrinkPoolThirstyAmount:Survival",
+          "text": "Thirsty At",
+          "type": "slider",
+          "help": "Drink pool value where the Thirsty stage triggers. Vanilla -36.",
+          "valueOptions": {
+            "min": -1000,
+            "max": 0,
+            "step": 1,
+            "sourceType": "ModSettingInt"
+          }
+        },
+        {
+          "id": "iDrinkPoolMildlyDehydratedAmount:Survival",
+          "text": "Mildly Dehydrated At",
+          "type": "slider",
+          "help": "Drink pool value where the Mildly Dehydrated stage triggers. Vanilla -72.",
+          "valueOptions": {
+            "min": -2000,
+            "max": 0,
+            "step": 1,
+            "sourceType": "ModSettingInt"
+          }
+        },
+        {
+          "id": "iDrinkPoolDehydratedAmount:Survival",
+          "text": "Dehydrated At",
+          "type": "slider",
+          "help": "Drink pool value where the Dehydrated stage triggers. Vanilla -120.",
+          "valueOptions": {
+            "min": -2000,
+            "max": 0,
+            "step": 1,
+            "sourceType": "ModSettingInt"
+          }
+        },
+        {
+          "id": "iDrinkPoolSeverelyDehydratedAmount:Survival",
+          "text": "Severely Dehydrated At",
+          "type": "slider",
+          "help": "Drink pool value where the Severely Dehydrated stage triggers. Vanilla -180.",
+          "valueOptions": {
+            "min": -5000,
+            "max": 0,
+            "step": 1,
+            "sourceType": "ModSettingInt"
+          }
+        },
+        {
+          "type": "spacer"
+        },
+        {
+          "text": "Sleep Tuning",
+          "type": "section"
+        },
+        {
+          "id": "fGameTimerIntervalSleepDeprivation:Survival",
+          "text": "Sleep Deprivation Interval",
+          "type": "slider",
+          "help": "In-game hours between sleep-deprivation checks. Higher = sleep stages progress slower. Vanilla 14.",
+          "valueOptions": {
+            "min": 0.5,
+            "max": 96.0,
+            "step": 0.5,
+            "sourceType": "ModSettingFloat"
+          }
+        },
+        {
+          "id": "fInsomniaSleepMult:Survival",
+          "text": "Insomnia Sleep Multiplier",
+          "type": "slider",
+          "help": "Multiplier on sleep recovery when the Insomnia disease is active. Vanilla 0.5.",
+          "valueOptions": {
+            "min": 0.0,
+            "max": 5.0,
+            "step": 0.05,
+            "sourceType": "ModSettingFloat"
+          }
+        },
+        {
+          "id": "iMinHoursForCuringSleepEffects:Survival",
+          "text": "Minimum Hours to Cure Sleep",
+          "type": "slider",
+          "help": "Minimum in-game hours of sleep needed to cure any sleep stage effects. Vanilla 2.",
+          "valueOptions": {
+            "min": 1,
+            "max": 24,
+            "step": 1,
+            "sourceType": "ModSettingInt"
+          }
+        },
+        {
+          "id": "fCaffeineInducedSleepDelay:Survival",
+          "text": "Caffeine Sleep Delay",
+          "type": "slider",
+          "help": "Hours of sleep delay imposed after consuming a caffeinated item. Vanilla 2.333.",
+          "valueOptions": {
+            "min": 0.0,
+            "max": 24.0,
+            "step": 0.1,
+            "sourceType": "ModSettingFloat"
+          }
+        },
+        {
+          "id": "fExtraCaffeineInducedSleepDelay:Survival",
+          "text": "Extra Caffeine Sleep Delay",
+          "type": "slider",
+          "help": "Additional sleep-delay hours stacked for repeated caffeine use. Vanilla 7.",
+          "valueOptions": {
+            "min": 0.0,
+            "max": 24.0,
+            "step": 0.1,
+            "sourceType": "ModSettingFloat"
+          }
+        },
+        {
+          "id": "fDiseasedSleepinessTimerMult:Survival",
+          "text": "Sleepiness Disease Timer Mult",
+          "type": "slider",
+          "help": "Multiplier on sleep-deprivation timer when Sleepiness disease is active. Lower = sleep stages progress faster while diseased. Vanilla 0.5.",
+          "valueOptions": {
+            "min": 0.0,
+            "max": 5.0,
+            "step": 0.05,
+            "sourceType": "ModSettingFloat"
+          }
+        },
+        {
+          "type": "spacer"
+        },
+        {
+          "text": "Disease Tuning",
+          "type": "section"
+        },
+        {
+          "id": "fDiseaseRiskRollThreshold:Survival",
+          "text": "Disease Risk Threshold",
+          "type": "slider",
+          "help": "Risk pool value above which a disease roll is made. Higher = diseases trigger less often. Vanilla 0.25.",
+          "valueOptions": {
+            "min": 0.0,
+            "max": 1.0,
+            "step": 0.01,
+            "sourceType": "ModSettingFloat"
+          }
+        },
+        {
+          "id": "fDiseaseGracePeriod:Survival",
+          "text": "Disease Grace Period",
+          "type": "slider",
+          "help": "In-game days after the last disease before another can trigger. Vanilla 1.0.",
+          "valueOptions": {
+            "min": 0.0,
+            "max": 30.0,
+            "step": 0.5,
+            "sourceType": "ModSettingFloat"
+          }
+        },
+        {
+          "id": "fDiseaseRiskDrainPerCycle:Survival",
+          "text": "Disease Risk Drain Per Cycle",
+          "type": "slider",
+          "help": "Passive disease-risk drain per cycle when no risk events fire. Vanilla -0.01 (negative drains pool).",
+          "valueOptions": {
+            "min": -0.5,
+            "max": 0.5,
+            "step": 0.005,
+            "sourceType": "ModSettingFloat"
+          }
+        },
+        {
+          "id": "fCurrentDiseasePoolValueMult:Survival",
+          "text": "Disease Pool Value Mult",
+          "type": "slider",
+          "help": "Multiplier on the disease pool's current value. Vanilla 1.75.",
+          "valueOptions": {
+            "min": 0.0,
+            "max": 5.0,
+            "step": 0.05,
+            "sourceType": "ModSettingFloat"
+          }
+        },
+        {
+          "id": "fDiseaseNeedMoreFoodMult:Survival",
+          "text": "Need More Food Multiplier",
+          "type": "slider",
+          "help": "Sustenance-cost multiplier when the Need More Food disease is active. Vanilla 0.5.",
+          "valueOptions": {
+            "min": 0.0,
+            "max": 5.0,
+            "step": 0.05,
+            "sourceType": "ModSettingFloat"
+          }
+        },
+        {
+          "id": "fImmunodeficiencyDiseaseMult:Survival",
+          "text": "Immunodeficiency Mult",
+          "type": "slider",
+          "help": "Disease-chance multiplier when Immunodeficiency is active. Vanilla 1.2.",
+          "valueOptions": {
+            "min": 0.0,
+            "max": 5.0,
+            "step": 0.05,
+            "sourceType": "ModSettingFloat"
+          }
+        },
+        {
+          "id": "fDiseaseRiskCannibalAmount:Survival",
+          "text": "Risk: Cannibalism",
+          "type": "slider",
+          "help": "Risk pool gain per cannibalism event. Vanilla 0.05.",
+          "valueOptions": {
+            "min": 0.0,
+            "max": 1.0,
+            "step": 0.005,
+            "sourceType": "ModSettingFloat"
+          }
+        },
+        {
+          "id": "fDiseaseRiskChemsAmount:Survival",
+          "text": "Risk: Chems",
+          "type": "slider",
+          "help": "Risk pool gain per chem use. Vanilla 0.07.",
+          "valueOptions": {
+            "min": 0.0,
+            "max": 1.0,
+            "step": 0.005,
+            "sourceType": "ModSettingFloat"
+          }
+        },
+        {
+          "id": "fDiseaseRiskCombatantAmount:Survival",
+          "text": "Risk: Combat",
+          "type": "slider",
+          "help": "Risk pool gain from combat exposure to disease-carrying enemies. Vanilla 0.05.",
+          "valueOptions": {
+            "min": 0.0,
+            "max": 1.0,
+            "step": 0.005,
+            "sourceType": "ModSettingFloat"
+          }
+        },
+        {
+          "id": "fDiseaseRiskFoodHighAmount:Survival",
+          "text": "Risk: Risky Food",
+          "type": "slider",
+          "help": "Risk pool gain from high-risk food (raw, irradiated, etc.). Vanilla 0.12.",
+          "valueOptions": {
+            "min": 0.0,
+            "max": 1.0,
+            "step": 0.005,
+            "sourceType": "ModSettingFloat"
+          }
+        },
+        {
+          "id": "fDiseaseRiskFoodStandardAmount:Survival",
+          "text": "Risk: Standard Food",
+          "type": "slider",
+          "help": "Risk pool gain from standard food. Vanilla 0.07.",
+          "valueOptions": {
+            "min": 0.0,
+            "max": 1.0,
+            "step": 0.005,
+            "sourceType": "ModSettingFloat"
+          }
+        },
+        {
+          "id": "fDiseaseRiskRainAmount:Survival",
+          "text": "Risk: Rain Exposure",
+          "type": "slider",
+          "help": "Risk pool gain from being out in radioactive rain. Vanilla 0.03.",
+          "valueOptions": {
+            "min": 0.0,
+            "max": 1.0,
+            "step": 0.005,
+            "sourceType": "ModSettingFloat"
+          }
+        },
+        {
+          "id": "fDiseaseRiskSwimmingAmount:Survival",
+          "text": "Risk: Swimming",
+          "type": "slider",
+          "help": "Risk pool gain from swimming. Vanilla 0.03.",
+          "valueOptions": {
+            "min": 0.0,
+            "max": 1.0,
+            "step": 0.005,
+            "sourceType": "ModSettingFloat"
+          }
+        },
+        {
+          "type": "spacer"
+        },
+        {
+          "text": "Adrenaline",
+          "type": "section"
+        },
+        {
+          "id": "iKillsForAdrenalinePerkLevel:Survival",
+          "text": "Kills Per Perk Rank",
+          "type": "slider",
+          "help": "Kills needed to advance one Adrenaline perk rank. Vanilla 5.",
+          "valueOptions": {
+            "min": 1,
+            "max": 50,
+            "step": 1,
+            "sourceType": "ModSettingInt"
+          }
+        },
+        {
+          "id": "iMaxAdrenalinePerkLevel:Survival",
+          "text": "Max Adrenaline Rank",
+          "type": "slider",
+          "help": "Maximum Adrenaline perk rank. Vanilla 10.",
+          "valueOptions": {
+            "min": 1,
+            "max": 20,
+            "step": 1,
+            "sourceType": "ModSettingInt"
+          }
+        },
+        {
+          "type": "spacer"
+        },
+        {
+          "text": "Encumbrance",
+          "type": "section"
+        },
+        {
+          "id": "fGameTimerIntervalEncumbrance:Survival",
+          "text": "Encumbrance Check Interval",
+          "type": "slider",
+          "help": "In-game hours between over-encumbrance damage ticks. Vanilla 24.",
+          "valueOptions": {
+            "min": 0.5,
+            "max": 168.0,
+            "step": 0.5,
+            "sourceType": "ModSettingFloat"
+          }
+        }
+      ]
+    },
+    {
+      "pageDisplayName": "Magnitudes",
+      "content": [
+        {
+          "text": "<font size='24'><p align='center'>Magnitude Scalers</p></font>",
+          "html": true,
+          "type": "text"
+        },
+        {
+          "text": "<font color='#AAAAAA'><p align='center'>Implemented sliders multiply proven vanilla magnitudes. 1.00 = vanilla; see each setting for caveats.</p></font>",
+          "html": true,
+          "type": "text"
+        },
+        {
+          "type": "spacer"
+        },
+        {
+          "text": "Consumables",
+          "type": "section"
+        },
+        {
+          "id": "fStimpakHeal:Magnitudes",
+          "text": "Stimpak Healing",
+          "type": "slider",
+          "help": "Scales the HP restored per stimpak. Vanilla magnitude is 6 HP/sec over 5s.",
+          "valueOptions": {
+            "min": 0.0,
+            "max": 5.0,
+            "step": 0.1,
+            "sourceType": "ModSettingFloat"
+          }
+        },
+        {
+          "id": "fStimpakLimbRepair:Magnitudes",
+          "text": "Stimpak Limb Repair",
+          "type": "slider",
+          "help": "Scales limb repair from stimpaks. Values above 1.0 are clamped by vanilla.",
+          "valueOptions": {
+            "min": 0.0,
+            "max": 1.0,
+            "step": 0.1,
+            "sourceType": "ModSettingFloat"
+          }
+        },
+        {
+          "id": "fRadAwayStrength:Magnitudes",
+          "text": "RadAway Removal",
+          "type": "slider",
+          "help": "Scales the rads removed per RadAway. Vanilla magnitude is 60.",
+          "valueOptions": {
+            "min": 0.0,
+            "max": 5.0,
+            "step": 0.1,
+            "sourceType": "ModSettingFloat"
+          }
+        },
+        {
+          "id": "fRadXPotency:Magnitudes",
+          "text": "RadX Protection",
+          "type": "slider",
+          "help": "Scales the rad resistance granted by RadX. Vanilla magnitude is 100 over 180s.",
+          "valueOptions": {
+            "min": 0.0,
+            "max": 5.0,
+            "step": 0.1,
+            "sourceType": "ModSettingFloat"
+          }
+        },
+        {
+          "id": "fFoodHeal:Magnitudes",
+          "text": "Food / Drink Healing",
+          "type": "slider",
+          "help": "Scales HP restored by food and drink. Tooltips may cache old values.",
+          "valueOptions": {
+            "min": 0.0,
+            "max": 5.0,
+            "step": 0.1,
+            "sourceType": "ModSettingFloat"
+          }
+        },
+        {
+          "type": "spacer"
+        },
+        {
+          "text": "Survival Stage Penalties",
+          "type": "section"
+        },
+        {
+          "id": "fHungerPenalty:Magnitudes",
+          "text": "Hunger Penalty Severity",
+          "type": "slider",
+          "help": "Scales the SPECIAL penalties at each hunger tier (Peckish through Starving).",
+          "valueOptions": {
+            "min": 0,
+            "max": 5,
+            "step": 1,
+            "sourceType": "ModSettingFloat"
+          }
+        },
+        {
+          "id": "fThirstPenalty:Magnitudes",
+          "text": "Thirst Penalty Severity",
+          "type": "slider",
+          "help": "Scales the SPECIAL penalties at each thirst tier (Thirsty through Severely Dehydrated).",
+          "valueOptions": {
+            "min": 0,
+            "max": 5,
+            "step": 1,
+            "sourceType": "ModSettingFloat"
+          }
+        },
+        {
+          "id": "fSleepPenalty:Magnitudes",
+          "text": "Sleep Penalty Severity",
+          "type": "slider",
+          "help": "Scales the AP-regen and SPECIAL penalties at each sleep tier (Tired through Incapacitated).",
+          "valueOptions": {
+            "min": 0,
+            "max": 5,
+            "step": 1,
+            "sourceType": "ModSettingFloat"
+          }
+        }
+      ]
+    },
+    {
+      "pageDisplayName": "Difficulty",
+      "content": [
+        {
+          "text": "<font size='24'><p align='center'>Difficulty Multipliers</p></font>",
+          "html": true,
+          "type": "text"
+        },
+        {
+          "text": "<font color='#AAAAAA'><p align='center'>Per-difficulty multipliers applied as baseline * value. 1.00 = vanilla. Survival here is the current TSV difficulty.</p></font>",
+          "html": true,
+          "type": "text"
+        },
+        {
+          "type": "spacer"
+        },
+        {
+          "text": "Damage Taken",
+          "type": "section"
+        },
+        {
+          "id": "fIncomingDamageVeryEasy:Difficulty",
+          "text": "Incoming Damage (Very Easy)",
+          "type": "slider",
+          "help": "Multiplies damage you take on Very Easy. 1.00 = vanilla.",
+          "valueOptions": {
+            "min": 0.0,
+            "max": 5.0,
+            "step": 0.05,
+            "sourceType": "ModSettingFloat"
+          }
+        },
+        {
+          "id": "fIncomingDamageEasy:Difficulty",
+          "text": "Incoming Damage (Easy)",
+          "type": "slider",
+          "help": "Multiplies damage you take on Easy. 1.00 = vanilla.",
+          "valueOptions": {
+            "min": 0.0,
+            "max": 5.0,
+            "step": 0.05,
+            "sourceType": "ModSettingFloat"
+          }
+        },
+        {
+          "id": "fIncomingDamageNormal:Difficulty",
+          "text": "Incoming Damage (Normal)",
+          "type": "slider",
+          "help": "Multiplies damage you take on Normal. 1.00 = vanilla.",
+          "valueOptions": {
+            "min": 0.0,
+            "max": 5.0,
+            "step": 0.05,
+            "sourceType": "ModSettingFloat"
+          }
+        },
+        {
+          "id": "fIncomingDamageHard:Difficulty",
+          "text": "Incoming Damage (Hard)",
+          "type": "slider",
+          "help": "Multiplies damage you take on Hard. 1.00 = vanilla.",
+          "valueOptions": {
+            "min": 0.0,
+            "max": 5.0,
+            "step": 0.05,
+            "sourceType": "ModSettingFloat"
+          }
+        },
+        {
+          "id": "fIncomingDamageVeryHard:Difficulty",
+          "text": "Incoming Damage (Very Hard)",
+          "type": "slider",
+          "help": "Multiplies damage you take on Very Hard. 1.00 = vanilla.",
+          "valueOptions": {
+            "min": 0.0,
+            "max": 5.0,
+            "step": 0.05,
+            "sourceType": "ModSettingFloat"
+          }
+        },
+        {
+          "id": "fIncomingDamageSurvival:Difficulty",
+          "text": "Incoming Damage (Survival)",
+          "type": "slider",
+          "help": "Multiplies damage you take on Survival. 1.00 = vanilla.",
+          "valueOptions": {
+            "min": 0.0,
+            "max": 5.0,
+            "step": 0.05,
+            "sourceType": "ModSettingFloat"
+          }
+        },
+        {
+          "type": "spacer"
+        },
+        {
+          "text": "Damage Done",
+          "type": "section"
+        },
+        {
+          "id": "fOutgoingDamageVeryEasy:Difficulty",
+          "text": "Outgoing Damage (Very Easy)",
+          "type": "slider",
+          "help": "Multiplies damage you deal on Very Easy. 1.00 = vanilla.",
+          "valueOptions": {
+            "min": 0.0,
+            "max": 5.0,
+            "step": 0.05,
+            "sourceType": "ModSettingFloat"
+          }
+        },
+        {
+          "id": "fOutgoingDamageEasy:Difficulty",
+          "text": "Outgoing Damage (Easy)",
+          "type": "slider",
+          "help": "Multiplies damage you deal on Easy. 1.00 = vanilla.",
+          "valueOptions": {
+            "min": 0.0,
+            "max": 5.0,
+            "step": 0.05,
+            "sourceType": "ModSettingFloat"
+          }
+        },
+        {
+          "id": "fOutgoingDamageNormal:Difficulty",
+          "text": "Outgoing Damage (Normal)",
+          "type": "slider",
+          "help": "Multiplies damage you deal on Normal. 1.00 = vanilla.",
+          "valueOptions": {
+            "min": 0.0,
+            "max": 5.0,
+            "step": 0.05,
+            "sourceType": "ModSettingFloat"
+          }
+        },
+        {
+          "id": "fOutgoingDamageHard:Difficulty",
+          "text": "Outgoing Damage (Hard)",
+          "type": "slider",
+          "help": "Multiplies damage you deal on Hard. 1.00 = vanilla.",
+          "valueOptions": {
+            "min": 0.0,
+            "max": 5.0,
+            "step": 0.05,
+            "sourceType": "ModSettingFloat"
+          }
+        },
+        {
+          "id": "fOutgoingDamageVeryHard:Difficulty",
+          "text": "Outgoing Damage (Very Hard)",
+          "type": "slider",
+          "help": "Multiplies damage you deal on Very Hard. 1.00 = vanilla.",
+          "valueOptions": {
+            "min": 0.0,
+            "max": 5.0,
+            "step": 0.05,
+            "sourceType": "ModSettingFloat"
+          }
+        },
+        {
+          "id": "fOutgoingDamageSurvival:Difficulty",
+          "text": "Outgoing Damage (Survival)",
+          "type": "slider",
+          "help": "Multiplies damage you deal on Survival. 1.00 = vanilla.",
+          "valueOptions": {
+            "min": 0.0,
+            "max": 5.0,
+            "step": 0.05,
+            "sourceType": "ModSettingFloat"
+          }
+        },
+        {
+          "type": "spacer"
+        },
+        {
+          "text": "Progression",
+          "type": "section"
+        },
+        {
+          "id": "fXPBase:Difficulty",
+          "text": "Base XP Rate",
+          "type": "slider",
+          "help": "Scales base XP before Intelligence bonus. 1.00 = vanilla.",
+          "valueOptions": {
+            "min": 0.0,
+            "max": 5.0,
+            "step": 0.05,
+            "sourceType": "ModSettingFloat"
+          }
+        },
+        {
+          "id": "fXPMult:Difficulty",
+          "text": "Intelligence XP Bonus",
+          "type": "slider",
+          "help": "Scales the XP bonus from Intelligence. 1.00 = vanilla.",
+          "valueOptions": {
+            "min": 0.0,
+            "max": 5.0,
+            "step": 0.05,
+            "sourceType": "ModSettingFloat"
+          }
+        },
+        {
+          "type": "spacer"
+        },
+        {
+          "text": "Legendary Chance",
+          "type": "section"
+        },
+        {
+          "id": "fLegendaryChanceVeryEasy:Difficulty",
+          "text": "Legendary Chance (Very Easy)",
+          "type": "slider",
+          "help": "How often eligible enemies become legendary. 1.00 = vanilla.",
+          "valueOptions": {
+            "min": 0.0,
+            "max": 10.0,
+            "step": 0.05,
+            "sourceType": "ModSettingFloat"
+          }
+        },
+        {
+          "id": "fLegendaryChanceEasy:Difficulty",
+          "text": "Legendary Chance (Easy)",
+          "type": "slider",
+          "help": "How often eligible enemies become legendary. 1.00 = vanilla.",
+          "valueOptions": {
+            "min": 0.0,
+            "max": 10.0,
+            "step": 0.05,
+            "sourceType": "ModSettingFloat"
+          }
+        },
+        {
+          "id": "fLegendaryChanceNormal:Difficulty",
+          "text": "Legendary Chance (Normal)",
+          "type": "slider",
+          "help": "How often eligible enemies become legendary. 1.00 = vanilla.",
+          "valueOptions": {
+            "min": 0.0,
+            "max": 10.0,
+            "step": 0.05,
+            "sourceType": "ModSettingFloat"
+          }
+        },
+        {
+          "id": "fLegendaryChanceHard:Difficulty",
+          "text": "Legendary Chance (Hard)",
+          "type": "slider",
+          "help": "How often eligible enemies become legendary. 1.00 = vanilla.",
+          "valueOptions": {
+            "min": 0.0,
+            "max": 10.0,
+            "step": 0.05,
+            "sourceType": "ModSettingFloat"
+          }
+        },
+        {
+          "id": "fLegendaryChanceVeryHard:Difficulty",
+          "text": "Legendary Chance (Very Hard)",
+          "type": "slider",
+          "help": "How often eligible enemies become legendary. 1.00 = vanilla.",
+          "valueOptions": {
+            "min": 0.0,
+            "max": 10.0,
+            "step": 0.05,
+            "sourceType": "ModSettingFloat"
+          }
+        },
+        {
+          "id": "fLegendaryChanceSurvival:Difficulty",
+          "text": "Legendary Chance (Survival)",
+          "type": "slider",
+          "help": "How often eligible enemies become legendary. 1.00 = vanilla.",
+          "valueOptions": {
+            "min": 0.0,
+            "max": 10.0,
+            "step": 0.05,
+            "sourceType": "ModSettingFloat"
+          }
+        },
+        {
+          "type": "spacer"
+        },
+        {
+          "text": "Legendary Rarity",
+          "type": "section"
+        },
+        {
+          "id": "fLegendaryRarityVeryEasy:Difficulty",
+          "text": "Legendary Rarity (Very Easy)",
+          "type": "slider",
+          "help": "Weights rarer legendary rolls after a legendary spawns. 1.00 = vanilla.",
+          "valueOptions": {
+            "min": 0.0,
+            "max": 10.0,
+            "step": 0.05,
+            "sourceType": "ModSettingFloat"
+          }
+        },
+        {
+          "id": "fLegendaryRarityEasy:Difficulty",
+          "text": "Legendary Rarity (Easy)",
+          "type": "slider",
+          "help": "Weights rarer legendary rolls after a legendary spawns. 1.00 = vanilla.",
+          "valueOptions": {
+            "min": 0.0,
+            "max": 10.0,
+            "step": 0.05,
+            "sourceType": "ModSettingFloat"
+          }
+        },
+        {
+          "id": "fLegendaryRarityNormal:Difficulty",
+          "text": "Legendary Rarity (Normal)",
+          "type": "slider",
+          "help": "Weights rarer legendary rolls after a legendary spawns. 1.00 = vanilla.",
+          "valueOptions": {
+            "min": 0.0,
+            "max": 10.0,
+            "step": 0.05,
+            "sourceType": "ModSettingFloat"
+          }
+        },
+        {
+          "id": "fLegendaryRarityHard:Difficulty",
+          "text": "Legendary Rarity (Hard)",
+          "type": "slider",
+          "help": "Weights rarer legendary rolls after a legendary spawns. 1.00 = vanilla.",
+          "valueOptions": {
+            "min": 0.0,
+            "max": 10.0,
+            "step": 0.05,
+            "sourceType": "ModSettingFloat"
+          }
+        },
+        {
+          "id": "fLegendaryRarityVeryHard:Difficulty",
+          "text": "Legendary Rarity (Very Hard)",
+          "type": "slider",
+          "help": "Weights rarer legendary rolls after a legendary spawns. 1.00 = vanilla.",
+          "valueOptions": {
+            "min": 0.0,
+            "max": 10.0,
+            "step": 0.05,
+            "sourceType": "ModSettingFloat"
+          }
+        },
+        {
+          "id": "fLegendaryRaritySurvival:Difficulty",
+          "text": "Legendary Rarity (Survival)",
+          "type": "slider",
+          "help": "Weights rarer legendary rolls after a legendary spawns. 1.00 = vanilla.",
+          "valueOptions": {
+            "min": 0.0,
+            "max": 10.0,
+            "step": 0.05,
+            "sourceType": "ModSettingFloat"
+          }
+        },
+        {
+          "type": "spacer"
+        },
+        {
+          "text": "Effect Duration",
+          "type": "section"
+        },
+        {
+          "id": "fEffectDurationVeryEasy:Difficulty",
+          "text": "Effect Duration (Very Easy)",
+          "type": "slider",
+          "help": "Multiplies effect duration on Very Easy. 1.00 = vanilla.",
+          "valueOptions": {
+            "min": 0.0,
+            "max": 10.0,
+            "step": 0.05,
+            "sourceType": "ModSettingFloat"
+          }
+        },
+        {
+          "id": "fEffectDurationEasy:Difficulty",
+          "text": "Effect Duration (Easy)",
+          "type": "slider",
+          "help": "Multiplies effect duration on Easy. 1.00 = vanilla.",
+          "valueOptions": {
+            "min": 0.0,
+            "max": 10.0,
+            "step": 0.05,
+            "sourceType": "ModSettingFloat"
+          }
+        },
+        {
+          "id": "fEffectDurationNormal:Difficulty",
+          "text": "Effect Duration (Normal)",
+          "type": "slider",
+          "help": "Multiplies effect duration on Normal. 1.00 = vanilla.",
+          "valueOptions": {
+            "min": 0.0,
+            "max": 10.0,
+            "step": 0.05,
+            "sourceType": "ModSettingFloat"
+          }
+        },
+        {
+          "id": "fEffectDurationHard:Difficulty",
+          "text": "Effect Duration (Hard)",
+          "type": "slider",
+          "help": "Multiplies effect duration on Hard. 1.00 = vanilla.",
+          "valueOptions": {
+            "min": 0.0,
+            "max": 10.0,
+            "step": 0.05,
+            "sourceType": "ModSettingFloat"
+          }
+        },
+        {
+          "id": "fEffectDurationVeryHard:Difficulty",
+          "text": "Effect Duration (Very Hard)",
+          "type": "slider",
+          "help": "Multiplies effect duration on Very Hard. 1.00 = vanilla.",
+          "valueOptions": {
+            "min": 0.0,
+            "max": 10.0,
+            "step": 0.05,
+            "sourceType": "ModSettingFloat"
+          }
+        },
+        {
+          "id": "fEffectDurationSurvival:Difficulty",
+          "text": "Effect Duration (Survival)",
+          "type": "slider",
+          "help": "Multiplies effect duration on Survival. 1.00 = vanilla (TSV baseline is much longer than Normal).",
+          "valueOptions": {
+            "min": 0.0,
+            "max": 10.0,
+            "step": 0.05,
+            "sourceType": "ModSettingFloat"
+          }
+        },
+        {
+          "type": "spacer"
+        },
+        {
+          "text": "Effect Magnitude",
+          "type": "section"
+        },
+        {
+          "id": "fEffectMagnitudeVeryEasy:Difficulty",
+          "text": "Effect Magnitude (Very Easy)",
+          "type": "slider",
+          "help": "Multiplies effect magnitude on Very Easy. 1.00 = vanilla.",
+          "valueOptions": {
+            "min": 0.0,
+            "max": 10.0,
+            "step": 0.05,
+            "sourceType": "ModSettingFloat"
+          }
+        },
+        {
+          "id": "fEffectMagnitudeEasy:Difficulty",
+          "text": "Effect Magnitude (Easy)",
+          "type": "slider",
+          "help": "Multiplies effect magnitude on Easy. 1.00 = vanilla.",
+          "valueOptions": {
+            "min": 0.0,
+            "max": 10.0,
+            "step": 0.05,
+            "sourceType": "ModSettingFloat"
+          }
+        },
+        {
+          "id": "fEffectMagnitudeNormal:Difficulty",
+          "text": "Effect Magnitude (Normal)",
+          "type": "slider",
+          "help": "Multiplies effect magnitude on Normal. 1.00 = vanilla.",
+          "valueOptions": {
+            "min": 0.0,
+            "max": 10.0,
+            "step": 0.05,
+            "sourceType": "ModSettingFloat"
+          }
+        },
+        {
+          "id": "fEffectMagnitudeHard:Difficulty",
+          "text": "Effect Magnitude (Hard)",
+          "type": "slider",
+          "help": "Multiplies effect magnitude on Hard. 1.00 = vanilla.",
+          "valueOptions": {
+            "min": 0.0,
+            "max": 10.0,
+            "step": 0.05,
+            "sourceType": "ModSettingFloat"
+          }
+        },
+        {
+          "id": "fEffectMagnitudeVeryHard:Difficulty",
+          "text": "Effect Magnitude (Very Hard)",
+          "type": "slider",
+          "help": "Multiplies effect magnitude on Very Hard. 1.00 = vanilla.",
+          "valueOptions": {
+            "min": 0.0,
+            "max": 10.0,
+            "step": 0.05,
+            "sourceType": "ModSettingFloat"
+          }
+        },
+        {
+          "id": "fEffectMagnitudeSurvival:Difficulty",
+          "text": "Effect Magnitude (Survival)",
+          "type": "slider",
+          "help": "Multiplies effect magnitude on Survival. 1.00 = vanilla (TSV baseline is much smaller than Normal).",
+          "valueOptions": {
+            "min": 0.0,
+            "max": 10.0,
+            "step": 0.05,
+            "sourceType": "ModSettingFloat"
+          }
+        }
+      ]
+    },
+    {
+      "pageDisplayName": "Character",
+      "content": [
+        {
+          "text": "<font size='24'><p align='center'>Character Feel</p></font>",
+          "html": true,
+          "type": "text"
+        },
+        {
+          "text": "<font color='#AAAAAA'><p align='center'>Action Points, sprint, carry weight, and health. Multiplier sliders show 1.00 = vanilla; Direct sliders use the vanilla default as neutral. Formula sliders (AP Pool, AP per Agility, Carry, Health per Endurance/Level) edit the actor-value formula. Your current derived value will refresh on the next level-up, equip change, fast-travel, or save reload.</p></font>",
+          "html": true,
+          "type": "text"
+        },
+        {
+          "type": "spacer"
+        },
+        {
+          "text": "Action Points",
+          "type": "section"
+        },
+        {
+          "id": "fAPBaseMult:Character",
+          "text": "AP Pool Base",
+          "type": "slider",
+          "help": "Multiplies the base AP pool used by the engine's AP formula. Vanilla 1.00.",
+          "valueOptions": {
+            "min": 0.25,
+            "max": 4.0,
+            "step": 0.05,
+            "sourceType": "ModSettingFloat"
+          }
+        },
+        {
+          "id": "fAPPerAgilityMult:Character",
+          "text": "AP per Agility",
+          "type": "slider",
+          "help": "Multiplies the AP gain per Agility point. Vanilla 1.00.",
+          "valueOptions": {
+            "min": 0.0,
+            "max": 4.0,
+            "step": 0.05,
+            "sourceType": "ModSettingFloat"
+          }
+        },
+        {
+          "id": "fAPRegenRate:Character",
+          "text": "AP Regen Rate",
+          "type": "slider",
+          "help": "Player AP restored per second before multipliers. Vanilla 6.",
+          "valueOptions": {
+            "min": 0.0,
+            "max": 200.0,
+            "step": 1.0,
+            "sourceType": "ModSettingFloat"
+          }
+        },
+        {
+          "id": "fCombatAPRegenMult:Character",
+          "text": "Combat AP Regen",
+          "type": "slider",
+          "help": "Combat AP regen multiplier. 0 disables combat regen. Vanilla 0.75.",
+          "valueOptions": {
+            "min": 0.0,
+            "max": 2.0,
+            "step": 0.05,
+            "sourceType": "ModSettingFloat"
+          }
+        },
+        {
+          "id": "fAPRegenDelay:Character",
+          "text": "AP Regen Delay",
+          "type": "slider",
+          "help": "Delay before AP regen after partial AP use. Vanilla 1.0.",
+          "valueOptions": {
+            "min": 0.0,
+            "max": 5.0,
+            "step": 0.1,
+            "sourceType": "ModSettingFloat"
+          }
+        },
+        {
+          "id": "fOutOfBreathAPRegenDelay:Character",
+          "text": "Out-of-Breath Delay",
+          "type": "slider",
+          "help": "Delay after sprinting to zero AP. Vanilla 2.0. Capped by AP Regen Delay Max.",
+          "valueOptions": {
+            "min": 0.0,
+            "max": 10.0,
+            "step": 0.1,
+            "sourceType": "ModSettingFloat"
+          }
+        },
+        {
+          "id": "fAPRegenDelayMax:Character",
+          "text": "AP Regen Delay Max",
+          "type": "slider",
+          "help": "Cap for AP regen delay. Vanilla 5.0.",
+          "valueOptions": {
+            "min": 0.0,
+            "max": 15.0,
+            "step": 0.5,
+            "sourceType": "ModSettingFloat"
+          }
+        },
+        {
+          "type": "spacer"
+        },
+        {
+          "text": "Sprint",
+          "type": "section"
+        },
+        {
+          "id": "fSprintBaseDrain:Character",
+          "text": "Sprint Drain Base",
+          "type": "slider",
+          "help": "Sprint AP drain base term. Vanilla 1.05.",
+          "valueOptions": {
+            "min": 0.0,
+            "max": 5.0,
+            "step": 0.05,
+            "sourceType": "ModSettingFloat"
+          }
+        },
+        {
+          "id": "fSprintEnduranceDrain:Character",
+          "text": "Sprint Endurance Term",
+          "type": "slider",
+          "help": "Endurance term. More negative = Endurance reduces drain more. Vanilla -0.05.",
+          "valueOptions": {
+            "min": -1.0,
+            "max": 0.0,
+            "step": 0.01,
+            "sourceType": "ModSettingFloat"
+          }
+        },
+        {
+          "id": "fSprintDrainMult:Character",
+          "text": "Sprint Drain Multiplier",
+          "type": "slider",
+          "help": "Overall sprint AP drain multiplier. 1.00 = vanilla.",
+          "valueOptions": {
+            "min": 0.0,
+            "max": 4.0,
+            "step": 0.05,
+            "sourceType": "ModSettingFloat"
+          }
+        },
+        {
+          "type": "spacer"
+        },
+        {
+          "text": "Carry Weight",
+          "type": "section"
+        },
+        {
+          "id": "fCarryWeightBaseMult:Character",
+          "text": "Carry Weight Base",
+          "type": "slider",
+          "help": "Multiplies the base carry capacity (the part not affected by Strength). Vanilla 1.00.",
+          "valueOptions": {
+            "min": 0.25,
+            "max": 5.0,
+            "step": 0.05,
+            "sourceType": "ModSettingFloat"
+          }
+        },
+        {
+          "id": "fCarryWeightPerStrengthMult:Character",
+          "text": "Carry per Strength",
+          "type": "slider",
+          "help": "Multiplies carry capacity gained per Strength point. Vanilla 1.00.",
+          "valueOptions": {
+            "min": 0.0,
+            "max": 5.0,
+            "step": 0.05,
+            "sourceType": "ModSettingFloat"
+          }
+        },
+        {
+          "type": "spacer"
+        },
+        {
+          "text": "Health",
+          "type": "section"
+        },
+        {
+          "id": "fHealthPerEnduranceMult:Character",
+          "text": "Health per Endurance",
+          "type": "slider",
+          "help": "Multiplies max health gained per Endurance point. Vanilla 1.00.",
+          "valueOptions": {
+            "min": 0.25,
+            "max": 5.0,
+            "step": 0.05,
+            "sourceType": "ModSettingFloat"
+          }
+        },
+        {
+          "id": "fHealthPerLevelMult:Character",
+          "text": "Health per Level",
+          "type": "slider",
+          "help": "Multiplies max health gained per character level. Vanilla 1.00.",
+          "valueOptions": {
+            "min": 0.25,
+            "max": 5.0,
+            "step": 0.05,
+            "sourceType": "ModSettingFloat"
+          }
+        },
+        {
+          "id": "fPassiveHealthRegen:Character",
+          "text": "Passive Health Regen",
+          "type": "slider",
+          "help": "Player health regen rate. 1 = 1% max health. Vanilla 0.",
+          "valueOptions": {
+            "min": 0.0,
+            "max": 100.0,
+            "step": 0.01,
+            "sourceType": "ModSettingFloat"
+          }
+        },
+        {
+          "id": "fCombatHealthRegenMult:Character",
+          "text": "Combat Health Regen",
+          "type": "slider",
+          "help": "Combat multiplier for passive health regen. 1 = full rate. Vanilla 0.",
+          "valueOptions": {
+            "min": 0.0,
+            "max": 10.0,
+            "step": 0.01,
+            "sourceType": "ModSettingFloat"
+          }
+        }
+      ]
+    },
+    {
+      "pageDisplayName": "Damage Formulas",
+      "content": [
+        {
+          "text": "<font size='24'><p align='center'>Damage Formulas</p></font>",
+          "html": true,
+          "type": "text"
+        },
+        {
+          "text": "<font color='#AAAAAA'><p align='center'>Raw damage factors and armor reduction exponents. Neutral values are vanilla; sliders move the engine baseline directly.</p></font>",
+          "html": true,
+          "type": "text"
+        },
+        {
+          "type": "spacer"
+        },
+        {
+          "text": "Radiation",
+          "type": "section"
+        },
+        {
+          "id": "fRadiationDamageFactor:DamageFormulas",
+          "text": "Radiation Damage Factor",
+          "type": "slider",
+          "help": "Raw radiation damage factor. Vanilla 0.15.",
+          "valueOptions": {
+            "min": 0.0,
+            "max": 2.0,
+            "step": 0.01,
+            "sourceType": "ModSettingFloat"
+          }
+        },
+        {
+          "id": "fRadiationArmorReductionExponent:DamageFormulas",
+          "text": "Rad Resist Exponent",
+          "type": "slider",
+          "help": "How strongly rad resistance reduces rads. Vanilla 0.365.",
+          "valueOptions": {
+            "min": 0.0,
+            "max": 1.5,
+            "step": 0.005,
+            "sourceType": "ModSettingFloat"
+          }
+        },
+        {
+          "type": "spacer"
+        },
+        {
+          "text": "Physical",
+          "type": "section"
+        },
+        {
+          "id": "fPhysicalDamageFactor:DamageFormulas",
+          "text": "Physical Damage Factor",
+          "type": "slider",
+          "help": "Raw physical damage factor. Stacks with Difficulty damage sliders.",
+          "valueOptions": {
+            "min": 0.0,
+            "max": 2.0,
+            "step": 0.01,
+            "sourceType": "ModSettingFloat"
+          }
+        },
+        {
+          "id": "fPhysicalArmorReductionExponent:DamageFormulas",
+          "text": "Physical Armor Exponent",
+          "type": "slider",
+          "help": "How strongly physical armor reduces damage. Vanilla 0.365.",
+          "valueOptions": {
+            "min": 0.0,
+            "max": 1.5,
+            "step": 0.005,
+            "sourceType": "ModSettingFloat"
+          }
+        },
+        {
+          "type": "spacer"
+        },
+        {
+          "text": "Energy",
+          "type": "section"
+        },
+        {
+          "id": "fEnergyDamageFactor:DamageFormulas",
+          "text": "Energy Damage Factor",
+          "type": "slider",
+          "help": "Raw energy damage factor. Stacks with Difficulty damage sliders.",
+          "valueOptions": {
+            "min": 0.0,
+            "max": 2.0,
+            "step": 0.01,
+            "sourceType": "ModSettingFloat"
+          }
+        },
+        {
+          "id": "fEnergyArmorReductionExponent:DamageFormulas",
+          "text": "Energy Resist Exponent",
+          "type": "slider",
+          "help": "How strongly energy resistance reduces damage. Vanilla 0.365.",
+          "valueOptions": {
+            "min": 0.0,
+            "max": 1.5,
+            "step": 0.005,
+            "sourceType": "ModSettingFloat"
+          }
+        }
+      ]
+    },
+    {
+      "pageDisplayName": "Power Armor",
+      "content": [
+        {
+          "text": "<font size='24'><p align='center'>Power Armor</p></font>",
+          "html": true,
+          "type": "text"
+        },
+        {
+          "text": "<font color='#AAAAAA'><p align='center'>Jetpack, fusion-core drain, and PA durability. Multiplier sliders show 1.00 = vanilla; Direct sliders show the vanilla default as their neutral value.</p></font>",
+          "html": true,
+          "type": "text"
+        },
+        {
+          "type": "spacer"
+        },
+        {
+          "text": "Jetpack",
+          "type": "section"
+        },
+        {
+          "id": "fJetpackInitialDrainMult:PowerArmor",
+          "text": "Initial Drain",
+          "type": "slider",
+          "help": "Fusion-core fuel consumed when a jetpack burst starts.",
+          "valueOptions": {
+            "min": 0.25,
+            "max": 4.0,
+            "step": 0.05,
+            "sourceType": "ModSettingFloat"
+          }
+        },
+        {
+          "id": "fJetpackSustainedDrainMult:PowerArmor",
+          "text": "Sustained Drain",
+          "type": "slider",
+          "help": "Continuous jetpack fuel drain.",
+          "valueOptions": {
+            "min": 0.25,
+            "max": 4.0,
+            "step": 0.05,
+            "sourceType": "ModSettingFloat"
+          }
+        },
+        {
+          "id": "fJetpackMinFuelRequired:PowerArmor",
+          "text": "Min Fuel to Ignite",
+          "type": "slider",
+          "help": "Minimum core charge required to ignite. Vanilla 3.",
+          "valueOptions": {
+            "min": 0.0,
+            "max": 25.0,
+            "step": 1.0,
+            "sourceType": "ModSettingFloat"
+          }
+        },
+        {
+          "id": "fJetpackInitialThrustMult:PowerArmor",
+          "text": "Initial Thrust",
+          "type": "slider",
+          "help": "Upward kick at ignition.",
+          "valueOptions": {
+            "min": 0.25,
+            "max": 3.0,
+            "step": 0.05,
+            "sourceType": "ModSettingFloat"
+          }
+        },
+        {
+          "id": "fJetpackSustainedThrustMult:PowerArmor",
+          "text": "Sustained Thrust",
+          "type": "slider",
+          "help": "Continuous upward thrust.",
+          "valueOptions": {
+            "min": 0.25,
+            "max": 3.0,
+            "step": 0.05,
+            "sourceType": "ModSettingFloat"
+          }
+        },
+        {
+          "id": "fJetpackTimeToSustained:PowerArmor",
+          "text": "Time to Sustained",
+          "type": "slider",
+          "help": "Seconds before sustained jetpack mode. Vanilla 0.15.",
+          "valueOptions": {
+            "min": 0.0,
+            "max": 1.5,
+            "step": 0.01,
+            "sourceType": "ModSettingFloat"
+          }
+        },
+        {
+          "type": "spacer"
+        },
+        {
+          "text": "Fusion Core Drain",
+          "type": "section"
+        },
+        {
+          "id": "fPAPowerDrainPerAPMult:PowerArmor",
+          "text": "Drain per AP",
+          "type": "slider",
+          "help": "Core drain per AP spent.",
+          "valueOptions": {
+            "min": 0.0,
+            "max": 5.0,
+            "step": 0.05,
+            "sourceType": "ModSettingFloat"
+          }
+        },
+        {
+          "id": "fPAPowerDrainRunningMult:PowerArmor",
+          "text": "Drain While Running",
+          "type": "slider",
+          "help": "Core drain while running.",
+          "valueOptions": {
+            "min": 0.0,
+            "max": 5.0,
+            "step": 0.05,
+            "sourceType": "ModSettingFloat"
+          }
+        },
+        {
+          "id": "fPAPowerDrainPerJump:PowerArmor",
+          "text": "Drain per Jump",
+          "type": "slider",
+          "help": "Core drain per jump. Vanilla 0.",
+          "valueOptions": {
+            "min": 0.0,
+            "max": 1.0,
+            "step": 0.01,
+            "sourceType": "ModSettingFloat"
+          }
+        },
+        {
+          "id": "fPAPowerDrainPerMeleeAttack:PowerArmor",
+          "text": "Drain per Melee Attack",
+          "type": "slider",
+          "help": "Core drain per melee attack. Vanilla 0.",
+          "valueOptions": {
+            "min": 0.0,
+            "max": 1.0,
+            "step": 0.01,
+            "sourceType": "ModSettingFloat"
+          }
+        },
+        {
+          "id": "fPAPowerDrainPerImpactLand:PowerArmor",
+          "text": "Drain on Hard Landing",
+          "type": "slider",
+          "help": "Core drain on hard landing. Vanilla 0.",
+          "valueOptions": {
+            "min": 0.0,
+            "max": 5.0,
+            "step": 0.05,
+            "sourceType": "ModSettingFloat"
+          }
+        },
+        {
+          "type": "spacer"
+        },
+        {
+          "text": "Durability",
+          "type": "section"
+        },
+        {
+          "id": "fPAPlayerArmorDamageMultiplier:PowerArmor",
+          "text": "Player PA Damage",
+          "type": "slider",
+          "help": "Player PA condition damage multiplier. Vanilla 1. 0 = unbreakable.",
+          "valueOptions": {
+            "min": 0.0,
+            "max": 4.0,
+            "step": 0.05,
+            "sourceType": "ModSettingFloat"
+          }
+        },
+        {
+          "id": "fPANPCArmorDamageMultiplier:PowerArmor",
+          "text": "NPC PA Damage",
+          "type": "slider",
+          "help": "NPC PA condition damage multiplier. Vanilla 3.",
+          "valueOptions": {
+            "min": 0.0,
+            "max": 10.0,
+            "step": 0.1,
+            "sourceType": "ModSettingFloat"
+          }
+        }
+      ]
+    },
+    {
+      "pageDisplayName": "Economy",
+      "content": [
+        {
+          "text": "<font size='24'><p align='center'>Economy</p></font>",
+          "html": true,
+          "type": "text"
+        },
+        {
+          "text": "<font color='#AAAAAA'><p align='center'>Vendor buy/sell pricing. Direct sliders show the vanilla default as their neutral value.</p></font>",
+          "html": true,
+          "type": "text"
+        },
+        {
+          "type": "spacer"
+        },
+        {
+          "text": "Buy / Sell Pricing",
+          "type": "section"
+        },
+        {
+          "id": "fBarterMin:Economy",
+          "text": "Buy Price Floor",
+          "type": "slider",
+          "help": "Higher = vendors charge more. Vanilla 2.0.",
+          "valueOptions": {
+            "min": 0.5,
+            "max": 6.0,
+            "step": 0.05,
+            "sourceType": "ModSettingFloat"
+          }
+        },
+        {
+          "id": "fBarterMax:Economy",
+          "text": "Sell Price Floor",
+          "type": "slider",
+          "help": "Higher = vendors pay less. Vanilla 3.5.",
+          "valueOptions": {
+            "min": 0.5,
+            "max": 10.0,
+            "step": 0.05,
+            "sourceType": "ModSettingFloat"
+          }
+        },
+        {
+          "id": "fBarterBuyMax:Economy",
+          "text": "Max Buy Multiplier",
+          "type": "slider",
+          "help": "Cap on item value when buying. Vanilla 1.2.",
+          "valueOptions": {
+            "min": 0.5,
+            "max": 3.0,
+            "step": 0.05,
+            "sourceType": "ModSettingFloat"
+          }
+        },
+        {
+          "id": "fBarterSellMax:Economy",
+          "text": "Max Sell Multiplier",
+          "type": "slider",
+          "help": "Cap on item value when selling. Vanilla 0.8.",
+          "valueOptions": {
+            "min": 0.1,
+            "max": 2.0,
+            "step": 0.05,
+            "sourceType": "ModSettingFloat"
+          }
+        },
+        {
+          "type": "spacer"
+        },
+        {
+          "text": "Persuasion",
+          "type": "section"
+        },
+        {
+          "id": "fSpeechcraftFavorMin:Economy",
+          "text": "Persuasion Floor",
+          "type": "slider",
+          "help": "Minimum success chance the Charisma speech-check curve can fall to. Vanilla 0.5.",
+          "valueOptions": {
+            "min": 0.0,
+            "max": 1.0,
+            "step": 0.05,
+            "sourceType": "ModSettingFloat"
+          }
+        },
+        {
+          "id": "fSpeechcraftFavorMax:Economy",
+          "text": "Persuasion Ceiling",
+          "type": "slider",
+          "help": "Maximum success chance the Charisma speech-check curve can reach. Vanilla 1.0.",
+          "valueOptions": {
+            "min": 0.0,
+            "max": 1.0,
+            "step": 0.05,
+            "sourceType": "ModSettingFloat"
+          }
+        }
+      ]
+    },
+    {
+      "pageDisplayName": "Progression",
+      "content": [
+        {
+          "text": "<font size='24'><p align='center'>Progression</p></font>",
+          "html": true,
+          "type": "text"
+        },
+        {
+          "text": "<font color='#AAAAAA'><p align='center'>Non-difficulty XP sources: crafting, lockpicking, mine disarm. Direct sliders show the vanilla default as their neutral value.</p></font>",
+          "html": true,
+          "type": "text"
+        },
+        {
+          "type": "spacer"
+        },
+        {
+          "text": "Crafting XP — Cooking",
+          "type": "section"
+        },
+        {
+          "id": "fCookingExpBase:Progression",
+          "text": "Cooking — Base XP",
+          "type": "slider",
+          "help": "Flat XP per cook. Vanilla 1.",
+          "valueOptions": {
+            "min": 0.0,
+            "max": 100.0,
+            "step": 1.0,
+            "sourceType": "ModSettingFloat"
+          }
+        },
+        {
+          "id": "fCookingExpMax:Progression",
+          "text": "Cooking — Max XP",
+          "type": "slider",
+          "help": "Cap on cook XP. Vanilla 10.",
+          "valueOptions": {
+            "min": 0.0,
+            "max": 500.0,
+            "step": 1.0,
+            "sourceType": "ModSettingFloat"
+          }
+        },
+        {
+          "id": "fCookingExpMult:Progression",
+          "text": "Cooking — Value Mult",
+          "type": "slider",
+          "help": "XP scaler from recipe value. Vanilla 0.15.",
+          "valueOptions": {
+            "min": 0.0,
+            "max": 2.0,
+            "step": 0.01,
+            "sourceType": "ModSettingFloat"
+          }
+        },
+        {
+          "type": "spacer"
+        },
+        {
+          "text": "Crafting XP — Weapon/Armor Workbench",
+          "type": "section"
+        },
+        {
+          "id": "fWorkbenchExpBase:Progression",
+          "text": "Workbench — Base XP",
+          "type": "slider",
+          "help": "Flat XP per craft. Vanilla 2.",
+          "valueOptions": {
+            "min": 0.0,
+            "max": 100.0,
+            "step": 1.0,
+            "sourceType": "ModSettingFloat"
+          }
+        },
+        {
+          "id": "fWorkbenchExpMax:Progression",
+          "text": "Workbench — Max XP",
+          "type": "slider",
+          "help": "Cap on craft XP. Vanilla 50.",
+          "valueOptions": {
+            "min": 0.0,
+            "max": 1000.0,
+            "step": 5.0,
+            "sourceType": "ModSettingFloat"
+          }
+        },
+        {
+          "id": "fWorkbenchExpMult:Progression",
+          "text": "Workbench — Value Mult",
+          "type": "slider",
+          "help": "XP scaler from craft value. Vanilla 0.03.",
+          "valueOptions": {
+            "min": 0.0,
+            "max": 2.0,
+            "step": 0.01,
+            "sourceType": "ModSettingFloat"
+          }
+        },
+        {
+          "type": "spacer"
+        },
+        {
+          "text": "Crafting XP — Settlement Workshop",
+          "type": "section"
+        },
+        {
+          "id": "fWorkshopExpBase:Progression",
+          "text": "Workshop — Base XP",
+          "type": "slider",
+          "help": "Flat XP per build. Vanilla 2.",
+          "valueOptions": {
+            "min": 0.0,
+            "max": 100.0,
+            "step": 1.0,
+            "sourceType": "ModSettingFloat"
+          }
+        },
+        {
+          "id": "fWorkshopExpMax:Progression",
+          "text": "Workshop — Max XP",
+          "type": "slider",
+          "help": "Cap on build XP. Vanilla 25.",
+          "valueOptions": {
+            "min": 0.0,
+            "max": 1000.0,
+            "step": 5.0,
+            "sourceType": "ModSettingFloat"
+          }
+        },
+        {
+          "id": "fWorkshopExpMult:Progression",
+          "text": "Workshop — Value Mult",
+          "type": "slider",
+          "help": "XP scaler from build value. Vanilla 0.10.",
+          "valueOptions": {
+            "min": 0.0,
+            "max": 2.0,
+            "step": 0.01,
+            "sourceType": "ModSettingFloat"
+          }
+        },
+        {
+          "type": "spacer"
+        },
+        {
+          "text": "Lockpick XP",
+          "type": "section"
+        },
+        {
+          "id": "fLockpickXPApprentice:Progression",
+          "text": "Lockpick — Apprentice",
+          "type": "slider",
+          "help": "XP per Apprentice pick. Vanilla 5.",
+          "valueOptions": {
+            "min": 0.0,
+            "max": 200.0,
+            "step": 1.0,
+            "sourceType": "ModSettingFloat"
+          }
+        },
+        {
+          "id": "fLockpickXPAdept:Progression",
+          "text": "Lockpick — Adept",
+          "type": "slider",
+          "help": "XP per Adept pick. Vanilla 10.",
+          "valueOptions": {
+            "min": 0.0,
+            "max": 200.0,
+            "step": 1.0,
+            "sourceType": "ModSettingFloat"
+          }
+        },
+        {
+          "id": "fLockpickXPExpert:Progression",
+          "text": "Lockpick — Expert",
+          "type": "slider",
+          "help": "XP per Expert pick. Vanilla 15.",
+          "valueOptions": {
+            "min": 0.0,
+            "max": 200.0,
+            "step": 1.0,
+            "sourceType": "ModSettingFloat"
+          }
+        },
+        {
+          "id": "fLockpickXPMaster:Progression",
+          "text": "Lockpick — Master",
+          "type": "slider",
+          "help": "XP per Master pick. Vanilla 20.",
+          "valueOptions": {
+            "min": 0.0,
+            "max": 200.0,
+            "step": 1.0,
+            "sourceType": "ModSettingFloat"
+          }
+        },
+        {
+          "type": "spacer"
+        },
+        {
+          "text": "Other",
+          "type": "section"
+        },
+        {
+          "id": "iMineDisarmXP:Progression",
+          "text": "Mine Disarm XP",
+          "type": "slider",
+          "help": "XP per disarmed mine/object. Vanilla 5.",
+          "valueOptions": {
+            "min": 0,
+            "max": 200,
+            "step": 1,
+            "sourceType": "ModSettingInt"
+          }
+        },
+        {
+          "type": "spacer"
+        },
+        {
+          "text": "Kill & Discovery XP",
+          "type": "section"
+        },
+        {
+          "id": "iXPRewardKillOpponent:Progression",
+          "text": "Kill XP",
+          "type": "slider",
+          "help": "XP per killed opponent. Vanilla 20.",
+          "valueOptions": {
+            "min": 0,
+            "max": 500,
+            "step": 1,
+            "sourceType": "ModSettingInt"
+          }
+        },
+        {
+          "id": "iXPRewardDiscoverMapMarker:Progression",
+          "text": "Map Marker XP",
+          "type": "slider",
+          "help": "XP per newly discovered map marker. Vanilla 20.",
+          "valueOptions": {
+            "min": 0,
+            "max": 500,
+            "step": 1,
+            "sourceType": "ModSettingInt"
+          }
+        },
+        {
+          "id": "iXPRewardDiscoverSecretArea:Progression",
+          "text": "Secret Area XP",
+          "type": "slider",
+          "help": "XP per discovered secret area. Vanilla 20.",
+          "valueOptions": {
+            "min": 0,
+            "max": 500,
+            "step": 1,
+            "sourceType": "ModSettingInt"
+          }
+        },
+        {
+          "type": "spacer"
+        },
+        {
+          "text": "XP Formula",
+          "type": "section"
+        },
+        {
+          "id": "iXPBase:Progression",
+          "text": "XP Base",
+          "type": "slider",
+          "help": "Base XP scalar used by the level-up curve. Vanilla 200.",
+          "valueOptions": {
+            "min": 0,
+            "max": 1000,
+            "step": 10,
+            "sourceType": "ModSettingInt"
+          }
+        },
+        {
+          "id": "iXPBumpBase:Progression",
+          "text": "Level-Up Bump",
+          "type": "slider",
+          "help": "Per-level XP bump value. Vanilla 75.",
+          "valueOptions": {
+            "min": 0,
+            "max": 500,
+            "step": 5,
+            "sourceType": "ModSettingInt"
+          }
+        },
+        {
+          "id": "fXPModBase:Progression",
+          "text": "Mod XP Base",
+          "type": "slider",
+          "help": "Base XP for installing or removing a weapon/armor mod at a workbench. Vanilla 1.0.",
+          "valueOptions": {
+            "min": 0.0,
+            "max": 50.0,
+            "step": 0.5,
+            "sourceType": "ModSettingFloat"
+          }
+        },
+        {
+          "id": "fXPModMult:Progression",
+          "text": "Mod XP Multiplier",
+          "type": "slider",
+          "help": "Multiplier on Mod XP. Vanilla 0.03.",
+          "valueOptions": {
+            "min": 0.0,
+            "max": 5.0,
+            "step": 0.01,
+            "sourceType": "ModSettingFloat"
+          }
+        },
+        {
+          "id": "fXPDeathRewardHealthThreshold:Progression",
+          "text": "Death Reward Health Threshold",
+          "type": "slider",
+          "help": "Engine penalty threshold for kills made just before the player's death. Vanilla 0.25.",
+          "valueOptions": {
+            "min": 0.0,
+            "max": 1.0,
+            "step": 0.05,
+            "sourceType": "ModSettingFloat"
+          }
+        }
+      ]
+    },
+    {
+      "pageDisplayName": "VATS",
+      "content": [
+        {
+          "text": "<font size='24'><p align='center'>VATS</p></font>",
+          "html": true,
+          "type": "text"
+        },
+        {
+          "text": "<font color='#AAAAAA'><p align='center'>Targeting range, time slowdown, and incoming damage while VATS is active. Direct sliders show the vanilla default as their neutral value.</p></font>",
+          "html": true,
+          "type": "text"
+        },
+        {
+          "type": "spacer"
+        },
+        {
+          "text": "Targeting",
+          "type": "section"
+        },
+        {
+          "id": "fVATSMaxEngageDistance:VATS",
+          "text": "Max Engage Distance",
+          "type": "slider",
+          "help": "Range where VATS can activate. 0 disables targeting. Vanilla 5000.",
+          "valueOptions": {
+            "min": 0.0,
+            "max": 25000.0,
+            "step": 500.0,
+            "sourceType": "ModSettingFloat"
+          }
+        },
+        {
+          "type": "spacer"
+        },
+        {
+          "text": "Timing",
+          "type": "section"
+        },
+        {
+          "id": "fVATSTimeMultTargetSelect:VATS",
+          "text": "Target-Select Time",
+          "type": "slider",
+          "help": "Lower = slower target selection. Vanilla 0.04.",
+          "valueOptions": {
+            "min": 0.0,
+            "max": 1.0,
+            "step": 0.01,
+            "sourceType": "ModSettingFloat"
+          }
+        },
+        {
+          "type": "spacer"
+        },
+        {
+          "text": "Damage Taken",
+          "type": "section"
+        },
+        {
+          "id": "fVATSPlayerDamageMult:VATS",
+          "text": "Player Damage Mult",
+          "type": "slider",
+          "help": "Damage taken in VATS. Vanilla 0.10; 1 = no reduction.",
+          "valueOptions": {
+            "min": 0.0,
+            "max": 1.0,
+            "step": 0.01,
+            "sourceType": "ModSettingFloat"
+          }
+        }
+      ]
+    },
+    {
+      "pageDisplayName": "Skills",
+      "content": [
+        {
+          "text": "<font size='24'><p align='center'>Skills</p></font>",
+          "html": true,
+          "type": "text"
+        },
+        {
+          "text": "<font color='#AAAAAA'><p align='center'>Pickpocket, hacking, and lockpicking constants. Direct sliders show the vanilla default as their neutral value.</p></font>",
+          "html": true,
+          "type": "text"
+        },
+        {
+          "type": "spacer"
+        },
+        {
+          "text": "Pickpocket",
+          "type": "section"
+        },
+        {
+          "id": "fPickPocketMinChance:Skills",
+          "text": "Minimum Chance",
+          "type": "slider",
+          "help": "Lowest possible pickpocket chance. Vanilla 0%.",
+          "valueOptions": {
+            "min": 0.0,
+            "max": 100.0,
+            "step": 1.0,
+            "sourceType": "ModSettingFloat"
+          }
+        },
+        {
+          "id": "fPickPocketMaxChance:Skills",
+          "text": "Maximum Chance",
+          "type": "slider",
+          "help": "Highest possible pickpocket chance. Vanilla 90%.",
+          "valueOptions": {
+            "min": 0.0,
+            "max": 100.0,
+            "step": 1.0,
+            "sourceType": "ModSettingFloat"
+          }
+        },
+        {
+          "id": "fReversePickpocketTimer:Skills",
+          "text": "Explosive Timer",
+          "type": "slider",
+          "help": "Seconds before reverse-pickpocketed explosives detonate. Vanilla 2.",
+          "valueOptions": {
+            "min": 1.0,
+            "max": 60.0,
+            "step": 1.0,
+            "sourceType": "ModSettingFloat"
+          }
+        },
+        {
+          "type": "spacer"
+        },
+        {
+          "text": "Hacking",
+          "type": "section"
+        },
+        {
+          "id": "iHackingMinWords:Skills",
+          "text": "Minimum Words",
+          "type": "slider",
+          "help": "Fewest terminal password choices. Vanilla 6.",
+          "valueOptions": {
+            "min": 1,
+            "max": 40,
+            "step": 1,
+            "sourceType": "ModSettingInt"
+          }
+        },
+        {
+          "id": "iHackingMaxWords:Skills",
+          "text": "Maximum Words",
+          "type": "slider",
+          "help": "Most terminal password choices. Vanilla 20.",
+          "valueOptions": {
+            "min": 1,
+            "max": 40,
+            "step": 1,
+            "sourceType": "ModSettingInt"
+          }
+        },
+        {
+          "type": "spacer"
+        },
+        {
+          "text": "Lockpicking",
+          "type": "section"
+        },
+        {
+          "id": "fLockPickBreakBase:Skills",
+          "text": "Break Base",
+          "type": "slider",
+          "help": "Base pick-break constant. Vanilla 0.05.",
+          "valueOptions": {
+            "min": 0.0,
+            "max": 10.0,
+            "step": 0.01,
+            "sourceType": "ModSettingFloat"
+          }
+        },
+        {
+          "id": "fLockpickSkillSweetSpotBase:Skills",
+          "text": "Sweet Spot Base",
+          "type": "slider",
+          "help": "Base sweet-spot constant. Vanilla 0.20.",
+          "valueOptions": {
+            "min": 0.0,
+            "max": 10.0,
+            "step": 0.01,
+            "sourceType": "ModSettingFloat"
+          }
+        },
+        {
+          "type": "spacer"
+        },
+        {
+          "text": "Lockpick Durability",
+          "type": "section"
+        },
+        {
+          "id": "fLockpickBreakApprentice:Skills",
+          "text": "Apprentice Durability",
+          "type": "slider",
+          "help": "Higher = picks last longer. Vanilla 2.",
+          "valueOptions": {
+            "min": 0.0,
+            "max": 20.0,
+            "step": 0.01,
+            "sourceType": "ModSettingFloat"
+          }
+        },
+        {
+          "id": "fLockpickBreakAdept:Skills",
+          "text": "Adept Durability",
+          "type": "slider",
+          "help": "Higher = picks last longer. Vanilla 2.",
+          "valueOptions": {
+            "min": 0.0,
+            "max": 20.0,
+            "step": 0.01,
+            "sourceType": "ModSettingFloat"
+          }
+        },
+        {
+          "id": "fLockpickBreakExpert:Skills",
+          "text": "Expert Durability",
+          "type": "slider",
+          "help": "Higher = picks last longer. Vanilla 2.",
+          "valueOptions": {
+            "min": 0.0,
+            "max": 20.0,
+            "step": 0.01,
+            "sourceType": "ModSettingFloat"
+          }
+        },
+        {
+          "id": "fLockpickBreakMaster:Skills",
+          "text": "Master Durability",
+          "type": "slider",
+          "help": "Higher = picks last longer. Vanilla 2.",
+          "valueOptions": {
+            "min": 0.0,
+            "max": 20.0,
+            "step": 0.01,
+            "sourceType": "ModSettingFloat"
+          }
+        },
+        {
+          "type": "spacer"
+        },
+        {
+          "text": "Sweet Spot by Lock Level",
+          "type": "section"
+        },
+        {
+          "id": "fSweetspotApprentice:Skills",
+          "text": "Apprentice Sweet Spot",
+          "type": "slider",
+          "help": "Sweet-spot width for Apprentice locks. Vanilla 80.",
+          "valueOptions": {
+            "min": 0.0,
+            "max": 100.0,
+            "step": 1.0,
+            "sourceType": "ModSettingFloat"
+          }
+        },
+        {
+          "id": "fSweetspotAdept:Skills",
+          "text": "Adept Sweet Spot",
+          "type": "slider",
+          "help": "Sweet-spot width for Adept locks. Vanilla 60.",
+          "valueOptions": {
+            "min": 0.0,
+            "max": 100.0,
+            "step": 1.0,
+            "sourceType": "ModSettingFloat"
+          }
+        },
+        {
+          "id": "fSweetspotExpert:Skills",
+          "text": "Expert Sweet Spot",
+          "type": "slider",
+          "help": "Sweet-spot width for Expert locks. Vanilla 40.",
+          "valueOptions": {
+            "min": 0.0,
+            "max": 100.0,
+            "step": 1.0,
+            "sourceType": "ModSettingFloat"
+          }
+        },
+        {
+          "id": "fSweetspotMaster:Skills",
+          "text": "Master Sweet Spot",
+          "type": "slider",
+          "help": "Sweet-spot width for Master locks. Vanilla 20.",
+          "valueOptions": {
+            "min": 0.0,
+            "max": 100.0,
+            "step": 1.0,
+            "sourceType": "ModSettingFloat"
+          }
+        }
+      ]
+    },
+    {
+      "pageDisplayName": "Sneak",
+      "content": [
+        {
+          "text": "<font size='24'><p align='center'>Sneak & Detection</p></font>",
+          "html": true,
+          "type": "text"
+        },
+        {
+          "text": "<font color='#AAAAAA'><p align='center'>Sneak attack and detection constants. Neutral values match vanilla.</p></font>",
+          "html": true,
+          "type": "text"
+        },
+        {
+          "type": "spacer"
+        },
+        {
+          "text": "Sneak Attack Damage",
+          "type": "section"
+        },
+        {
+          "id": "fSneakAttackGunMult:Sneak",
+          "text": "Gun Multiplier",
+          "type": "slider",
+          "help": "Sneak attack damage multiplier for guns. Vanilla 2.",
+          "valueOptions": {
+            "min": 0.0,
+            "max": 25.0,
+            "step": 0.05,
+            "sourceType": "ModSettingFloat"
+          }
+        },
+        {
+          "id": "fSneakAttackUnarmedMult:Sneak",
+          "text": "Unarmed Multiplier",
+          "type": "slider",
+          "help": "Sneak attack damage multiplier for fists and fist weapons. Vanilla 3.",
+          "valueOptions": {
+            "min": 0.0,
+            "max": 25.0,
+            "step": 0.05,
+            "sourceType": "ModSettingFloat"
+          }
+        },
+        {
+          "id": "fSneakAttackOneHandMult:Sneak",
+          "text": "One-Hand Multiplier",
+          "type": "slider",
+          "help": "Sneak attack damage multiplier for one-handed weapons. Vanilla 3.",
+          "valueOptions": {
+            "min": 0.0,
+            "max": 25.0,
+            "step": 0.05,
+            "sourceType": "ModSettingFloat"
+          }
+        },
+        {
+          "id": "fSneakAttackTwoHandMult:Sneak",
+          "text": "Two-Hand Multiplier",
+          "type": "slider",
+          "help": "Sneak attack damage multiplier for two-handed weapons. Vanilla 3.",
+          "valueOptions": {
+            "min": 0.0,
+            "max": 25.0,
+            "step": 0.05,
+            "sourceType": "ModSettingFloat"
+          }
+        },
+        {
+          "type": "spacer"
+        },
+        {
+          "text": "Detection",
+          "type": "section"
+        },
+        {
+          "id": "fSneakExteriorDistanceMult:Sneak",
+          "text": "Exterior Distance",
+          "type": "slider",
+          "help": "Exterior sneak detection distance multiplier. Vanilla 1.25.",
+          "valueOptions": {
+            "min": 0.0,
+            "max": 100.0,
+            "step": 0.05,
+            "sourceType": "ModSettingFloat"
+          }
+        },
+        {
+          "id": "fSneakLightMult:Sneak",
+          "text": "Light Sensitivity",
+          "type": "slider",
+          "help": "How much light affects detection while sneaking. Vanilla 0.33.",
+          "valueOptions": {
+            "min": 0.0,
+            "max": 10.0,
+            "step": 0.01,
+            "sourceType": "ModSettingFloat"
+          }
+        },
+        {
+          "id": "fSneakMaxDistance:Sneak",
+          "text": "Max Detection Distance",
+          "type": "slider",
+          "help": "Maximum distance where enemies can spot you. Vanilla 4096.",
+          "valueOptions": {
+            "min": 0.0,
+            "max": 20480.0,
+            "step": 256.0,
+            "sourceType": "ModSettingFloat"
+          }
+        }
+      ]
+    },
+    {
+      "pageDisplayName": "Companions",
+      "content": [
+        {
+          "text": "<font size='24'><p align='center'>Companions Affinity</p></font>",
+          "html": true,
+          "type": "text"
+        },
+        {
+          "text": "<font color='#AAAAAA'><p align='center'>Per-reaction affinity changes and event cooldowns. The five reaction sliders set how much affinity an event of that type adds (or subtracts) when a companion reacts to your action.</p></font>",
+          "html": true,
+          "type": "text"
+        },
+        {
+          "type": "spacer"
+        },
+        {
+          "text": "Affinity Per Reaction",
+          "type": "section"
+        },
+        {
+          "id": "fLove:CompanionsAffinity",
+          "text": "Loves Reaction",
+          "type": "slider",
+          "help": "Affinity gained when a companion 'Loves' your action. Higher = bigger gain. Vanilla +35.",
+          "valueOptions": {
+            "min": -250.0,
+            "max": 250.0,
+            "step": 1.0,
+            "sourceType": "ModSettingFloat"
+          }
+        },
+        {
+          "id": "fLike:CompanionsAffinity",
+          "text": "Likes Reaction",
+          "type": "slider",
+          "help": "Affinity gained when a companion 'Likes' your action. Vanilla +15.",
+          "valueOptions": {
+            "min": -250.0,
+            "max": 250.0,
+            "step": 1.0,
+            "sourceType": "ModSettingFloat"
+          }
+        },
+        {
+          "id": "fIndifferent:CompanionsAffinity",
+          "text": "Indifferent Reaction",
+          "type": "slider",
+          "help": "Affinity change for a neutral reaction. Vanilla 0 (no change).",
+          "valueOptions": {
+            "min": -250.0,
+            "max": 250.0,
+            "step": 1.0,
+            "sourceType": "ModSettingFloat"
+          }
+        },
+        {
+          "id": "fDislike:CompanionsAffinity",
+          "text": "Dislikes Reaction",
+          "type": "slider",
+          "help": "Affinity lost when a companion 'Dislikes' your action. More negative = bigger loss. Vanilla -15.",
+          "valueOptions": {
+            "min": -250.0,
+            "max": 250.0,
+            "step": 1.0,
+            "sourceType": "ModSettingFloat"
+          }
+        },
+        {
+          "id": "fHates:CompanionsAffinity",
+          "text": "Hates Reaction",
+          "type": "slider",
+          "help": "Affinity lost when a companion 'Hates' your action. Vanilla -35.",
+          "valueOptions": {
+            "min": -250.0,
+            "max": 250.0,
+            "step": 1.0,
+            "sourceType": "ModSettingFloat"
+          }
+        },
+        {
+          "type": "spacer"
+        },
+        {
+          "text": "Reaction Cooldowns",
+          "type": "section"
+        },
+        {
+          "id": "fCooldownImmediate:CompanionsAffinity",
+          "text": "Immediate Cooldown",
+          "type": "slider",
+          "help": "Cooldown in game days for back-to-back reactions of the same type. Vanilla 0.",
+          "valueOptions": {
+            "min": 0.0,
+            "max": 5.0,
+            "step": 0.05,
+            "sourceType": "ModSettingFloat"
+          }
+        },
+        {
+          "id": "fCooldownShort:CompanionsAffinity",
+          "text": "Short Cooldown",
+          "type": "slider",
+          "help": "Cooldown in game days for short-tier reactions. Vanilla 0.05.",
+          "valueOptions": {
+            "min": 0.0,
+            "max": 5.0,
+            "step": 0.05,
+            "sourceType": "ModSettingFloat"
+          }
+        },
+        {
+          "id": "fCooldownMedium:CompanionsAffinity",
+          "text": "Medium Cooldown",
+          "type": "slider",
+          "help": "Cooldown in game days for medium-tier reactions. Vanilla 2.",
+          "valueOptions": {
+            "min": 0.0,
+            "max": 5.0,
+            "step": 0.05,
+            "sourceType": "ModSettingFloat"
+          }
+        },
+        {
+          "id": "fCooldownLong:CompanionsAffinity",
+          "text": "Long Cooldown",
+          "type": "slider",
+          "help": "Cooldown in game days for long-tier reactions. Vanilla 5.",
+          "valueOptions": {
+            "min": 0.0,
+            "max": 5.0,
+            "step": 0.05,
+            "sourceType": "ModSettingFloat"
+          }
+        }
+      ]
+    },
+    {
+      "pageDisplayName": "Combat Perks",
+      "content": [
+        {
+          "text": "<font size='24'><p align='center'>Combat Perks</p></font>",
+          "html": true,
+          "type": "text"
+        },
+        {
+          "text": "<font color='#AAAAAA'><p align='center'>Tier multipliers and trigger chances for combat perks. Direct sliders show the vanilla default as their neutral value.</p></font>",
+          "html": true,
+          "type": "text"
+        },
+        {
+          "type": "spacer"
+        },
+        {
+          "text": "Combat Chances",
+          "type": "section"
+        },
+        {
+          "id": "iAttackDisarmChance:CombatPerks",
+          "text": "Attack Disarm Chance",
+          "type": "slider",
+          "help": "Disarm chance from the Big Leagues / Iron Fist disarm rank. Vanilla 50.",
+          "valueOptions": {
+            "min": 0,
+            "max": 100,
+            "step": 1,
+            "sourceType": "ModSettingInt"
+          }
+        },
+        {
+          "id": "iBlockDisarmChance:CombatPerks",
+          "text": "Block Disarm Chance",
+          "type": "slider",
+          "help": "Disarm chance when blocking with a melee weapon. Vanilla 50.",
+          "valueOptions": {
+            "min": 0,
+            "max": 100,
+            "step": 1,
+            "sourceType": "ModSettingInt"
+          }
+        },
+        {
+          "id": "iBlockStaggerChance:CombatPerks",
+          "text": "Block Stagger Chance",
+          "type": "slider",
+          "help": "Stagger chance when blocking. Vanilla 5.",
+          "valueOptions": {
+            "min": 0,
+            "max": 100,
+            "step": 1,
+            "sourceType": "ModSettingInt"
+          }
+        },
+        {
+          "id": "iHandToHandBlockRecoilChance:CombatPerks",
+          "text": "Hand-to-Hand Block Recoil Chance",
+          "type": "slider",
+          "help": "Recoil chance when blocking unarmed attacks. Vanilla 25.",
+          "valueOptions": {
+            "min": 0,
+            "max": 100,
+            "step": 1,
+            "sourceType": "ModSettingInt"
+          }
+        },
+        {
+          "id": "iMarksmanKnockdownChance:CombatPerks",
+          "text": "Marksman Knockdown Chance",
+          "type": "slider",
+          "help": "Knockdown chance from the Rifleman / Gunslinger knockdown ranks. Vanilla 5.",
+          "valueOptions": {
+            "min": 0,
+            "max": 100,
+            "step": 1,
+            "sourceType": "ModSettingInt"
+          }
+        },
+        {
+          "id": "iMarksmanParalyzeChance:CombatPerks",
+          "text": "Marksman Paralyze Chance",
+          "type": "slider",
+          "help": "Paralyze chance from the Rifleman / Gunslinger paralyze ranks. Vanilla 5.",
+          "valueOptions": {
+            "min": 0,
+            "max": 100,
+            "step": 1,
+            "sourceType": "ModSettingInt"
+          }
+        },
+        {
+          "type": "spacer"
+        },
+        {
+          "text": "Light Armor Perk",
+          "type": "section"
+        },
+        {
+          "id": "fLightArmorNoviceDamageMult:CombatPerks",
+          "text": "Novice Damage Multiplier",
+          "type": "slider",
+          "help": "Damage taken multiplier at Light Armor rank 1. Vanilla 1.5.",
+          "valueOptions": {
+            "min": 0.0,
+            "max": 5.0,
+            "step": 0.05,
+            "sourceType": "ModSettingFloat"
+          }
+        },
+        {
+          "id": "fLightArmorJourneymanDamageMult:CombatPerks",
+          "text": "Journeyman Damage Multiplier",
+          "type": "slider",
+          "help": "Damage taken multiplier at Light Armor rank 2. Vanilla 0.5.",
+          "valueOptions": {
+            "min": 0.0,
+            "max": 5.0,
+            "step": 0.05,
+            "sourceType": "ModSettingFloat"
+          }
+        },
+        {
+          "id": "fLightArmorExpertSpeedMult:CombatPerks",
+          "text": "Expert Speed Multiplier",
+          "type": "slider",
+          "help": "Speed bonus at Light Armor rank 3. Vanilla 0.0.",
+          "valueOptions": {
+            "min": 0.0,
+            "max": 2.0,
+            "step": 0.05,
+            "sourceType": "ModSettingFloat"
+          }
+        },
+        {
+          "id": "fLightArmorMasterRatingMult:CombatPerks",
+          "text": "Master Rating Multiplier",
+          "type": "slider",
+          "help": "Armor rating multiplier at Light Armor rank 4. Vanilla 1.5.",
+          "valueOptions": {
+            "min": 0.0,
+            "max": 5.0,
+            "step": 0.05,
+            "sourceType": "ModSettingFloat"
+          }
+        },
+        {
+          "id": "iLightArmorMasterMinSum:CombatPerks",
+          "text": "Master Min Sum",
+          "type": "slider",
+          "help": "Minimum number of light armor pieces required to trigger the Master rating bonus. Vanilla 5.",
+          "valueOptions": {
+            "min": 0,
+            "max": 10,
+            "step": 1,
+            "sourceType": "ModSettingInt"
+          }
+        },
+        {
+          "type": "spacer"
+        },
+        {
+          "text": "Heavy Armor Perk",
+          "type": "section"
+        },
+        {
+          "id": "fHeavyArmorNoviceDamageMult:CombatPerks",
+          "text": "Novice Damage Multiplier",
+          "type": "slider",
+          "help": "Damage taken multiplier at Heavy Armor rank 1. Vanilla 1.5.",
+          "valueOptions": {
+            "min": 0.0,
+            "max": 5.0,
+            "step": 0.05,
+            "sourceType": "ModSettingFloat"
+          }
+        },
+        {
+          "id": "fHeavyArmorJourneymanDamageMult:CombatPerks",
+          "text": "Journeyman Damage Multiplier",
+          "type": "slider",
+          "help": "Damage taken multiplier at Heavy Armor rank 2. Vanilla 0.5.",
+          "valueOptions": {
+            "min": 0.0,
+            "max": 5.0,
+            "step": 0.05,
+            "sourceType": "ModSettingFloat"
+          }
+        },
+        {
+          "id": "fHeavyArmorExpertSpeedMult:CombatPerks",
+          "text": "Expert Speed Multiplier",
+          "type": "slider",
+          "help": "Speed multiplier at Heavy Armor rank 3. Vanilla 0.5.",
+          "valueOptions": {
+            "min": 0.0,
+            "max": 2.0,
+            "step": 0.05,
+            "sourceType": "ModSettingFloat"
+          }
+        },
+        {
+          "id": "fHeavyArmorMasterSpeedMult:CombatPerks",
+          "text": "Master Speed Multiplier",
+          "type": "slider",
+          "help": "Speed multiplier at Heavy Armor rank 4. Vanilla 0.0.",
+          "valueOptions": {
+            "min": 0.0,
+            "max": 2.0,
+            "step": 0.05,
+            "sourceType": "ModSettingFloat"
+          }
+        },
+        {
+          "id": "fHeavyArmorSinkGravityMult:CombatPerks",
+          "text": "Sink Gravity Multiplier",
+          "type": "slider",
+          "help": "Underwater gravity multiplier when wearing the heavy armor sink threshold. Vanilla 15.",
+          "valueOptions": {
+            "min": 0.0,
+            "max": 50.0,
+            "step": 0.5,
+            "sourceType": "ModSettingFloat"
+          }
+        },
+        {
+          "id": "iHeavyArmorJumpSum:CombatPerks",
+          "text": "Jump Sum Threshold",
+          "type": "slider",
+          "help": "Total armor weight at which heavy armor jump penalty triggers. Vanilla 35.",
+          "valueOptions": {
+            "min": 0,
+            "max": 200,
+            "step": 1,
+            "sourceType": "ModSettingInt"
+          }
+        },
+        {
+          "id": "iHeavyArmorSinkSum:CombatPerks",
+          "text": "Sink Sum Threshold",
+          "type": "slider",
+          "help": "Total armor weight at which heavy armor sink (faster water descent) triggers. Vanilla 35.",
+          "valueOptions": {
+            "min": 0,
+            "max": 200,
+            "step": 1,
+            "sourceType": "ModSettingInt"
+          }
+        }
+      ]
+    },
+    {
+      "pageDisplayName": "Settlements",
+      "content": [
+        {
+          "text": "<font size='24'><p align='center'>Settlements</p></font>",
+          "html": true,
+          "type": "text"
+        },
+        {
+          "text": "<font color='#AAAAAA'><p align='center'>Workshop GMSTs for build timers, repair cost, wire length, settler cap, and placement constraints. Settlement-surplus production caps are baked into script code, not game settings, so they aren't covered here.</p></font>",
+          "html": true,
+          "type": "text"
+        },
+        {
+          "type": "spacer"
+        },
+        {
+          "text": "Settler & Building",
+          "type": "section"
+        },
+        {
+          "id": "iSettlerPopulationMax:Settlements",
+          "text": "Settler Population Cap",
+          "type": "slider",
+          "help": "Hard cap on settlers per settlement (before Charisma bonuses). Vanilla 10.",
+          "valueOptions": {
+            "min": 1,
+            "max": 50,
+            "step": 1,
+            "sourceType": "ModSettingInt"
+          }
+        },
+        {
+          "id": "fBuildBaseTimer:Settlements",
+          "text": "Build Base Timer",
+          "type": "slider",
+          "help": "Seconds the workshop UI takes to register a build. Vanilla 0.1.",
+          "valueOptions": {
+            "min": 0.0,
+            "max": 5.0,
+            "step": 0.05,
+            "sourceType": "ModSettingFloat"
+          }
+        },
+        {
+          "id": "fBuildResourceTimer:Settlements",
+          "text": "Build Resource Timer",
+          "type": "slider",
+          "help": "Seconds the workshop UI takes to deduct resources. Vanilla 0.4.",
+          "valueOptions": {
+            "min": 0.0,
+            "max": 5.0,
+            "step": 0.05,
+            "sourceType": "ModSettingFloat"
+          }
+        },
+        {
+          "id": "fRepairComponentMult:Settlements",
+          "text": "Repair Component Multiplier",
+          "type": "slider",
+          "help": "Component cost multiplier when repairing damaged objects. Vanilla 0.1.",
+          "valueOptions": {
+            "min": 0.0,
+            "max": 2.0,
+            "step": 0.05,
+            "sourceType": "ModSettingFloat"
+          }
+        },
+        {
+          "id": "fWireMaxLength:Settlements",
+          "text": "Power Wire Max Length",
+          "type": "slider",
+          "help": "Maximum reach of a single power wire connection. Vanilla 1100.",
+          "valueOptions": {
+            "min": 100.0,
+            "max": 5000.0,
+            "step": 50.0,
+            "sourceType": "ModSettingFloat"
+          }
+        },
+        {
+          "type": "spacer"
+        },
+        {
+          "text": "Placement Constraints",
+          "type": "section"
+        },
+        {
+          "id": "fRestrictedBuildSpacing:Settlements",
+          "text": "Restricted Build Spacing",
+          "type": "slider",
+          "help": "Minimum spacing between restricted build objects. Vanilla 32.",
+          "valueOptions": {
+            "min": 0.0,
+            "max": 200.0,
+            "step": 1.0,
+            "sourceType": "ModSettingFloat"
+          }
+        },
+        {
+          "id": "fRestrictedBuildMaxFloraRadius:Settlements",
+          "text": "Max Flora Build Radius",
+          "type": "slider",
+          "help": "Radius around flora where restricted objects cannot be placed. Vanilla 50.",
+          "valueOptions": {
+            "min": 0.0,
+            "max": 500.0,
+            "step": 5.0,
+            "sourceType": "ModSettingFloat"
+          }
+        },
+        {
+          "id": "fRestrictedBuildMaxKeywordRadius:Settlements",
+          "text": "Max Keyword Build Radius",
+          "type": "slider",
+          "help": "Radius around keyword-tagged objects where restricted builds are blocked. Vanilla 50.",
+          "valueOptions": {
+            "min": 0.0,
+            "max": 500.0,
+            "step": 5.0,
+            "sourceType": "ModSettingFloat"
+          }
+        },
+        {
+          "id": "fRestrictedBuildMaxTurretRadius:Settlements",
+          "text": "Max Turret Build Radius",
+          "type": "slider",
+          "help": "Minimum spacing between automated turrets. Vanilla 70.",
+          "valueOptions": {
+            "min": 0.0,
+            "max": 500.0,
+            "step": 5.0,
+            "sourceType": "ModSettingFloat"
+          }
+        }
+      ]
+    }
+  ]
+}

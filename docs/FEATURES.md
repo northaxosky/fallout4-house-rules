@@ -1,6 +1,6 @@
 # House Rules - Feature Reference
 
-A complete list of every setting House Rules adds to your MCM menu. For installation and project info see the [README](../README.md).
+A complete list of every setting House Rules exposes through either the MCM or native Dear Modding UI frontend. Both are generated from the same catalog and write the same `HouseRules.ini` user overrides. For installation and project info see the [README](../README.md).
 
 ## How sliders work
 
@@ -9,7 +9,7 @@ A complete list of every setting House Rules adds to your MCM menu. For installa
   - **Direct sliders** set the value to exactly what you choose.
   - **Multiplier sliders** scale the original game value. `1.00` means no change. `2.00` means double. `0.50` means half.
   - **Toggles** turn a setting on or off (used in Survival Unlocks).
-- **When changes apply:** sliders take effect when you close the pause menu. Some changes also update when you eat or drink a consumable. The carry-weight unlock and the Re-enter-Survival toggle update right away.
+- **When changes apply:** MCM sliders take effect when you close the pause menu. Native edits remain pending until you select **Apply**. Native persistence is immediate, but gameplay mutation is queued to the game thread and deferred until the next loading-screen close if a save is not ready. Some changes also update when you eat or drink a consumable.
 
 ## Front Page
 

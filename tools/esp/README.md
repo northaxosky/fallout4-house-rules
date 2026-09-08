@@ -28,8 +28,8 @@ From the repo root:
 
 The helper copies the Pascal script into FO4Edit, launches FO4Edit, prints the
 manual clicks to perform, then waits. After you save `HouseRules.esp` and press
-Enter in the PowerShell window, it copies the ESP back into `Data\` and runs
-`xmake build` so the ESP deploys with the mod.
+Enter in the PowerShell window, it copies the ESP into `package\core\` and runs
+`xmake build` so the optional core asset deploys with the mod.
 
 ## Manual procedure
 
@@ -47,8 +47,8 @@ Enter in the PowerShell window, it copies the ESP back into `Data\` and runs
    `C:/Games/Modding/FO4Tools/FO4Edit 4.1.5f/HR_BuildProgress.log`
    should end with `step 4 done -- sentinel written`.
 6. Close the FO4Script result window. File > Close. When prompted to save,
-   check `HouseRules.esp` and click OK / Yes. FO4Edit will write
-   `Data/HouseRules.esp`.
+   check `HouseRules.esp` and click OK / Yes. FO4Edit will write the installed
+   game file at `Data/HouseRules.esp`.
 7. Flag the ESP as ESL to avoid consuming a load-order slot (optional but
    recommended):
    - Open `HouseRules.esp` in FO4Edit > File Header > Record Header > Record
@@ -57,11 +57,11 @@ Enter in the PowerShell window, it copies the ESP back into `Data\` and runs
 
    ```powershell
    Copy-Item "C:/games/steam/SteamApps/common/Fallout 4/Data/HouseRules.esp" `
-             "C:/Users/Kuz/Documents/Projects/Fallout/HouseRules/Data/HouseRules.esp"
+             "C:/Users/Kuz/Documents/Projects/Fallout/HouseRules/package/core/HouseRules.esp"
    ```
 
 9. Run `xmake build` to deploy the ESP with the mod.
-10. Commit the updated `Data/HouseRules.esp`.
+10. Commit the updated `package/core/HouseRules.esp`.
 
 ## Verification
 

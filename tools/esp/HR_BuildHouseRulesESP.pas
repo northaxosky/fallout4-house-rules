@@ -14,7 +14,8 @@
   Invoke:
     tools\esp\run-fo4edit.ps1 -Script HR_BuildHouseRulesESP.pas -OutMod HouseRules.esp
 
-  Output: Data\HouseRules.esp
+  xEdit output: the installed game Data\HouseRules.esp. Copy the result into
+  package\core\HouseRules.esp for a future shipped package.
 }
 unit UserScript;
 

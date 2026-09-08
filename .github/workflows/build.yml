@@ -31,25 +31,34 @@ jobs:
                       xmake-packages-${{ runner.os }}-
 
             - name: Configure
-              run: xmake f -p windows -a x64 -m releasedbg -y
+              run: xmake f -p windows -a x64 -m releasedbg --deploy_dir="" -y
 
             - name: Build
               run: xmake build
 
-            - name: Stage release layout
-              shell: pwsh
-              run: |
-                  $plugins = "artifact/Data/F4SE/Plugins"
-                  New-Item -ItemType Directory -Path $plugins -Force | Out-Null
-                  Copy-Item build/windows/x64/releasedbg/HouseRules.dll $plugins
-                  Copy-Item build/windows/x64/releasedbg/HouseRules.pdb $plugins
-                  Copy-Item -Recurse Data/MCM artifact/Data/
+            - name: Run C++ runtime behavior tests
+              run: xmake run HouseRulesRuntimeTests
+
+            - name: Validate generated settings
+              run: python tools/generate_settings.py --check
+
+            - name: Run deterministic tests
+              run: python -m unittest discover -s tests -v
+
+            - name: Validate generated hook data
+              run: python tools/gen_hook_sites.py --check
+
+            - name: Prepare and validate FOMOD package
+              run: >-
+                  python tools/package_release.py
+                  --dll build/windows/x64/releasedbg/HouseRules.dll
+                  --pdb build/windows/x64/releasedbg/HouseRules.pdb
 
             - name: Upload artifact
               uses: actions/upload-artifact@v4
               with:
                   name: HouseRules-${{ github.sha }}
-                  path: artifact
+                  path: package
                   if-no-files-found: error
 
     release:

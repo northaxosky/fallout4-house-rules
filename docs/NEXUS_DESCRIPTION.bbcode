@@ -1,13 +1,13 @@
 [size=5][center][b]House Rules[/b][/center][/size]
 
-An F4SE plugin that exposes high-impact vanilla Fallout 4 settings through a single MCM menu. The goal: give you the tools to tune vanilla mechanics so they fit a modded playthrough. Everything is a runtime tweak to settings the engine already has. No ESP, no plugin-slot cost.
+An F4SE plugin that exposes high-impact vanilla Fallout 4 settings through either Mod Configuration Menu or native Dear Modding UI pages. Both choices install the same HouseRules.dll and use the same settings files and gameplay behavior. No ESP, no plugin-slot cost.
 
 [size=4][b]Requirements[/b][/size]
 
 [list]
 [*][url=https://www.nexusmods.com/fallout4/mods/42147]F4SE[/url]
 [*][url=https://www.nexusmods.com/fallout4/mods/47327]Address Library for F4SE[/url]
-[*][url=https://www.nexusmods.com/fallout4/mods/56235]Mod Configuration Menu (MCM)[/url]
+[*]Choose one UI: [url=https://www.nexusmods.com/fallout4/mods/21497]Mod Configuration Menu (MCM)[/url] or a matching standalone Dear Modding UI host
 [/list]
 
 [size=4][b]Compatibility[/b][/size]
@@ -21,7 +21,7 @@ All three main Fallout 4 runtimes:
 
 [size=4][b]What it does[/b][/size]
 
-MCM pages cover:
+The selected settings frontend covers:
 [list]
 [*][b]Survival Unlocks[/b] - opt-in toggles for console, manual / auto saves, fast travel, compass enemies / locations, chem / ammo weight, carry weight, god mode, re-entering Survival
 [*][b]Survival[/b] - kill-switches for Hunger/Thirst, Sleep, Diseases, Adrenaline + ~38 tuning sliders for the manager script
@@ -39,8 +39,21 @@ Full per-slider reference (defaults, units, behavior notes): [url=https://github
 
 [list]
 [*]The carry-weight unlock and the Survival kill-switches need a save reload after toggling for immediate effect. Otherwise they apply on the manager script's next tick (a few in-game minutes).
-[*]Sliders apply when you close the pause menu. Magnitude changes wait for the next consumable use, the Pip-Boy tooltip caches the old value until then.
+[*]MCM changes apply when you close the pause menu. Native changes stay pending until you press Apply; if no save is ready, gameplay application waits for the next loading-screen close.
+[*]Magnitude changes wait for the next consumable use; the Pip-Boy tooltip caches the old value until then.
 [/list]
+
+[size=4][b]Installation and frontend switching[/b][/size]
+
+The installer offers exactly one frontend:
+[list]
+[*][b]MCM (default)[/b] installs the existing config.json and lib.swf.
+[*][b]Dear Modding UI[/b] deliberately omits those MCM page assets so the DMUI-MCM bridge cannot import a duplicate page.
+[/list]
+
+Both choices retain the shared packaged defaults and never include or overwrite your Data\MCM\Settings\HouseRules.ini user overrides. Restart Fallout 4 after changing frontend.
+
+When switching an existing install, replace/remove the old mod files instead of merging. If selecting native Dear Modding UI, make sure stale Data\MCM\Config\HouseRules\config.json and lib.swf files are gone. House Rules does not delete files at runtime. If the native host is missing or incompatible, House Rules logs a clear diagnostic and continues headless with saved gameplay settings; there is no silent MCM fallback.
 
 [size=4][b]Source & bug reports[/b][/size]
 

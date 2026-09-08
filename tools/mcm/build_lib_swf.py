@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Build Data/MCM/Config/HouseRules/lib.swf from a source image.
+"""Build package/frontends/mcm/MCM/Config/HouseRules/lib.swf from a source image.
 
 The SWF contains one bitmap displayed via a DefineShape (bitmap fill) wrapped
 in a DefineSprite, with an AS3 class export named "s1". MCM looks up "s1" in
@@ -33,7 +33,16 @@ except ImportError:
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 DEFAULT_INPUT = Path(__file__).resolve().parent / "house.webp"
-DEFAULT_OUTPUT = REPO_ROOT / "Data" / "MCM" / "Config" / "HouseRules" / "lib.swf"
+DEFAULT_OUTPUT = (
+    REPO_ROOT
+    / "package"
+    / "frontends"
+    / "mcm"
+    / "MCM"
+    / "Config"
+    / "HouseRules"
+    / "lib.swf"
+)
 DOABC_BLOB_PATH = Path(__file__).resolve().parent / "s1_class.abc"
 
 SWF_VERSION = 10

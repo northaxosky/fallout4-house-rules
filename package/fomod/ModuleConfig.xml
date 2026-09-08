@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="http://qconsulting.ca/fo3/ModConfig5.0.xsd">
+  <moduleName>House Rules</moduleName>
+  <requiredInstallFiles>
+    <folder source="core" destination="" priority="0" />
+  </requiredInstallFiles>
+  <installSteps order="Explicit">
+    <installStep name="Choose settings frontend">
+      <optionalFileGroups order="Explicit">
+        <group name="Settings frontend" type="SelectExactlyOne">
+          <plugins order="Explicit">
+            <plugin name="Mod Configuration Menu">
+              <description>Default and backward-compatible. Requires MCM and installs config.json/lib.swf.</description>
+              <files>
+                <folder source="frontends\mcm" destination="" priority="10" />
+              </files>
+              <typeDescriptor><type name="Recommended" /></typeDescriptor>
+            </plugin>
+            <plugin name="Dear Modding UI">
+              <description>Native settings pages. Requires a matching DearModdingUI host. Does not install bridge-discoverable MCM page assets.</description>
+              <files>
+                <folder source="frontends\dmui" destination="" priority="10" />
+              </files>
+              <typeDescriptor><type name="Optional" /></typeDescriptor>
+            </plugin>
+          </plugins>
+        </group>
+      </optionalFileGroups>
+    </installStep>
+  </installSteps>
+</config>

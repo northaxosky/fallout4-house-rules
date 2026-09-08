@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fomod>
+  <Name>House Rules</Name>
+  <Author>Mute</Author>
+  <Version>1.2.0</Version>
+  <Website>https://github.com/northaxosky/fallout4-house-rules</Website>
+  <Description>One HouseRules.dll with a selectable MCM or native Dear Modding UI frontend.</Description>
+</fomod>

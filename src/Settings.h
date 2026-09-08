@@ -1,6 +1,6 @@
 #pragma once
 
-namespace MCM
+namespace HouseRules
 {
 	class Settings
 	{
@@ -549,4 +549,11 @@ namespace MCM
 
 		static void Update();
 	};
+}
+
+// Source compatibility for downstream gameplay modules while ownership lives
+// in the UI-independent HouseRules namespace.
+namespace MCM
+{
+	using Settings = HouseRules::Settings;
 }

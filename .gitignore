@@ -5,6 +5,8 @@ vsxmake*/
 *.pdb
 *.idb
 *.ilk
+package/core/F4SE/Plugins/HouseRules.dll
+package/core/F4SE/Plugins/HouseRules.pdb
 
 # VS / IDE
 .vs/
@@ -27,3 +29,7 @@ Thumbs.db
 
 # IntelliSense compile database (generated, contains local paths)
 compile_commands.json
+
+# Python tooling caches
+__pycache__/
+*.py[cod]

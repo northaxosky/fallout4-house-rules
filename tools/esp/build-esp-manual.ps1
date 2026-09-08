@@ -12,7 +12,7 @@ $scriptSrc = Join-Path $PSScriptRoot $scriptName
 $scriptDst = Join-Path $FO4EditDir "Edit Scripts\$scriptName"
 $exe = Join-Path $FO4EditDir "FO4Edit.exe"
 $gameEsp = Join-Path $GameDataDir "HouseRules.esp"
-$repoEsp = Join-Path $repoRoot "Data\HouseRules.esp"
+$repoEsp = Join-Path $repoRoot "package\core\HouseRules.esp"
 
 if (-not (Test-Path $exe)) { throw "FO4Edit.exe not found at $exe" }
 if (-not (Test-Path $scriptSrc)) { throw "Script not found at $scriptSrc" }

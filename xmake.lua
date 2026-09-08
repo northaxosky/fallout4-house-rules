@@ -36,6 +36,13 @@ option("deploy_dir")
     set_description("MO2/game mod folder to copy the built DLL + MCM files into after build (empty = use FO4_DEV_MODS, else skip)")
 option_end()
 
+option("deploy_frontend")
+    set_default("mcm")
+    set_values("mcm", "dmui")
+    set_showmenu(true)
+    set_description("Settings frontend to deploy: mcm (default) or dmui")
+option_end()
+
 -- targets
 target("HouseRules")
     set_kind("shared")
@@ -54,6 +61,22 @@ target("HouseRules")
     add_extrafiles(".clang-format")
 
     after_build(function (target)
+        local pdb = path.join(target:targetdir(), target:name() .. ".pdb")
+        if is_mode("releasedbg") then
+            if not os.isfile(pdb) then
+                raise(
+                    "package: releasedbg build did not produce required symbols at %s",
+                    pdb)
+            end
+            os.execv(
+                "python",
+                {
+                    "tools/package_release.py",
+                    "--dll", target:targetfile(),
+                    "--pdb", pdb
+                })
+        end
+
         local deploy_dir = get_config("deploy_dir")
         if not deploy_dir or deploy_dir == "" then
             local mods_root = os.getenv("FO4_DEV_MODS")
@@ -64,16 +87,56 @@ target("HouseRules")
         end
         local plugins_dir = path.join(deploy_dir, "F4SE/Plugins")
         local mcm_dir     = path.join(deploy_dir, "MCM/Config/HouseRules")
+        local frontend    = get_config("deploy_frontend") or "mcm"
+        if frontend == "dmui" then
+            local stale_config = path.join(mcm_dir, "config.json")
+            local stale_swf = path.join(mcm_dir, "lib.swf")
+            if os.isfile(stale_config) or os.isfile(stale_swf) then
+                raise(
+                    "deploy: native frontend selected but stale MCM page assets exist in %s; use a clean mod folder or remove config.json/lib.swf manually",
+                    mcm_dir)
+            end
+        end
         os.mkdir(plugins_dir)
         os.mkdir(mcm_dir)
         os.cp(target:targetfile(), plugins_dir)
-        local pdb = path.join(target:targetdir(), target:name() .. ".pdb")
         if os.isfile(pdb) then
             os.cp(pdb, plugins_dir)
         end
-        for _, esp in ipairs(os.files("Data/*.esp")) do
+        local esp = "package/core/HouseRules.esp"
+        if os.isfile(esp) then
             os.cp(esp, deploy_dir)
         end
-        os.cp("Data/MCM/Config/HouseRules/*", mcm_dir)
-        cprint("${bright green}deploy: ${clear}copied to %s", deploy_dir)
+        os.cp("package/core/MCM/Config/HouseRules/settings.ini", mcm_dir)
+        os.cp(
+            path.join(
+                "package/frontends",
+                frontend,
+                "F4SE/Plugins/HouseRules.frontend.ini"),
+            plugins_dir)
+        if frontend == "mcm" then
+            os.cp(
+                "package/frontends/mcm/MCM/Config/HouseRules/config.json",
+                mcm_dir)
+            os.cp(
+                "package/frontends/mcm/MCM/Config/HouseRules/lib.swf",
+                mcm_dir)
+        end
+        cprint(
+            "${bright green}deploy: ${clear}copied %s frontend to %s",
+            frontend,
+            deploy_dir)
     end)
+
+target("HouseRulesRuntimeTests")
+    set_kind("binary")
+    set_arch("x64")
+
+    add_deps("dearmoddingui-api")
+    add_packages("simpleini")
+    add_files(
+        "tests/runtime_contracts.cpp",
+        "src/Configuration/SettingsPersistence.cpp",
+        "src/Gameplay/Lifecycle.cpp"
+    )
+    add_includedirs("src")
