@@ -11,6 +11,7 @@ import re
 import shutil
 import tempfile
 import xml.etree.ElementTree as ET
+import zipfile
 
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
@@ -361,10 +362,35 @@ def prepare_package(
     return output
 
 
+def create_archive(package_root: pathlib.Path, destination: pathlib.Path) -> pathlib.Path:
+    package_root = package_root.resolve()
+    destination = resolved_repo_child(destination, "archive destination")
+    if BUILD.resolve() not in destination.parents:
+        raise ValueError("archive destination must stay under build")
+    if destination == package_root or package_root in destination.parents:
+        raise ValueError("archive destination must not be inside the package")
+    validate_package(package_root)
+    destination.parent.mkdir(parents=True, exist_ok=True)
+    with zipfile.ZipFile(destination, "w", compression=zipfile.ZIP_DEFLATED) as archive:
+        for path in sorted(package_root.rglob("*")):
+            if path.is_file():
+                archive.write(path, path.relative_to(package_root).as_posix())
+    return destination
+
+
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--dll", type=pathlib.Path, required=True)
     parser.add_argument("--pdb", type=pathlib.Path, required=True)
+    parser.add_argument(
+        "--zip",
+        action="store_true",
+        help="also create build/HouseRules-<version>.zip for distribution",
+    )
+    parser.add_argument(
+        "--release-tag",
+        help="require the release tag to match the project version before packaging",
+    )
     parser.add_argument(
         "--output",
         type=pathlib.Path,
@@ -375,8 +401,14 @@ def main() -> int:
         ),
     )
     args = parser.parse_args()
+    version = project_version()
+    if args.release_tag and args.release_tag != f"v{version}":
+        parser.error(f"release tag must be v{version}, got {args.release_tag!r}")
     output = prepare_package(args.dll, args.pdb, args.output)
     print(f"prepared and validated archive-ready package at {output}")
+    if args.zip:
+        archive = create_archive(output, BUILD / f"HouseRules-{version}.zip")
+        print(f"created Nexus-ready archive at {archive}")
     return 0
 
 

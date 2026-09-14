@@ -1,10 +1,11 @@
 #pragma once
 
-#include "SettingsCatalog.generated.h"
+#include "Configuration/SettingsPersistence.h"
 
 #include <atomic>
 #include <cstdint>
 #include <mutex>
+#include <optional>
 #include <string>
 #include <vector>
 
@@ -27,6 +28,7 @@ namespace HouseRules::Configuration
 		bool success {};
 		std::string message;
 		Snapshot snapshot;
+		bool changed {};
 	};
 
 	class SettingsRepository
@@ -36,12 +38,13 @@ namespace HouseRules::Configuration
 
 		[[nodiscard]] OperationResult ReloadFromDisk();
 		[[nodiscard]] OperationResult SaveUserOverrides(
-		    std::vector<SettingsCatalog::Value> a_values);
+		    std::span<const SettingChange> a_changes);
 		[[nodiscard]] bool ApplyToRuntime(
 		    const Snapshot& a_snapshot,
 		    std::string& a_error);
 
 		[[nodiscard]] Snapshot GetSnapshot() const;
+		[[nodiscard]] std::optional<SettingsCatalog::Value> GetValue(std::size_t a_index) const;
 		[[nodiscard]] bool IsCurrent(std::uint64_t a_revision) const;
 		[[nodiscard]] bool IsLoaded() const noexcept;
 

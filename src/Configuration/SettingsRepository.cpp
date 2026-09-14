@@ -95,19 +95,24 @@ namespace HouseRules::Configuration
 	}
 
 	OperationResult SettingsRepository::SaveUserOverrides(
-	    std::vector<SettingsCatalog::Value> a_values)
+	    std::span<const SettingChange> a_changes)
 	{
 		const auto descriptors = SettingsCatalog::All();
 		const auto committed = GetSnapshot();
 		auto persisted = SavePersistedOverrides(
 		    descriptors,
 		    committed.values,
-		    std::move(a_values),
+		    a_changes,
 		    kUserPath);
 		if (!persisted.success)
 		{
 			PublishStatus(0, true, persisted.message);
 			return { false, persisted.message, GetSnapshot() };
+		}
+		if (persisted.values == committed.values)
+		{
+			PublishStatus(committed.revision, false, persisted.message);
+			return { true, persisted.message, committed };
 		}
 
 		Snapshot next;
@@ -122,7 +127,8 @@ namespace HouseRules::Configuration
 		return {
 			true,
 			"Settings saved; gameplay application is pending.",
-			std::move(next)
+			std::move(next),
+			true
 		};
 	}
 
@@ -166,6 +172,16 @@ namespace HouseRules::Configuration
 	{
 		std::scoped_lock lock { _lock };
 		return _committed;
+	}
+
+	std::optional<SettingsCatalog::Value> SettingsRepository::GetValue(std::size_t a_index) const
+	{
+		std::scoped_lock lock { _lock };
+		if (a_index >= _committed.values.size())
+		{
+			return std::nullopt;
+		}
+		return _committed.values[a_index];
 	}
 
 	bool SettingsRepository::IsCurrent(std::uint64_t a_revision) const

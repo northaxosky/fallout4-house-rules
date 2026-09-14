@@ -264,6 +264,99 @@ namespace
 		    "legacy normalization produces warnings");
 	}
 
+	void TestCompletedChanges(const std::filesystem::path& a_root)
+	{
+		using namespace HouseRules::Configuration;
+		const auto user = a_root / "HouseRules.ini";
+		WriteText(user, "[Unknown]\nkeep=untouched\n");
+		const std::array descriptors {
+			MakeDescriptor("number", "Test", "number", ValueType::kFloat, 2.333, true, 0, 24, 0.1, true),
+			MakeDescriptor("toggle", "Test", "toggle", ValueType::kBool, false, true),
+			MakeDescriptor("hidden", "Test", "hidden", ValueType::kInt, std::int64_t { 7 }, false)
+		};
+		std::vector<Value> saved { 2.333, false, std::int64_t { 7 } };
+		double edited = 3.0;
+		int commits {};
+		PersistenceResult result;
+		dmui::SettingDescriptor field {
+			.id = "number",
+			.control = dmui::DoubleSettingControl {},
+			.defaultValue = 2.333,
+			.binding = dmui::BindSetting([&] { return edited; }, [&](double value) { edited = value; return value; }),
+			.onEdit = [&](const dmui::SettingEditEvent& event) {
+			    if (!event.completed)
+				    return;
+			    const std::array changes { SettingChange { 0, edited } };
+			    result = SavePersistedOverrides(descriptors, saved, std::span<const SettingChange> { changes }, user);
+			    if (result.success)
+			    {
+				    commits += result.values != saved;
+				    saved = result.values;
+			    }
+			}
+		};
+		const auto notify = [&](bool changed, bool completed) {
+			dmui::setting_detail::NotifySettingEdit(field, { edited, changed, completed });
+		};
+		const auto original = ReadText(user);
+		notify(true, false);
+		Check(commits == 0 && ReadText(user) == original, "drag frames do not persist");
+		notify(false, true);
+		Check(commits == 1 && std::get<double>(saved[0]) == 3.0, "release commits without a same-frame change");
+		Check(!std::get<bool>(saved[1]), "completion leaves other fields at their saved values");
+		notify(false, true);
+		Check(commits == 1, "duplicate completion is a no-op");
+		edited = 4.0;
+		notify(true, true);
+		Check(commits == 2, "discrete completed edit commits once");
+
+		const auto beforeFailure = ReadText(user);
+		edited = (std::numeric_limits<double>::quiet_NaN)();
+		notify(true, true);
+		Check(!result.success && commits == 2, "invalid completion is rejected");
+		Check(ReadText(user) == beforeFailure, "invalid completion preserves persisted values");
+		edited = 5.0;
+		const auto temporary = std::filesystem::path { user.string() + ".tmp" };
+		WriteText(temporary / "blocker", "blocked");
+		notify(false, true);
+		Check(!result.success && commits == 2, "save failure does not commit");
+		Check(ReadText(user) == beforeFailure, "save failure preserves the original file");
+		std::filesystem::remove_all(temporary);
+		notify(false, true);
+		Check(result.success && commits == 3, "completion can retry a failed save without changing its value");
+
+		const auto reset = dmui::ResetSettingToDefault(field);
+		Check(reset && edited == 2.333 && std::get<double>(saved[0]) == 2.333, "SDK reset persists the exact off-grid default");
+		Check(commits == 4, "SDK reset commits once");
+		(void)dmui::ResetSettingToDefault(field);
+		Check(commits == 4, "resetting an unchanged field is a no-op");
+
+		const std::array toggled { SettingChange { 1, true } };
+		result = SavePersistedOverrides(descriptors, saved, std::span<const SettingChange> { toggled }, user);
+		Check(result.success && std::get<bool>(result.values[1]), "a second field merges into the current snapshot");
+		saved = result.values;
+		const std::array batch { SettingChange { 0, 6.0 }, SettingChange { 1, false } };
+		result = SavePersistedOverrides(descriptors, saved, std::span<const SettingChange> { batch }, user);
+		Check(result.success && std::get<double>(result.values[0]) == 6.0 && !std::get<bool>(result.values[1]), "a confirmed bulk change saves one complete snapshot");
+		saved = result.values;
+		const auto beforeRejectedBatch = ReadText(user);
+		const std::array invalidBatch { SettingChange { 1, true }, SettingChange { 0, 99.0 } };
+		result = SavePersistedOverrides(descriptors, saved, std::span<const SettingChange> { invalidBatch }, user);
+		Check(!result.success && ReadText(user) == beforeRejectedBatch, "an invalid batch cannot partially save");
+		const std::array hidden { SettingChange { 2, std::int64_t { 8 } } };
+		result = SavePersistedOverrides(descriptors, saved, std::span<const SettingChange> { hidden }, user);
+		Check(!result.success, "hidden setting edits are rejected");
+		const std::array missing { SettingChange { 99, true } };
+		result = SavePersistedOverrides(descriptors, saved, std::span<const SettingChange> { missing }, user);
+		Check(!result.success, "unknown setting indices are rejected");
+		WriteText(temporary / "blocker", "blocked");
+		const std::array unchanged { SettingChange { 0, 6.0 } };
+		result = SavePersistedOverrides(descriptors, saved, std::span<const SettingChange> { unchanged }, user);
+		Check(result.success, "unchanged edits do not attempt a write");
+		std::filesystem::remove_all(temporary);
+		Check(ReadText(user).find("untouched") != std::string::npos, "completed edits preserve unknown user settings");
+	}
+
 	void TestQuantizationAndReset()
 	{
 		using namespace HouseRules;
@@ -476,6 +569,7 @@ int main()
 	std::filesystem::create_directories(root);
 
 	TestPersistence(root / "persistence");
+	TestCompletedChanges(root / "completed");
 	TestQuantizationAndReset();
 	TestActionGate();
 	TestLifecycle();

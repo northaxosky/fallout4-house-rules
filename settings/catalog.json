@@ -7,9 +7,17 @@
     "minimumMcmVersion": 2,
     "pluginRequirements": []
   },
+  "categories": [
+    { "id": "overview", "name": "Overview" },
+    { "id": "survival", "name": "Survival & Healing" },
+    { "id": "character", "name": "Character & Progression" },
+    { "id": "combat", "name": "Combat" },
+    { "id": "world", "name": "World" }
+  ],
   "pages": [
     {
       "id": "general",
+      "category": "overview",
       "name": "General",
       "summary": "Tune high-impact vanilla Fallout 4 systems through one MCM: combat, character, economy, progression, perks, settlements, companions, and Survival mechanics.",
       "root": true,
@@ -57,6 +65,7 @@
     },
     {
       "id": "survival-unlocks",
+      "category": "survival",
       "name": "Survival Unlocks",
       "summary": "Each toggle: OFF mirrors vanilla Survival, ON applies the tweak.",
       "root": false,
@@ -132,6 +141,7 @@
     },
     {
       "id": "survival",
+      "category": "survival",
       "name": "Survival",
       "summary": "Toggles for the vanilla Survival hardcore-rule systems (food/water and sleep deprivation). Save and reload after toggling so the script picks up the new state immediately; otherwise the change takes effect on the next in-game tick (within a few in-game minutes).",
       "root": false,
@@ -332,6 +342,7 @@
     },
     {
       "id": "magnitudes",
+      "category": "survival",
       "name": "Magnitudes",
       "summary": "Magnitude Scalers",
       "root": false,
@@ -388,6 +399,7 @@
     },
     {
       "id": "difficulty",
+      "category": "combat",
       "name": "Difficulty",
       "summary": "Difficulty Multipliers",
       "root": false,
@@ -569,6 +581,7 @@
     },
     {
       "id": "character",
+      "category": "character",
       "name": "Character",
       "summary": "Character Feel",
       "root": false,
@@ -663,6 +676,7 @@
     },
     {
       "id": "damage-formulas",
+      "category": "combat",
       "name": "Damage Formulas",
       "summary": "Raw damage factors and armor reduction exponents. Neutral values are vanilla; sliders move the engine baseline directly.",
       "root": false,
@@ -720,6 +734,7 @@
     },
     {
       "id": "power-armor",
+      "category": "combat",
       "name": "Power Armor",
       "summary": "Jetpack, fusion-core drain, and PA durability. Multiplier sliders show 1.00 = vanilla; Direct sliders show the vanilla default as their neutral value.",
       "root": false,
@@ -798,6 +813,7 @@
     },
     {
       "id": "economy",
+      "category": "world",
       "name": "Economy",
       "summary": "Vendor buy/sell pricing. Direct sliders show the vanilla default as their neutral value.",
       "root": false,
@@ -848,6 +864,7 @@
     },
     {
       "id": "progression",
+      "category": "character",
       "name": "Progression",
       "summary": "Non-difficulty XP sources: crafting, lockpicking, mine disarm. Direct sliders show the vanilla default as their neutral value.",
       "root": false,
@@ -981,6 +998,7 @@
     },
     {
       "id": "vats",
+      "category": "combat",
       "name": "VATS",
       "summary": "Targeting range, time slowdown, and incoming damage while VATS is active. Direct sliders show the vanilla default as their neutral value.",
       "root": false,
@@ -1029,6 +1047,7 @@
     },
     {
       "id": "skills",
+      "category": "character",
       "name": "Skills",
       "summary": "Pickpocket, hacking, and lockpicking constants. Direct sliders show the vanilla default as their neutral value.",
       "root": false,
@@ -1127,6 +1146,7 @@
     },
     {
       "id": "sneak",
+      "category": "character",
       "name": "Sneak",
       "summary": "Sneak & Detection",
       "root": false,
@@ -1180,6 +1200,7 @@
     },
     {
       "id": "companions",
+      "category": "world",
       "name": "Companions",
       "summary": "Companions Affinity",
       "root": false,
@@ -1239,6 +1260,7 @@
     },
     {
       "id": "combat-perks",
+      "category": "combat",
       "name": "Combat Perks",
       "summary": "Tier multipliers and trigger chances for combat perks. Direct sliders show the vanilla default as their neutral value.",
       "root": false,
@@ -1332,6 +1354,7 @@
     },
     {
       "id": "settlements",
+      "category": "world",
       "name": "Settlements",
       "summary": "Workshop GMSTs for build timers, repair cost, wire length, settler cap, and placement constraints. Settlement-surplus production caps are baked into script code, not game settings, so they aren't covered here.",
       "root": false,

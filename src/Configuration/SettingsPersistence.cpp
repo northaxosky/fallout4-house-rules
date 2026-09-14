@@ -506,6 +506,37 @@ namespace HouseRules::Configuration
 	PersistenceResult SavePersistedOverrides(
 	    std::span<const SettingsCatalog::Descriptor> a_descriptors,
 	    std::span<const SettingsCatalog::Value> a_committed,
+	    std::span<const SettingChange> a_changes,
+	    const std::filesystem::path& a_userPath)
+	{
+		if (a_committed.size() != a_descriptors.size())
+		{
+			return { false, "Settings are not loaded yet." };
+		}
+		std::vector<SettingsCatalog::Value> requested(a_committed.begin(), a_committed.end());
+		for (const auto& change : a_changes)
+		{
+			if (change.index >= a_descriptors.size() || !a_descriptors[change.index].exposed)
+			{
+				return { false, "The requested setting is not editable." };
+			}
+			std::string error;
+			if (!ValidateRequestedValue(a_descriptors[change.index], change.value, error))
+			{
+				return { false, std::move(error) };
+			}
+			requested[change.index] = change.value;
+		}
+		if (std::ranges::equal(requested, a_committed))
+		{
+			return { true, "Settings unchanged.", std::move(requested) };
+		}
+		return SavePersistedOverrides(a_descriptors, a_committed, std::move(requested), a_userPath);
+	}
+
+	PersistenceResult SavePersistedOverrides(
+	    std::span<const SettingsCatalog::Descriptor> a_descriptors,
+	    std::span<const SettingsCatalog::Value> a_committed,
 	    std::vector<SettingsCatalog::Value> a_requested,
 	    const std::filesystem::path& a_userPath)
 	{

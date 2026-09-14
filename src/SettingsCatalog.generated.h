@@ -43,9 +43,18 @@ namespace HouseRules::SettingsCatalog
 		std::string_view name;
 		std::string_view summary;
 		std::int32_t sortKey;
+		std::string_view categoryId;
+	};
+
+	struct Category
+	{
+		std::string_view id;
+		std::string_view name;
+		std::int32_t sortKey;
 	};
 
 	[[nodiscard]] std::span<const Descriptor> All() noexcept;
 	[[nodiscard]] std::span<const Page> Pages() noexcept;
+	[[nodiscard]] std::span<const Category> Categories() noexcept;
 	[[nodiscard]] const Descriptor* Find(std::string_view a_id) noexcept;
 }

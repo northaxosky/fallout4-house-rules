@@ -1,189 +1,196 @@
 #include "PCH.h"
 
-#include "UI/ActionGate.h"
-#include "UI/DearModdingUI.h"
-
-#include "Configuration/SettingsPersistence.h"
 #include "Configuration/SettingsRepository.h"
 #include "Gameplay/Application.h"
-#include "SettingsCatalog.generated.h"
+#include "UI/ActionGate.h"
+#include "UI/DearModdingUI.h"
 
 #include <DearModdingUI/Client.h>
 
 #include <algorithm>
+#include <array>
 #include <atomic>
 #include <cmath>
 #include <format>
+#include <map>
 #include <optional>
 #include <ranges>
 #include <string>
-#include <utility>
 #include <vector>
 
 namespace HouseRules::UI
 {
-	using namespace std::literals;
-
 	namespace
 	{
-		constexpr dmui::ClientOptions kClientOptions {
-			.requiredServices = DMUI_HOST_SERVICE_NONE,
-			.minimumForwardingVersion = DMUI_FORWARDING_VERSION_CURRENT
-		};
-		constexpr dmui::CategoryDescriptor kCategory {
-			.id = "house-rules",
-			.displayName = "House Rules",
-			.sortKey = 0
-		};
+		using Configuration::SettingChange;
+		using SettingsCatalog::Value;
 
-		dmui::Client g_client {
-			"northaxosky.house-rules",
-			"House Rules",
-			dmui::Version { 1, 2 },
-			dmui::kForwardingClient,
-			{},
-			{},
-			kClientOptions
-		};
+		dmui::Client g_client { "northaxosky.house-rules", "House Rules", dmui::Version { 1, 2 }, "scales" };
 		std::atomic_bool g_registrationComplete { false };
+		bool g_feedbackSupported {};
+		bool g_dialogsSupported {};
 
-		struct Draft
+		struct Edit
 		{
-			bool active {};
-			std::uint64_t revision {};
-			std::vector<SettingsCatalog::Value> committed;
-			std::vector<SettingsCatalog::Value> values;
+			Value value;
+			std::string error;
+			bool rejected {};
 		};
+		// Only unfinished or failed edits live here; the repository owns saved state.
+		std::map<std::size_t, Edit> g_edits;
 
-		Draft g_draft;
-
-		[[nodiscard]] std::vector<SettingsCatalog::Value> Defaults()
+		struct PageReset
 		{
-			std::vector<SettingsCatalog::Value> values;
-			for (const auto& descriptor : SettingsCatalog::All())
-			{
-				values.push_back(descriptor.defaultValue);
-			}
-			return values;
+			DMUI_DialogHandle dialog;
+			std::string page;
+		};
+		std::optional<PageReset> g_pageReset;
+
+		Configuration::SettingsRepository& Repository()
+		{
+			return Configuration::SettingsRepository::GetSingleton();
 		}
 
-		[[nodiscard]] bool IsDirty() noexcept
+		void PublishStatus()
 		{
-			return g_draft.active && g_draft.values != g_draft.committed;
-		}
-
-		[[nodiscard]] bool SettingsLoaded()
-		{
-			return Configuration::SettingsRepository::GetSingleton().IsLoaded();
-		}
-
-		[[nodiscard]] bool MutationReady(bool a_publishStatus = true)
-		{
-			const auto result = EvaluateMutationGate(
-			    g_registrationComplete.load(std::memory_order_acquire),
-			    SettingsLoaded());
-			if (!result.allowed && a_publishStatus)
+			static std::string lastMessage;
+			static bool lastError {};
+			const auto message = Repository().StatusMessage();
+			const bool error = Repository().StatusIsError();
+			if (message == lastMessage && error == lastError)
 			{
-				(void)g_client.SetStatus(
-				    DMUI_STATUS_SEVERITY_WARNING,
-				    std::string { result.message }.c_str());
-			}
-			return result.allowed;
-		}
-
-		[[nodiscard]] std::size_t PendingCount() noexcept
-		{
-			if (!g_draft.active)
-			{
-				return 0;
-			}
-			std::size_t count = 0;
-			const auto descriptors = SettingsCatalog::All();
-			for (std::size_t index = 0; index < descriptors.size(); ++index)
-			{
-				if (descriptors[index].exposed &&
-				    g_draft.values[index] != g_draft.committed[index])
-				{
-					++count;
-				}
-			}
-			return count;
-		}
-
-		void EnsureDraft()
-		{
-			const auto snapshot =
-			    Configuration::SettingsRepository::GetSingleton().GetSnapshot();
-			if (!g_draft.active)
-			{
-				g_draft.active = true;
-				g_draft.revision = snapshot.revision;
-				g_draft.committed =
-				    snapshot.values.empty() ? Defaults() : snapshot.values;
-				g_draft.values = g_draft.committed;
 				return;
 			}
-			if (!IsDirty() && snapshot.revision != g_draft.revision &&
-			    !snapshot.values.empty())
+			if (!g_client.SetStatus(error ? DMUI_STATUS_SEVERITY_ERROR : DMUI_STATUS_SEVERITY_INFO, message.c_str()))
 			{
-				g_draft.revision = snapshot.revision;
-				g_draft.committed = snapshot.values;
-				g_draft.values = snapshot.values;
+				return;
+			}
+			lastMessage = message;
+			lastError = error;
+			if (error)
+			{
+				REX::ERROR("DearModdingUI: {}", message);
 			}
 		}
 
-		[[nodiscard]] std::vector<std::string> SplitOptions(
-		    std::string_view a_options)
+		void ReportError(std::string a_message)
 		{
-			std::vector<std::string> output;
-			std::size_t start = 0;
+			Repository().PublishStatus(0, true, std::move(a_message));
+			PublishStatus();
+		}
+
+		bool MutationReady(bool a_report = true)
+		{
+			const auto gate = EvaluateMutationGate(
+			    g_registrationComplete.load(std::memory_order_acquire), Repository().IsLoaded());
+			if (!gate.allowed && a_report)
+			{
+				(void)g_client.SetStatus(DMUI_STATUS_SEVERITY_WARNING, std::string { gate.message }.c_str());
+			}
+			return gate.allowed;
+		}
+
+		Value ReadValue(std::size_t a_index)
+		{
+			if (const auto edit = g_edits.find(a_index); edit != g_edits.end())
+			{
+				return edit->second.value;
+			}
+			return Repository().GetValue(a_index).value_or(SettingsCatalog::All()[a_index].defaultValue);
+		}
+
+		std::optional<dmui::FieldFeedback> Feedback(std::size_t a_index)
+		{
+			const auto edit = g_edits.find(a_index);
+			if (edit == g_edits.end() || edit->second.error.empty())
+			{
+				return std::nullopt;
+			}
+			return dmui::FieldFeedback { dmui::FieldFeedbackSeverity::kError, edit->second.error };
+		}
+
+		Value SetEdit(std::size_t a_index, Value a_value)
+		{
+			const auto previous = ReadValue(a_index);
+			if (!MutationReady())
+			{
+				return previous;
+			}
+			const auto& descriptor = SettingsCatalog::All()[a_index];
+			std::string error;
+			if (!Configuration::ValidateRequestedValue(descriptor, a_value, error))
+			{
+				g_edits.insert_or_assign(a_index, Edit { previous, error, true });
+				ReportError(error);
+				return previous;
+			}
+			auto normalized = Configuration::QuantizeUiValue(descriptor, std::move(a_value));
+			g_edits.insert_or_assign(a_index, Edit { normalized, {}, false });
+			return normalized;
+		}
+
+		bool Commit(std::span<const SettingChange> a_changes)
+		{
+			if (!MutationReady())
+			{
+				return false;
+			}
+			auto result = Repository().SaveUserOverrides(a_changes);
+			if (!result.success)
+			{
+				for (const auto& change : a_changes)
+				{
+					auto& edit = g_edits.try_emplace(change.index, Edit { ReadValue(change.index), {}, false }).first->second;
+					edit.error = result.message + " Edit this field again to retry.";
+				}
+				PublishStatus();
+				return false;
+			}
+			for (const auto& change : a_changes)
+			{
+				g_edits.erase(change.index);
+			}
+			if (result.changed)
+			{
+				(void)Gameplay::QueueApply(std::move(result.snapshot));
+			}
+			PublishStatus();
+			return true;
+		}
+
+		void CompleteEdit(std::size_t a_index, const dmui::SettingEditEvent& a_event)
+		{
+			// A release frame can complete an edit without changing its value again.
+			if (!a_event.completed || !MutationReady())
+			{
+				return;
+			}
+			const auto edit = g_edits.find(a_index);
+			if (edit != g_edits.end() && !edit->second.rejected)
+			{
+				const std::array changes { SettingChange { a_index, edit->second.value } };
+				(void)Commit(changes);
+			}
+		}
+
+		std::vector<std::string> SplitOptions(std::string_view a_options)
+		{
+			std::vector<std::string> result;
+			std::size_t start {};
 			while (start <= a_options.size())
 			{
-				const auto separator = a_options.find('|', start);
-				output.emplace_back(a_options.substr(
-				    start,
-				    separator == std::string_view::npos ? a_options.size() - start : separator - start));
-				if (separator == std::string_view::npos)
+				const auto end = a_options.find('|', start);
+				result.emplace_back(a_options.substr(start, end == std::string_view::npos ? end : end - start));
+				if (end == std::string_view::npos)
 				{
 					break;
 				}
-				start = separator + 1;
+				start = end + 1;
 			}
-			return output;
+			return result;
 		}
 
-		template<class T>
-		[[nodiscard]] T DraftValue(std::size_t a_index, T a_fallback)
-		{
-			if (a_index >= g_draft.values.size())
-			{
-				return a_fallback;
-			}
-			if (const auto* value = std::get_if<T>(&g_draft.values[a_index]))
-			{
-				return *value;
-			}
-			return a_fallback;
-		}
-
-		template<class T>
-		[[nodiscard]] T SetDraftValue(
-		    std::size_t a_index,
-		    T a_value,
-		    T a_fallback)
-		{
-			if (!MutationReady() ||
-			    a_index >= g_draft.values.size() ||
-			    !std::holds_alternative<T>(g_draft.values[a_index]))
-			{
-				return a_fallback;
-			}
-			g_draft.values[a_index] = a_value;
-			return a_value;
-		}
-
-		[[nodiscard]] dmui::SettingControl MakeControl(
-		    const SettingsCatalog::Descriptor& a_descriptor)
+		dmui::SettingControl MakeControl(const SettingsCatalog::Descriptor& a_descriptor)
 		{
 			using SettingsCatalog::ValueType;
 			switch (a_descriptor.type)
@@ -194,307 +201,185 @@ namespace HouseRules::UI
 				{
 					dmui::DoubleSettingControl control;
 					control.format = std::abs(a_descriptor.step) < 0.01 ? "%.3f" : "%.2f";
-					control.dragSpeed =
-					    static_cast<float>((std::max)(a_descriptor.step, 0.001));
+					control.dragSpeed = static_cast<float>((std::max)(a_descriptor.step, 0.001));
 					if (a_descriptor.hasRange)
 					{
-						control.range = dmui::NumericSettingRange<double> {
-							a_descriptor.minimum,
-							a_descriptor.maximum
-						};
-						if (Configuration::CanUseNativeControlQuantization(
-						        a_descriptor))
+						control.range = dmui::NumericSettingRange<double> { a_descriptor.minimum, a_descriptor.maximum };
+						if (Configuration::CanUseNativeControlQuantization(a_descriptor))
 						{
-							control.quantization =
-							    dmui::NumericQuantization<double> {
-								    a_descriptor.step,
-								    a_descriptor.minimum
-							    };
+							control.quantization = dmui::NumericQuantization<double> { a_descriptor.step, a_descriptor.minimum };
 						}
 					}
 					return control;
 				}
 				case ValueType::kInt:
+				{
 					if (!a_descriptor.options.empty())
 					{
 						dmui::ChoiceSettingControl control;
-						for (const auto& option :
-						     SplitOptions(a_descriptor.options))
+						for (const auto& option : SplitOptions(a_descriptor.options))
 						{
 							control.options.push_back({ option, option });
 						}
 						return control;
 					}
-					else
+					dmui::SignedSettingControl control;
+					control.format = "%lld";
+					control.dragSpeed = static_cast<float>((std::max)(a_descriptor.step, 1.0));
+					if (a_descriptor.hasRange)
 					{
-						dmui::SignedSettingControl control;
-						control.format = "%lld";
-						control.dragSpeed =
-						    static_cast<float>((std::max)(a_descriptor.step, 1.0));
-						if (a_descriptor.hasRange)
+						control.range = dmui::NumericSettingRange<std::int64_t> {
+							static_cast<std::int64_t>(a_descriptor.minimum), static_cast<std::int64_t>(a_descriptor.maximum)
+						};
+						if (Configuration::CanUseNativeControlQuantization(a_descriptor))
 						{
-							control.range =
-							    dmui::NumericSettingRange<std::int64_t> {
-								    static_cast<std::int64_t>(
-								        a_descriptor.minimum),
-								    static_cast<std::int64_t>(
-								        a_descriptor.maximum)
-							    };
-							if (Configuration::CanUseNativeControlQuantization(
-							        a_descriptor))
-							{
-								control.quantization =
-								    dmui::NumericQuantization<std::int64_t> {
-									    static_cast<std::int64_t>(
-									        a_descriptor.step),
-									    static_cast<std::int64_t>(
-									        a_descriptor.minimum)
-								    };
-							}
+							control.quantization = dmui::NumericQuantization<std::int64_t> {
+								static_cast<std::int64_t>(a_descriptor.step), static_cast<std::int64_t>(a_descriptor.minimum)
+							};
 						}
-						return control;
 					}
+					return control;
+				}
 				case ValueType::kString:
 					return dmui::TextSettingControl { 512 };
 			}
 			return dmui::UnsupportedSettingControl {};
 		}
 
-		[[nodiscard]] dmui::SettingBinding MakeBinding(
-		    std::size_t a_index,
-		    const SettingsCatalog::Descriptor& a_descriptor)
+		dmui::SettingBinding MakeBinding(std::size_t a_index, const SettingsCatalog::Descriptor& a_descriptor)
 		{
-			using SettingsCatalog::ValueType;
-			switch (a_descriptor.type)
-			{
-				case ValueType::kBool:
-				{
-					const auto fallback = std::get<bool>(a_descriptor.defaultValue);
-					return dmui::BindSetting(
-					    [a_index, fallback] {
-						    return DraftValue(a_index, fallback);
-					    },
-					    [a_index, fallback](bool a_value) {
-						    return SetDraftValue(a_index, a_value, fallback);
-					    });
-				}
-				case ValueType::kFloat:
-				{
-					const auto fallback = std::get<double>(a_descriptor.defaultValue);
-					return dmui::BindSetting(
-					    [a_index, fallback] {
-						    return DraftValue(a_index, fallback);
-					    },
-					    [a_index, fallback, &a_descriptor](double a_value) {
-						    auto quantized = Configuration::QuantizeUiValue(
-						        a_descriptor,
-						        a_value);
-						    return SetDraftValue(
-						        a_index,
-						        std::get<double>(quantized),
-						        fallback);
-					    });
-				}
-				case ValueType::kInt:
-					if (!a_descriptor.options.empty())
-					{
-						const auto options = SplitOptions(a_descriptor.options);
-						const auto defaultIndex =
-						    std::get<std::int64_t>(a_descriptor.defaultValue);
-						const auto fallback =
-						    options.at(static_cast<std::size_t>(defaultIndex));
-						return dmui::BindSetting(
-						    [a_index, options, fallback] {
-							    const auto value =
-							        DraftValue<std::int64_t>(
-							            a_index,
-							            0);
-							    if (value < 0 ||
-							        static_cast<std::size_t>(value) >=
-							            options.size())
-							    {
-								    return fallback;
-							    }
-							    return options[static_cast<std::size_t>(value)];
-						    },
-						    [a_index, options, fallback](std::string a_value) {
-							    const auto found =
-							        std::ranges::find(options, a_value);
-							    if (found == options.end())
-							    {
-								    return fallback;
-							    }
-							    const auto index = static_cast<std::int64_t>(
-							        std::distance(options.begin(), found));
-							    (void)SetDraftValue<std::int64_t>(
-							        a_index,
-							        index,
-							        0);
-							    return a_value;
-						    });
-					}
-					else
-					{
-						const auto fallback =
-						    std::get<std::int64_t>(a_descriptor.defaultValue);
-						return dmui::BindSetting(
-						    [a_index, fallback] {
-							    return DraftValue(a_index, fallback);
-						    },
-						    [a_index, fallback, &a_descriptor](std::int64_t a_value) {
-							    auto quantized = Configuration::QuantizeUiValue(
-							        a_descriptor,
-							        a_value);
-							    return SetDraftValue(
-							        a_index,
-							        std::get<std::int64_t>(quantized),
-							        fallback);
-						    });
-					}
-				case ValueType::kString:
-				{
-					const auto fallback =
-					    std::get<std::string>(a_descriptor.defaultValue);
-					return dmui::BindSetting(
-					    [a_index, fallback] {
-						    return DraftValue(a_index, fallback);
-					    },
-					    [a_index, fallback](std::string a_value) {
-						    return SetDraftValue(
-						        a_index,
-						        std::move(a_value),
-						        fallback);
-					    });
-				}
-			}
-			return {};
-		}
-
-		[[nodiscard]] dmui::SettingDescriptor MakeSetting(
-		    std::size_t a_index,
-		    const SettingsCatalog::Descriptor& a_descriptor)
-		{
-			dmui::SettingValue defaultValue = std::visit(
-			    []<class T>(const T& a_value) -> dmui::SettingValue {
-				    return a_value;
-			    },
-			    a_descriptor.defaultValue);
 			if (!a_descriptor.options.empty())
 			{
 				const auto options = SplitOptions(a_descriptor.options);
-				const auto defaultIndex =
-				    std::get<std::int64_t>(a_descriptor.defaultValue);
-				defaultValue =
-				    options.at(static_cast<std::size_t>(defaultIndex));
+				const auto get = [a_index, options] {
+					return options.at(static_cast<std::size_t>(std::get<std::int64_t>(ReadValue(a_index))));
+				};
+				return dmui::BindSetting(get, [a_index, options, get](std::string a_value) {
+					const auto found = std::ranges::find(options, a_value);
+					(void)SetEdit(a_index, static_cast<std::int64_t>(std::distance(options.begin(), found)));
+					return get();
+				});
 			}
-			return {
+			return std::visit([a_index]<class T>(const T&) -> dmui::SettingBinding {
+				return dmui::BindSetting(
+				    [a_index] { return std::get<T>(ReadValue(a_index)); },
+				    [a_index](T a_value) { return std::get<T>(SetEdit(a_index, std::move(a_value))); });
+			},
+			                  a_descriptor.defaultValue);
+		}
+
+		dmui::SettingDescriptor MakeSetting(std::size_t a_index, const SettingsCatalog::Descriptor& a_descriptor)
+		{
+			dmui::SettingValue defaultValue = std::visit(
+			    [](const auto& a_value) -> dmui::SettingValue { return a_value; }, a_descriptor.defaultValue);
+			if (!a_descriptor.options.empty())
+			{
+				defaultValue = SplitOptions(a_descriptor.options).at(static_cast<std::size_t>(std::get<std::int64_t>(a_descriptor.defaultValue)));
+			}
+			dmui::SettingDescriptor setting {
 				.id = std::string { a_descriptor.id },
 				.label = std::string { a_descriptor.label },
 				.description = std::string { a_descriptor.help },
 				.control = MakeControl(a_descriptor),
 				.defaultValue = std::move(defaultValue),
 				.binding = MakeBinding(a_index, a_descriptor),
-				.applyTiming = dmui::SettingApplyTiming::kNextLaunch,
-				.isEnabled = [] { return g_registrationComplete.load(
-				                             std::memory_order_acquire) &&
-				                         SettingsLoaded(); },
-				.isDirty = [a_index] { return g_draft.active &&
-				                              a_index < g_draft.values.size() &&
-				                              g_draft.values[a_index] !=
-				                                  g_draft.committed[a_index]; },
-				.isModified = [a_index, defaultValue = a_descriptor.defaultValue] { return g_draft.active &&
-				                                                                           a_index < g_draft.values.size() &&
-				                                                                           g_draft.values[a_index] != defaultValue; },
-				.onEdit = [](const dmui::SettingEditEvent& a_event) {
-					if (a_event.changed && a_event.completed) {
-						const auto pending = PendingCount();
-						(void)g_client.SetStatus(
-							DMUI_STATUS_SEVERITY_INFO,
-							std::format(
-								"{} pending change{}; select Apply to save.",
-								pending,
-								pending == 1 ? "" : "s")
-								.c_str());
-					} }
+				.isEnabled = [] { return MutationReady(false); },
+				.isDirty = [a_index] { return ReadValue(a_index) != Repository().GetValue(a_index).value_or(
+				                                                        SettingsCatalog::All()[a_index].defaultValue); },
+				.isModified = [a_index] { return ReadValue(a_index) != SettingsCatalog::All()[a_index].defaultValue; },
+				.onEdit = [a_index](const dmui::SettingEditEvent& a_event) { CompleteEdit(a_index, a_event); }
 			};
+			if (g_feedbackSupported)
+			{
+				setting.resolveFeedback = [a_index] { return Feedback(a_index); };
+			}
+			else
+			{
+				setting.resolveDescription = [a_index, help = setting.description] {
+					const auto feedback = Feedback(a_index);
+					return feedback ? help + "\n" + feedback->message : help;
+				};
+			}
+			return setting;
 		}
 
-		void ResetPage(std::string_view a_pageId)
+		void RequestPageReset(std::string_view a_pageId, std::string_view a_pageName)
 		{
-			if (!MutationReady())
+			if (!MutationReady() || !g_dialogsSupported || g_pageReset)
 			{
 				return;
 			}
-			EnsureDraft();
+			const auto title = std::format("Reset {}?", a_pageName);
+			const auto body = std::format("Reset every setting on {} to its shipped default and save immediately?", a_pageName);
+			const DMUI_DialogDescriptor descriptor {
+				sizeof(DMUI_DialogDescriptor), DMUI_DIALOG_KIND_CONFIRM,
+				title.c_str(), body.c_str(), "Reset all", "Cancel", nullptr, nullptr, 0
+			};
+			if (const auto dialog = g_client.RequestDialog(descriptor))
+			{
+				g_pageReset = PageReset { *dialog, std::string { a_pageId } };
+			}
+			else
+			{
+				ReportError(std::format("Could not open reset confirmation: {}.", DMUI_ResultToString(g_client.LastResult())));
+			}
+		}
+
+		void PollPageReset()
+		{
+			if (!g_pageReset)
+			{
+				return;
+			}
+			std::string text;
+			const auto event = g_client.PollDialogEvent(g_pageReset->dialog, text);
+			if (!event)
+			{
+				ReportError(std::format("Reset confirmation failed: {}.", DMUI_ResultToString(g_client.LastResult())));
+				g_pageReset.reset();
+				return;
+			}
+			if (event->kind == DMUI_DIALOG_EVENT_CANCELLED || event->kind == DMUI_DIALOG_EVENT_COMPLETED)
+			{
+				g_pageReset.reset();
+				return;
+			}
+			if (event->kind != DMUI_DIALOG_EVENT_SUBMITTED)
+			{
+				return;
+			}
+			std::vector<SettingChange> changes;
 			const auto descriptors = SettingsCatalog::All();
 			for (std::size_t index = 0; index < descriptors.size(); ++index)
 			{
-				if (descriptors[index].pageId == a_pageId)
+				if (descriptors[index].exposed && descriptors[index].pageId == g_pageReset->page)
 				{
-					g_draft.values[index] = descriptors[index].defaultValue;
+					changes.push_back({ index, descriptors[index].defaultValue });
 				}
 			}
-		}
-
-		void RevertPage(std::string_view a_pageId)
-		{
-			if (!MutationReady())
+			const bool ready = MutationReady();
+			const bool saved = ready && Commit(changes);
+			const auto error = ready ? Repository().StatusMessage() : "Settings are not ready yet.";
+			if (!g_client.ResolveDialogSubmission(
+			        g_pageReset->dialog, event->submissionId, saved, saved ? nullptr : error.c_str()))
 			{
-				return;
+				ReportError(std::format("Could not finish reset confirmation: {}.", DMUI_ResultToString(g_client.LastResult())));
+				g_pageReset.reset();
 			}
-			EnsureDraft();
-			const auto descriptors = SettingsCatalog::All();
-			for (std::size_t index = 0; index < descriptors.size(); ++index)
+			else if (saved)
 			{
-				if (descriptors[index].pageId == a_pageId)
-				{
-					g_draft.values[index] = g_draft.committed[index];
-				}
+				g_pageReset.reset();
 			}
 		}
 
-		void ApplyDraft()
+		std::vector<dmui::SettingGroup> MakeGroups(std::string_view a_pageId)
 		{
-			if (!MutationReady())
-			{
-				return;
-			}
-			EnsureDraft();
-			auto result =
-			    Configuration::SettingsRepository::GetSingleton()
-			        .SaveUserOverrides(g_draft.values);
-			if (!result.success)
-			{
-				(void)g_client.SetStatus(
-				    DMUI_STATUS_SEVERITY_ERROR,
-				    result.message.c_str());
-				REX::ERROR("DearModdingUI: {}"sv, result.message);
-				return;
-			}
-
-			g_draft.revision = result.snapshot.revision;
-			g_draft.committed = result.snapshot.values;
-			g_draft.values = result.snapshot.values;
-			const auto queued =
-			    Gameplay::QueueApply(std::move(result.snapshot));
-			const auto ready = Gameplay::IsReady();
-			const auto* message = !queued ? "Settings saved, but gameplay application could not be queued." : ready ? "Settings saved; gameplay application queued."
-			                                                                                                        : "Settings saved; gameplay changes will apply after the next loading screen.";
-			(void)g_client.SetStatus(
-			    queued ? DMUI_STATUS_SEVERITY_SUCCESS : DMUI_STATUS_SEVERITY_ERROR,
-			    message);
-		}
-
-		[[nodiscard]] std::vector<dmui::SettingGroup> MakeGroups(
-		    std::string_view a_pageId)
-		{
-			struct GroupBuild
+			struct Group
 			{
 				std::string name;
-				std::vector<std::pair<std::int32_t, dmui::SettingDescriptor>>
-				    settings;
+				std::vector<std::pair<std::int32_t, dmui::SettingDescriptor>> settings;
 			};
-			std::vector<GroupBuild> builds;
+			std::vector<Group> groups;
 			const auto descriptors = SettingsCatalog::All();
 			for (std::size_t index = 0; index < descriptors.size(); ++index)
 			{
@@ -503,146 +388,117 @@ namespace HouseRules::UI
 				{
 					continue;
 				}
-				auto group = std::ranges::find_if(
-				    builds,
-				    [&](const GroupBuild& a_group) {
-					    return a_group.name == descriptor.group;
-				    });
-				if (group == builds.end())
+				auto group = std::ranges::find(groups, descriptor.group, &Group::name);
+				if (group == groups.end())
 				{
-					builds.push_back({ std::string { descriptor.group }, {} });
-					group = std::prev(builds.end());
+					groups.push_back({ std::string { descriptor.group }, {} });
+					group = std::prev(groups.end());
 				}
-				group->settings.emplace_back(
-				    descriptor.sortKey,
-				    MakeSetting(index, descriptor));
+				group->settings.emplace_back(descriptor.sortKey, MakeSetting(index, descriptor));
 			}
-
-			std::vector<dmui::SettingGroup> groups;
-			for (auto& build : builds)
+			std::vector<dmui::SettingGroup> result;
+			for (auto& group : groups)
 			{
-				std::ranges::sort(
-				    build.settings,
-				    {},
-				    &std::pair<std::int32_t, dmui::SettingDescriptor>::first);
-				dmui::SettingGroup group {
-					.id = build.name,
-					.label = build.name
-				};
-				for (auto& [sortKey, setting] : build.settings)
+				std::ranges::sort(group.settings, {}, &std::pair<std::int32_t, dmui::SettingDescriptor>::first);
+				dmui::SettingGroup row { .id = group.name, .label = group.name };
+				for (auto& entry : group.settings)
 				{
-					(void)sortKey;
-					group.settings.push_back(std::move(setting));
+					row.settings.push_back(std::move(entry.second));
 				}
-				groups.push_back(std::move(group));
+				result.push_back(std::move(row));
 			}
-			return groups;
+			return result;
 		}
 
-		[[nodiscard]] dmui::SettingsPage MakePage(
-		    const SettingsCatalog::Page& a_page)
+		dmui::SettingsPage MakePage(const SettingsCatalog::Page& a_page)
 		{
-			const auto pageId = std::string { a_page.id };
-			return {
+			dmui::SettingsPage page {
 				.groups = MakeGroups(a_page.id),
-				.actions = { .showReset = true,
-				             .reset = [pageId] { ResetPage(pageId); },
-				             .revert = [pageId] { RevertPage(pageId); },
-				             .apply = [] { ApplyDraft(); } },
-				.actionTooltips = { .reset =
-				                        "Reset this page to shipped defaults. Select Apply to save.",
-				                    .revert =
-				                        "Discard pending edits on this page.",
-				                    .apply = [](std::size_t) {
-				                        const auto pending = PendingCount();
-				                        return std::format(
-				                            "Save and apply {} pending change{} across House Rules.",
-				                            pending,
-				                            pending == 1 ? "" : "s");
-				                    } },
 				.filterOptions = { .showSearch = true, .showModifiedOnly = true, .searchHint = "Search House Rules settings..." },
-				.notes = { { "Waiting for settings state.", false, "house-rules-status" }, { "Edits remain pending until Apply. During loading or at the main menu, saved gameplay changes are deferred until the next LoadingMenu close.", true, "house-rules-apply-help" } },
-				.prepare = [] {
-					if (MutationReady(false)) {
-						EnsureDraft();
-					} },
-				.prepareView = [](dmui::SettingsPage& a_settingsPage) {
-					auto& repository =
-						Configuration::SettingsRepository::GetSingleton();
-					auto status = repository.StatusMessage();
-					const auto pending = PendingCount();
-					if (pending > 0) {
-						status += std::format(
-							" {} pending change{}.",
-							pending,
-							pending == 1 ? "" : "s");
-					}
-					a_settingsPage.notes[0].text = std::move(status);
-					a_settingsPage.notes[0].muted =
-						!repository.StatusIsError(); }
+				.notes = { { "Waiting for settings state.", false, "house-rules-status" },
+				           { "Completed edits save automatically. Gameplay changes wait until a save is ready; some effects refresh on their next use or update.", true, "house-rules-save-help" } },
+				.prepare = [] { PollPageReset(); },
+				.prepareView = [](dmui::SettingsPage& a_page) {
+					a_page.notes[0].text = Repository().StatusMessage();
+					a_page.notes[0].muted = !Repository().StatusIsError(); }
 			};
+			if (g_dialogsSupported)
+			{
+				page.actions.reset = [id = std::string { a_page.id }, name = std::string { a_page.name }] {
+					RequestPageReset(id, name);
+				};
+				page.actionTooltips.reset = "Reset this page to shipped defaults after confirmation.";
+			}
+			else
+			{
+				page.notes.push_back({ "This host has no confirmation dialogs; use individual row resets.", true, "house-rules-reset-help" });
+			}
+			return page;
 		}
 	}  // namespace
 
 	void RegisterDearModdingUI() noexcept
 	{
-		if (Configuration::SelectedFrontend() !=
-		    Configuration::Frontend::kDearModdingUI)
+		if (Configuration::SelectedFrontend() != Configuration::Frontend::kDearModdingUI)
 		{
-			REX::INFO(
-			    "DearModdingUI: frontend is mcm; native registration skipped."sv);
 			return;
 		}
-
 		if (!g_client.Connect())
 		{
-			if (!g_client.HostPresent())
+			if (g_client.HostPresent())
 			{
-				REX::ERROR(
-				    "DearModdingUI: native frontend selected, but DearModdingUI.dll is not loaded. House Rules will run headless with saved gameplay settings; no MCM fallback is registered."sv);
+				REX::ERROR("DearModdingUI: connection failed ({}). Check the matching host/API build; House Rules continues headless with saved settings.",
+				           DMUI_ResultToString(g_client.LastResult()));
 			}
 			else
 			{
-				REX::ERROR(
-				    "DearModdingUI: native frontend connection failed ({}). Install the matching DearModdingUI host/API build. House Rules will run headless with saved gameplay settings."sv,
-				    DMUI_ResultToString(g_client.LastResult()));
+				REX::ERROR("DearModdingUI: host is not loaded. House Rules continues headless with saved settings; no MCM fallback is registered.");
 			}
 			return;
 		}
-		if (!g_client.AddCategory(kCategory))
+		using GetAPIFn = const DMUI_HostAPI*(DMUI_CALL*)(std::uint32_t) noexcept;
+		const auto getAPI = dmui::detail::ResolveHostSymbol<GetAPIFn>("DMUI_GetAPI");
+		const auto api = getAPI ? getAPI(DMUI_HOST_ABI_CURRENT) : nullptr;
+		g_feedbackSupported = api && api->structSize >= DMUI_HOST_API_SET_FIELD_FEEDBACK_SIZE && api->setFieldFeedback;
+		if (!g_feedbackSupported)
 		{
-			REX::ERROR(
-			    "DearModdingUI: category registration failed ({}); House Rules native pages are unavailable."sv,
-			    DMUI_ResultToString(g_client.LastResult()));
-			return;
+			REX::WARN("DearModdingUI: field feedback unavailable; errors will appear in descriptions and status.");
 		}
-
-		for (const auto& page : SettingsCatalog::Pages())
+		if (const auto services = g_client.QueryServices())
 		{
-			const auto handle = g_client.AddSettingsPage(
-			    { .id = page.id.data(),
-			      .displayName = page.name.data(),
-			      .categoryId = kCategory.id,
-			      .summary = page.summary.data(),
-			      .sortKey = page.sortKey },
-			    MakePage(page));
-			if (!handle)
+			g_dialogsSupported = (services->supported & DMUI_HOST_SERVICE_DIALOGS) != 0;
+		}
+		for (const auto& category : SettingsCatalog::Categories())
+		{
+			if (!g_client.AddCategory(
+			        { .id = category.id.data(), .displayName = category.name.data(), .sortKey = category.sortKey }))
 			{
-				REX::ERROR(
-				    "DearModdingUI: page '{}' registration failed ({}). Native registration is incomplete and all House Rules controls are disabled."sv,
-				    page.name,
-				    DMUI_ResultToString(g_client.LastResult()));
-				(void)g_client.SetStatus(
-				    DMUI_STATUS_SEVERITY_ERROR,
-				    "House Rules page registration failed; controls are disabled.");
+				ReportError(std::format("Category '{}' registration failed: {}.", category.name, DMUI_ResultToString(g_client.LastResult())));
 				return;
 			}
 		}
-
+		for (const auto& page : SettingsCatalog::Pages())
+		{
+			if (!g_client.AddSettingsPage(
+			        { .id = page.id.data(), .displayName = page.name.data(), .categoryId = page.categoryId.data(), .summary = page.summary.data(), .sortKey = page.sortKey }, MakePage(page)))
+			{
+				ReportError(std::format("Page '{}' registration failed: {}. House Rules controls are disabled.",
+				                        page.name, DMUI_ResultToString(g_client.LastResult())));
+				return;
+			}
+		}
+		if (!g_client.AddFrameObserver([] {
+			    if (g_registrationComplete.load(std::memory_order_acquire))
+			    {
+				    PublishStatus();
+			    }
+		    }))
+		{
+			ReportError(std::format("Status observer registration failed: {}.", DMUI_ResultToString(g_client.LastResult())));
+			return;
+		}
 		g_registrationComplete.store(true, std::memory_order_release);
-		(void)g_client.SetStatus(
-		    DMUI_STATUS_SEVERITY_SUCCESS,
-		    "House Rules settings loaded.");
-		REX::INFO("DearModdingUI: registered 16 House Rules settings pages."sv);
+		PublishStatus();
+		REX::INFO("DearModdingUI: registered {} House Rules settings pages.", SettingsCatalog::Pages().size());
 	}
 }  // namespace HouseRules::UI

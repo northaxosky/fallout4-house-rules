@@ -23,6 +23,12 @@ namespace HouseRules::Configuration
 		std::vector<std::string> warnings;
 	};
 
+	struct SettingChange
+	{
+		std::size_t index;
+		SettingsCatalog::Value value;
+	};
+
 	[[nodiscard]] PersistenceResult LoadPersistedValues(
 	    std::span<const SettingsCatalog::Descriptor> a_descriptors,
 	    const PersistencePaths& a_paths);
@@ -31,6 +37,12 @@ namespace HouseRules::Configuration
 	    std::span<const SettingsCatalog::Descriptor> a_descriptors,
 	    std::span<const SettingsCatalog::Value> a_committed,
 	    std::vector<SettingsCatalog::Value> a_requested,
+	    const std::filesystem::path& a_userPath);
+
+	[[nodiscard]] PersistenceResult SavePersistedOverrides(
+	    std::span<const SettingsCatalog::Descriptor> a_descriptors,
+	    std::span<const SettingsCatalog::Value> a_committed,
+	    std::span<const SettingChange> a_changes,
 	    const std::filesystem::path& a_userPath);
 
 	[[nodiscard]] bool ValidateRequestedValue(

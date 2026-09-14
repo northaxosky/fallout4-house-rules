@@ -7,6 +7,7 @@ import tempfile
 import unittest
 from unittest import mock
 import xml.etree.ElementTree as ET
+import zipfile
 
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
@@ -200,6 +201,33 @@ class PackagingTests(unittest.TestCase):
                 xmake.write_text("-- missing version\n", encoding="utf-8")
                 with self.assertRaisesRegex(ValueError, "exactly one"):
                     self.package.validate_metadata(archive)
+
+    def test_release_zip_installs_both_frontends(self):
+        with tempfile.TemporaryDirectory(dir=ROOT / "build") as temporary:
+            root = pathlib.Path(temporary)
+            dll, pdb = root / "HouseRules.dll", root / "HouseRules.pdb"
+            dll.write_bytes(b"release dll")
+            pdb.write_bytes(b"matching pdb")
+            package = self.package.prepare_package(dll, pdb, root / "package")
+            destination = root / "HouseRules.zip"
+            self.package.create_archive(package, destination)
+            extracted = root / "extracted"
+            with zipfile.ZipFile(destination) as archive:
+                self.assertIsNone(archive.testzip())
+                self.assertEqual(
+                    {path.relative_to(package).as_posix() for path in package.rglob("*") if path.is_file()},
+                    set(archive.namelist()),
+                )
+                self.assertEqual(
+                    {"core", "fomod", "frontends"},
+                    {name.split("/")[0] for name in archive.namelist()},
+                )
+                archive.extractall(extracted)
+            self.package.validate_package(extracted)
+            with self.assertRaisesRegex(ValueError, "inside the package"):
+                self.package.create_archive(package, package / "recursive.zip")
+            with self.assertRaisesRegex(ValueError, "under build"):
+                self.package.create_archive(package, ROOT / "release.zip")
 
     def test_installer_paths_and_binary_sources_cannot_escape(self):
         with tempfile.TemporaryDirectory(dir=ROOT / "build") as temporary:

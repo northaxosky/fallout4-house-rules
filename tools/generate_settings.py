@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 """Generate House Rules settings bindings and the MCM document.
 
-The checked-in catalog is the UI-neutral source of truth.  ``--import-existing``
-exists only to bootstrap or deliberately re-import the legacy Settings.h and
-MCM JSON; normal development uses the default write mode or ``--check``.
+The checked-in catalog is the UI-neutral source of truth. ``--import-existing``
+re-imports Settings.h and MCM JSON while preserving catalog navigation.
+Normal development uses the default write mode or ``--check``.
 """
 
 from __future__ import annotations
@@ -112,6 +112,8 @@ def strip_html(text: str) -> str:
 
 
 def import_existing() -> dict[str, Any]:
+    navigation = json.loads(CATALOG.read_text(encoding="utf-8"))
+    page_categories = {page["id"]: page["category"] for page in navigation["pages"]}
     settings = parse_settings_header()
     by_id = {entry["id"]: entry for entry in settings}
     mcm = json.loads(MCM_JSON.read_text(encoding="utf-8-sig"))
@@ -128,6 +130,8 @@ def import_existing() -> dict[str, Any]:
     for page_index, source_page in enumerate(source_pages):
         name = source_page["pageDisplayName"]
         page_id = re.sub(r"[^a-z0-9]+", "-", name.lower()).strip("-")
+        if page_id not in page_categories:
+            raise ValueError(f"assign a catalog category before importing page {page_id}")
         summary = ""
         content: list[dict[str, Any]] = []
         group = "General"
@@ -178,6 +182,7 @@ def import_existing() -> dict[str, Any]:
         pages.append(
             {
                 "id": page_id,
+                "category": page_categories[page_id],
                 "name": name,
                 "summary": summary or f"{name} settings.",
                 "root": page_index == 0,
@@ -196,13 +201,14 @@ def import_existing() -> dict[str, Any]:
             "minimumMcmVersion": mcm["minMcmVersion"],
             "pluginRequirements": mcm["pluginRequirements"],
         },
+        "categories": navigation["categories"],
         "pages": pages,
         "settings": settings,
     }
 
 
 def validate(catalog: dict[str, Any]) -> None:
-    if set(catalog) != {"schemaVersion", "product", "pages", "settings"}:
+    if set(catalog) != {"schemaVersion", "product", "categories", "pages", "settings"}:
         raise ValueError(f"unrecognized catalog fields: {set(catalog)}")
     if catalog.get("schemaVersion") != 1:
         raise ValueError("unsupported catalog schemaVersion")
@@ -223,6 +229,22 @@ def validate(catalog: dict[str, Any]) -> None:
     page_ids = {page["id"] for page in pages}
     if len(page_ids) != len(pages) or len(pages) != 16:
         raise ValueError("catalog must contain 16 uniquely identified pages")
+    categories = catalog["categories"]
+    if not isinstance(categories, list) or not categories:
+        raise ValueError("catalog categories must be a nonempty array")
+    category_ids: set[str] = set()
+    for category in categories:
+        if not isinstance(category, dict) or set(category) != {"id", "name"}:
+            raise ValueError("invalid category fields")
+        if (
+            not isinstance(category["id"], str)
+            or not re.fullmatch(r"[a-z0-9]+(?:-[a-z0-9]+)*", category["id"])
+            or not isinstance(category["name"], str)
+            or not category["name"].strip()
+            or category["id"] in category_ids
+        ):
+            raise ValueError(f"invalid or duplicate category: {category}")
+        category_ids.add(category["id"])
     ids: set[str] = set()
     ui_count = 0
     counts: dict[str, int] = {"bool": 0, "float": 0, "int": 0, "string": 0}
@@ -302,9 +324,11 @@ def validate(catalog: dict[str, Any]) -> None:
 
     placed: list[str] = []
     for page in pages:
-        allowed = {"id", "name", "summary", "root", "content"}
+        allowed = {"id", "category", "name", "summary", "root", "content"}
         if set(page) != allowed:
             raise ValueError(f"{page.get('id')}: invalid page fields")
+        if page["category"] not in category_ids:
+            raise ValueError(f"{page['id']}: unknown category {page['category']}")
         for item in page["content"]:
             if "setting" in item:
                 if set(item) != {"setting"} or item["setting"] not in ids:
@@ -327,6 +351,8 @@ def validate(catalog: dict[str, Any]) -> None:
         raise ValueError("page placement and UI settings differ")
     if len(placed) != len(set(placed)):
         raise ValueError("a UI setting is placed more than once")
+    if {page["category"] for page in pages} != category_ids:
+        raise ValueError("each category must contain at least one page")
 
 
 def mcm_document(catalog: dict[str, Any]) -> dict[str, Any]:
@@ -444,10 +470,19 @@ namespace HouseRules::SettingsCatalog
 \t\tstd::string_view name;
 \t\tstd::string_view summary;
 \t\tstd::int32_t sortKey;
+\t\tstd::string_view categoryId;
+\t};
+
+\tstruct Category
+\t{
+\t\tstd::string_view id;
+\t\tstd::string_view name;
+\t\tstd::int32_t sortKey;
 \t};
 
 \t[[nodiscard]] std::span<const Descriptor> All() noexcept;
 \t[[nodiscard]] std::span<const Page> Pages() noexcept;
+\t[[nodiscard]] std::span<const Category> Categories() noexcept;
 \t[[nodiscard]] const Descriptor* Find(std::string_view a_id) noexcept;
 }
 """
@@ -521,8 +556,12 @@ def generated_cpp(catalog: dict[str, Any]) -> str:
         )
     page_rows = [
         f'\t\tPage{{ {cpp_string(page["id"])}, {cpp_string(page["name"])}, '
-        f'{cpp_string(page["summary"])}, {index * 100} }},'
+        f'{cpp_string(page["summary"])}, {index * 100}, {cpp_string(page["category"])} }},'
         for index, page in enumerate(catalog["pages"])
+    ]
+    category_rows = [
+        f'\t\tCategory{{ {cpp_string(category["id"])}, {cpp_string(category["name"])}, {index * 100} }},'
+        for index, category in enumerate(catalog["categories"])
     ]
     return (
         """// Generated by tools/generate_settings.py. Do not edit.
@@ -547,6 +586,11 @@ namespace HouseRules::SettingsCatalog
         + "\n".join(page_rows)
         + """
 \n\t\t};
+"""
+        + f'\n\t\tconstexpr std::array<Category, {len(category_rows)}> kCategories{{\n'
+        + "\n".join(category_rows)
+        + """
+\n\t\t};
 \t}
 
 \tstd::span<const Descriptor> All() noexcept
@@ -557,6 +601,11 @@ namespace HouseRules::SettingsCatalog
 \tstd::span<const Page> Pages() noexcept
 \t{
 \t\treturn kPages;
+\t}
+
+\tstd::span<const Category> Categories() noexcept
+\t{
+\t\treturn kCategories;
 \t}
 
 \tconst Descriptor* Find(std::string_view a_id) noexcept
@@ -602,7 +651,7 @@ def main() -> int:
     parser.add_argument(
         "--import-existing",
         action="store_true",
-        help="bootstrap catalog.json from the current Settings.h and MCM JSON",
+        help="re-import Settings.h and MCM JSON while preserving catalog categories",
     )
     args = parser.parse_args()
 

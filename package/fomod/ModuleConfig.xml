@@ -18,7 +18,7 @@
               <typeDescriptor><type name="Recommended" /></typeDescriptor>
             </plugin>
             <plugin name="Dear Modding UI">
-              <description>Native settings pages. Requires a matching DearModdingUI host. Does not install bridge-discoverable MCM page assets.</description>
+              <description>Native settings pages with automatic save on completed edits. Requires a compatible DearModdingUI host. Does not install bridge-discoverable MCM page assets.</description>
               <files>
                 <folder source="frontends\dmui" destination="" priority="10" />
               </files>

@@ -9,7 +9,8 @@ A complete list of every setting House Rules exposes through either the MCM or n
   - **Direct sliders** set the value to exactly what you choose.
   - **Multiplier sliders** scale the original game value. `1.00` means no change. `2.00` means double. `0.50` means half.
   - **Toggles** turn a setting on or off (used in Survival Unlocks).
-- **When changes apply:** MCM sliders take effect when you close the pause menu. Native edits remain pending until you select **Apply**. Native persistence is immediate, but gameplay mutation is queued to the game thread and deferred until the next loading-screen close if a save is not ready. Some changes also update when you eat or drink a consumable.
+- **When changes apply:** MCM sliders take effect when you close the pause menu. Native controls save automatically when an edit is complete; dragging or typing does not write every frame. Gameplay mutation is queued to the game thread and deferred until the next loading-screen close if a save is not ready. Some changes are observed on their next relevant game update, and Magnitude changes update when you next use the affected consumable.
+- **Native reset and errors:** A row Reset saves immediately. Reset all requires confirmation and is hidden if the host lacks confirmation dialogs. Invalid input or a file-write failure leaves the previous saved/effective value in place and shows field feedback when supported, with description/global-status fallback on older compatible hosts.
 
 ## Front Page
 

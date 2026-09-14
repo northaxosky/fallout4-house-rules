@@ -48,17 +48,25 @@ jobs:
             - name: Validate generated hook data
               run: python tools/gen_hook_sites.py --check
 
-            - name: Prepare and validate FOMOD package
-              run: >-
-                  python tools/package_release.py
-                  --dll build/windows/x64/releasedbg/HouseRules.dll
-                  --pdb build/windows/x64/releasedbg/HouseRules.pdb
+            - name: Create Nexus release archive
+              shell: pwsh
+              run: |
+                  $releaseArgs = @()
+                  if ($env:GITHUB_REF_TYPE -eq "tag") {
+                      $releaseArgs = @("--release-tag", $env:GITHUB_REF_NAME)
+                  }
+                  python tools/package_release.py `
+                      --dll build/windows/x64/releasedbg/HouseRules.dll `
+                      --pdb build/windows/x64/releasedbg/HouseRules.pdb `
+                      --zip @releaseArgs
+                  if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 
             - name: Upload artifact
               uses: actions/upload-artifact@v4
               with:
                   name: HouseRules-${{ github.sha }}
-                  path: package
+                  path: build/HouseRules-*.zip
+                  compression-level: 0
                   if-no-files-found: error
 
     release:
@@ -74,13 +82,9 @@ jobs:
                   name: HouseRules-${{ github.sha }}
                   path: artifact
 
-            - name: Zip release payload
-              run: |
-                  cd artifact
-                  zip -r ../HouseRules-${{ github.ref_name }}.zip .
-
             - name: Create GitHub Release
               uses: softprops/action-gh-release@v2
               with:
-                  files: HouseRules-${{ github.ref_name }}.zip
+                  files: artifact/HouseRules-*.zip
+                  fail_on_unmatched_files: true
                   generate_release_notes: true

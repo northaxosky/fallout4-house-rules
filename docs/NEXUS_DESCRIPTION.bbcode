@@ -39,7 +39,8 @@ Full per-slider reference (defaults, units, behavior notes): [url=https://github
 
 [list]
 [*]The carry-weight unlock and the Survival kill-switches need a save reload after toggling for immediate effect. Otherwise they apply on the manager script's next tick (a few in-game minutes).
-[*]MCM changes apply when you close the pause menu. Native changes stay pending until you press Apply; if no save is ready, gameplay application waits for the next loading-screen close.
+[*]MCM changes apply when you close the pause menu. Native changes save automatically when you finish editing a control; if no save is ready, gameplay application waits for the next loading-screen close.
+[*]Native field errors keep the previous saved/effective value and can be retried by editing the field again. Per-setting Reset saves immediately; Reset all requires a confirmation dialog and is omitted on older compatible hosts that do not provide one.
 [*]Magnitude changes wait for the next consumable use; the Pip-Boy tooltip caches the old value until then.
 [/list]
 

@@ -86,6 +86,52 @@ class SettingsCatalogTests(unittest.TestCase):
             ],
         )
 
+    def test_native_categories_cover_existing_pages(self):
+        self.assertEqual(
+            {
+                "Overview": ["general"],
+                "Survival & Healing": ["survival-unlocks", "survival", "magnitudes"],
+                "Character & Progression": ["character", "progression", "skills", "sneak"],
+                "Combat": ["difficulty", "damage-formulas", "power-armor", "vats", "combat-perks"],
+                "World": ["economy", "companions", "settlements"],
+            },
+            {
+                category["name"]: [
+                    page["id"] for page in self.catalog["pages"]
+                    if page["category"] == category["id"]
+                ]
+                for category in self.catalog["categories"]
+            },
+        )
+        before = self.generator.mcm_document(self.catalog)
+        regrouped = copy.deepcopy(self.catalog)
+        regrouped["categories"].reverse()
+        for page in regrouped["pages"]:
+            page["category"] = regrouped["categories"][0]["id"]
+        self.assertEqual(before, self.generator.mcm_document(regrouped))
+
+    def test_category_errors_fail_closed(self):
+        for mutation in ("duplicate", "unknown", "empty"):
+            with self.subTest(mutation=mutation):
+                catalog = copy.deepcopy(self.catalog)
+                if mutation == "duplicate":
+                    catalog["categories"].append(catalog["categories"][0])
+                elif mutation == "unknown":
+                    catalog["pages"][0]["category"] = "missing"
+                else:
+                    catalog["categories"].append({"id": "unused", "name": "Unused"})
+                with self.assertRaises(ValueError):
+                    self.generator.validate(catalog)
+
+    def test_reimport_preserves_native_categories(self):
+        imported = self.generator.import_existing()
+        self.generator.validate(imported)
+        self.assertEqual(self.catalog["categories"], imported["categories"])
+        self.assertEqual(
+            [(page["id"], page["category"]) for page in self.catalog["pages"]],
+            [(page["id"], page["category"]) for page in imported["pages"]],
+        )
+
     def test_unrecognized_and_invalid_entries_fail_closed(self):
         unknown = copy.deepcopy(self.catalog)
         unknown["settings"][0]["ui"]["surprise"] = True

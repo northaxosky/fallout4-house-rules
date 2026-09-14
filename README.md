@@ -21,7 +21,10 @@ Requires **F4SE** and **Address Library for F4SE**. Choose one optional settings
 - **MCM (default/backward-compatible):** requires [Mod Configuration Menu](https://www.nexusmods.com/fallout4/mods/21497).
 - **Native Dear Modding UI:** requires a matching standalone Dear Modding UI host. If the host is absent or incompatible, the DLL logs the reason and continues headless with saved gameplay settings; it does not pretend an MCM page is available.
 
-The native option must pair the House Rules build with the Dear Modding UI host/API revision linked by this repository's CommonLibF4 submodule. An older or newer incompatible host is reported in `HouseRules.log` as a native connection failure.
+The native option must pair the House Rules build with a compatible Dear Modding UI host/API. House Rules uses the stable ABI 1 client API linked by this repository's CommonLibF4 submodule. Older compatible hosts can still show the settings pages; when the optional field-feedback tail or confirmation-dialog service is absent, validation falls back to setting/global status text and bulk page reset is disabled. Incompatible hosts are reported in `HouseRules.log` as a native connection failure.
+
+The native sidebar uses a scales icon and groups its 16 pages into Overview,
+Survival & Healing, Character & Progression, Combat, and World. MCM page layout is unchanged.
 
 ## Features
 
@@ -47,7 +50,9 @@ The full per-slider reference (defaults, units, behavior notes) lives in [docs/F
 Two caveats to know about:
 
 - **Carry-weight unlock** and the **Survival kill-switches** require a save reload after toggling for immediate effect; otherwise they apply on the script's next tick (a few in-game minutes).
-- MCM edits take effect when the pause menu closes. Native edits remain pending until **Apply**, are saved to the same user override INI, and are dispatched to the game thread. If a save is not ready, gameplay mutation is deferred until `LoadingMenu` closes.
+- MCM edits take effect when the pause menu closes. Native edits save automatically when the control reports that editing is complete, then dispatch one merged snapshot to the game thread. Dragging or typing does not write the file every frame. If no save is ready, gameplay mutation is deferred until `LoadingMenu` closes.
+- Native validation and file-write failures keep the previous saved/effective value. The affected field explains the problem when the host supports field feedback; older compatible hosts use the field description and global status. Correct or finish editing the field again to retry a failed save.
+- Native per-setting Reset saves automatically. **Reset all** is a destructive page operation with an explicit confirmation; hosts without the optional dialog service omit it while retaining per-setting Reset.
 - Some Magnitude changes wait for the next consumable use.
 
 ## Design Principles
@@ -83,10 +88,11 @@ When switching an existing installation, use your mod manager's **replace/remove
 Manual in-game checks:
 
 1. Confirm `HouseRules.log` names the selected `mcm` or `dmui` frontend.
-2. For native UI, verify all 16 pages appear, edit a value, confirm pending feedback, select Apply, and reload the game to confirm persistence.
-3. Apply once at the main menu or during loading and confirm the UI says gameplay changes are deferred until a save is ready.
-4. Temporarily remove/disable the Dear Modding UI host with the native payload and confirm House Rules logs a clear headless-mode diagnostic while gameplay settings still load.
-5. For MCM, change a value and close the pause menu to confirm the legacy reload path still applies it.
+2. For native UI, verify all 16 pages appear, complete a toggle/choice/text edit and a slider drag, then reload the game to confirm each completed edit persisted without an Apply button.
+3. Complete an edit at the main menu or during loading and confirm the UI distinguishes saved/deferred gameplay changes from changes queued in a ready save.
+4. Confirm a per-setting Reset saves immediately, and that Reset all either opens a confirmation dialog or is omitted with a clear compatibility note on an older host.
+5. Temporarily remove/disable the Dear Modding UI host with the native payload and confirm House Rules logs a clear headless-mode diagnostic while gameplay settings still load.
+6. For MCM, change a value and close the pause menu to confirm the legacy reload path still applies it.
 
 ## Build
 
@@ -116,6 +122,12 @@ Only `releasedbg` builds populate upload binaries; debug builds are for local
 development and are never copied into the release package. Run
 `python tools/package_release.py --dll build/windows/x64/releasedbg/HouseRules.dll --pdb build/windows/x64/releasedbg/HouseRules.pdb`
 to prepare and validate the archive root explicitly.
+
+Add `--zip` to create `build/HouseRules-1.2.0.zip`. Its root contains `fomod/`,
+`core/`, and `frontends/`, ready to upload directly to Nexus.
+GitHub Actions produces this ZIP on branch builds. Pushing the version-matched
+`v1.2.0` tag runs the same checks and publishes a GitHub Release with that ZIP
+attached. Download the release asset itself for Nexus, not GitHub's source archive.
 
 Development deployment defaults to the MCM frontend. Use
 `xmake f -m releasedbg --deploy_frontend=dmui` for native deployment. A native

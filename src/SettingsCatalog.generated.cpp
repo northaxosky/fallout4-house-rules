@@ -270,22 +270,31 @@ namespace HouseRules::SettingsCatalog
 		};
 
 		constexpr std::array<Page, 16> kPages{
-		Page{ "general", "General", "Tune high-impact vanilla Fallout 4 systems through one MCM: combat, character, economy, progression, perks, settlements, companions, and Survival mechanics.", 0 },
-		Page{ "survival-unlocks", "Survival Unlocks", "Each toggle: OFF mirrors vanilla Survival, ON applies the tweak.", 100 },
-		Page{ "survival", "Survival", "Toggles for the vanilla Survival hardcore-rule systems (food/water and sleep deprivation). Save and reload after toggling so the script picks up the new state immediately; otherwise the change takes effect on the next in-game tick (within a few in-game minutes).", 200 },
-		Page{ "magnitudes", "Magnitudes", "Magnitude Scalers", 300 },
-		Page{ "difficulty", "Difficulty", "Difficulty Multipliers", 400 },
-		Page{ "character", "Character", "Character Feel", 500 },
-		Page{ "damage-formulas", "Damage Formulas", "Raw damage factors and armor reduction exponents. Neutral values are vanilla; sliders move the engine baseline directly.", 600 },
-		Page{ "power-armor", "Power Armor", "Jetpack, fusion-core drain, and PA durability. Multiplier sliders show 1.00 = vanilla; Direct sliders show the vanilla default as their neutral value.", 700 },
-		Page{ "economy", "Economy", "Vendor buy/sell pricing. Direct sliders show the vanilla default as their neutral value.", 800 },
-		Page{ "progression", "Progression", "Non-difficulty XP sources: crafting, lockpicking, mine disarm. Direct sliders show the vanilla default as their neutral value.", 900 },
-		Page{ "vats", "VATS", "Targeting range, time slowdown, and incoming damage while VATS is active. Direct sliders show the vanilla default as their neutral value.", 1000 },
-		Page{ "skills", "Skills", "Pickpocket, hacking, and lockpicking constants. Direct sliders show the vanilla default as their neutral value.", 1100 },
-		Page{ "sneak", "Sneak", "Sneak & Detection", 1200 },
-		Page{ "companions", "Companions", "Companions Affinity", 1300 },
-		Page{ "combat-perks", "Combat Perks", "Tier multipliers and trigger chances for combat perks. Direct sliders show the vanilla default as their neutral value.", 1400 },
-		Page{ "settlements", "Settlements", "Workshop GMSTs for build timers, repair cost, wire length, settler cap, and placement constraints. Settlement-surplus production caps are baked into script code, not game settings, so they aren't covered here.", 1500 },
+		Page{ "general", "General", "Tune high-impact vanilla Fallout 4 systems through one MCM: combat, character, economy, progression, perks, settlements, companions, and Survival mechanics.", 0, "overview" },
+		Page{ "survival-unlocks", "Survival Unlocks", "Each toggle: OFF mirrors vanilla Survival, ON applies the tweak.", 100, "survival" },
+		Page{ "survival", "Survival", "Toggles for the vanilla Survival hardcore-rule systems (food/water and sleep deprivation). Save and reload after toggling so the script picks up the new state immediately; otherwise the change takes effect on the next in-game tick (within a few in-game minutes).", 200, "survival" },
+		Page{ "magnitudes", "Magnitudes", "Magnitude Scalers", 300, "survival" },
+		Page{ "difficulty", "Difficulty", "Difficulty Multipliers", 400, "combat" },
+		Page{ "character", "Character", "Character Feel", 500, "character" },
+		Page{ "damage-formulas", "Damage Formulas", "Raw damage factors and armor reduction exponents. Neutral values are vanilla; sliders move the engine baseline directly.", 600, "combat" },
+		Page{ "power-armor", "Power Armor", "Jetpack, fusion-core drain, and PA durability. Multiplier sliders show 1.00 = vanilla; Direct sliders show the vanilla default as their neutral value.", 700, "combat" },
+		Page{ "economy", "Economy", "Vendor buy/sell pricing. Direct sliders show the vanilla default as their neutral value.", 800, "world" },
+		Page{ "progression", "Progression", "Non-difficulty XP sources: crafting, lockpicking, mine disarm. Direct sliders show the vanilla default as their neutral value.", 900, "character" },
+		Page{ "vats", "VATS", "Targeting range, time slowdown, and incoming damage while VATS is active. Direct sliders show the vanilla default as their neutral value.", 1000, "combat" },
+		Page{ "skills", "Skills", "Pickpocket, hacking, and lockpicking constants. Direct sliders show the vanilla default as their neutral value.", 1100, "character" },
+		Page{ "sneak", "Sneak", "Sneak & Detection", 1200, "character" },
+		Page{ "companions", "Companions", "Companions Affinity", 1300, "world" },
+		Page{ "combat-perks", "Combat Perks", "Tier multipliers and trigger chances for combat perks. Direct sliders show the vanilla default as their neutral value.", 1400, "combat" },
+		Page{ "settlements", "Settlements", "Workshop GMSTs for build timers, repair cost, wire length, settler cap, and placement constraints. Settlement-surplus production caps are baked into script code, not game settings, so they aren't covered here.", 1500, "world" },
+
+		};
+
+		constexpr std::array<Category, 5> kCategories{
+		Category{ "overview", "Overview", 0 },
+		Category{ "survival", "Survival & Healing", 100 },
+		Category{ "character", "Character & Progression", 200 },
+		Category{ "combat", "Combat", 300 },
+		Category{ "world", "World", 400 },
 
 		};
 	}
@@ -298,6 +307,11 @@ namespace HouseRules::SettingsCatalog
 	std::span<const Page> Pages() noexcept
 	{
 		return kPages;
+	}
+
+	std::span<const Category> Categories() noexcept
+	{
+		return kCategories;
 	}
 
 	const Descriptor* Find(std::string_view a_id) noexcept
