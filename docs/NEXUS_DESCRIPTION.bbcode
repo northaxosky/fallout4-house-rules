@@ -1,67 +1,73 @@
-[size=5][center][b]House Rules[/b][/center][/size]
+[center][size=6][color=#42FA60][b]House Rules[/b][/color][/size]
+[b]Vanilla mechanics. Your rules.[/b]
+[color=#A8B5A8]Available through Dear Modding UI or MCM[/color][/center]
 
-An F4SE plugin that exposes high-impact vanilla Fallout 4 settings through either Mod Configuration Menu or native Dear Modding UI pages. Both choices install the same HouseRules.dll and use the same settings files and gameplay behavior. No ESP, no plugin-slot cost.
+[b]House Rules[/b] puts over 200 Fallout 4 settings in one menu. Keep Survival's needs but bring back manual saves. Adjust damage, slow down leveling, or make fusion cores last longer. Change the parts that don't suit your playthrough without installing a full overhaul.
 
-[size=4][b]Requirements[/b][/size]
+No new gameplay systems, no ESP, and no plugin-slot cost. Survival unlocks are off by default.
 
+[size=5][color=#42FA60][b]FEATURES[/b][/color][/size]
 [list]
-[*][url=https://www.nexusmods.com/fallout4/mods/42147]F4SE[/url]
-[*][url=https://www.nexusmods.com/fallout4/mods/47327]Address Library for F4SE[/url]
-[*]Choose one UI: [url=https://www.nexusmods.com/fallout4/mods/21497]Mod Configuration Menu (MCM)[/url] or a matching standalone Dear Modding UI host
+[*][b]Survival unlocks:[/b] Enable the console, manual saves, auto-saves, fast travel, and compass markers. Remove extra ammo or aid weight, allow god mode, re-enter Survival, and keep your exit save.[/*]
+[*][b]Survival needs:[/b] Adjust hunger, thirst, sleep, diseases, and Adrenaline. Disable individual systems without leaving Survival difficulty.[/*]
+[*][b]Healing and penalties:[/b] Change Stimpak healing and limb repair, RadAway strength, Rad-X potency, food healing, and the severity of hunger, thirst, and sleep penalties.[/*]
+[*][b]Combat and difficulty:[/b] Set incoming and outgoing damage per difficulty, adjust armor formulas, VATS, perk chances, and legendary chance and rarity.[/*]
+[*][b]Character and progression:[/b] Tune AP, sprint cost, carry weight, health, regeneration, XP, sneaking, pickpocketing, hacking, and lockpicking.[/*]
+[*][b]Power armor:[/b] Adjust fusion core drain, jetpack use, and player or NPC armor durability.[/*]
+[*][b]World settings:[/b] Change vendor prices, companion affinity gains and cooldowns, settler limits, and workshop build settings.[/*]
 [/list]
 
-[size=4][b]Compatibility[/b][/size]
+For individual settings, defaults, and behavior notes, see the [url=https://github.com/northaxosky/fallout4-house-rules/blob/master/docs/FEATURES.md][b]full feature reference[/b][/url].
 
-All three main Fallout 4 runtimes:
+[size=5][color=#42FA60][b]CHOOSE YOUR MENU[/b][/color][/size]
+One download, with a choice in the installer:
 [list]
-[*]OG 1.10.163 (pre-NG)
-[*]NG 1.10.984
-[*]AE 1.11.137 - 1.11.240
+[*][b]Dear Modding UI:[/b] Native pages organized into Overview, Survival & Healing, Character & Progression, Combat, and World. Includes search, a modified-settings filter, and individual setting resets.[/*]
+[*][b]MCM:[/b] The familiar Mod Configuration Menu interface, with the same gameplay settings.[/*]
 [/list]
 
-[size=4][b]What it does[/b][/size]
+Both options use the same plugin and saved settings. The native option does not require MCM and does not install an extra MCM page, so House Rules won't appear twice in DMUI on a clean installation.
 
-The selected settings frontend covers:
+[size=5][color=#42FA60][b]REQUIREMENTS[/b][/color][/size]
 [list]
-[*][b]Survival Unlocks[/b] - opt-in toggles for console, manual / auto saves, fast travel, compass enemies / locations, chem / ammo weight, carry weight, god mode, re-entering Survival
-[*][b]Survival[/b] - kill-switches for Hunger/Thirst, Sleep, Diseases, Adrenaline + ~38 tuning sliders for the manager script
-[*][b]Magnitudes[/b] - stimpak / RadAway / Rad-X / food healing and hunger / thirst / sleep penalty severity
-[*][b]Difficulty[/b] - per-tier incoming / outgoing damage, XP, legendary chance / rarity, effect duration / magnitude
-[*][b]Character[/b] - AP pool, sprint cost, carry capacity, max-health scaling, AP / health regen
-[*][b]Damage Formulas, Power Armor, VATS[/b] - raw damage factors, jetpack / fusion core / PA durability, VATS engage and player damage
-[*][b]Economy, Progression, Skills, Sneak[/b] - barter prices, crafting / lockpick / mine XP, pickpocket / hacking / lockpicking, sneak attack and detection
-[*][b]Combat Perks, Settlements, Companions Affinity[/b] - perk-trigger chances, workshop / settler caps, per-reaction affinity deltas
+[*]Fallout 4 on Windows[/*]
+[*][url=https://f4se.silverlock.org/]F4SE[/url] matching your game version[/*]
+[*][url=https://www.nexusmods.com/fallout4/mods/47327]Address Library for F4SE Plugins[/url][/*]
+[*][url=https://github.com/Dear-Modding-FO4/DearModdingUI]Dear Modding UI[/url] for the native menu, or [url=https://www.nexusmods.com/fallout4/mods/21497]Mod Configuration Menu (MCM)[/url] for the MCM option[/*]
 [/list]
 
-Full per-slider reference (defaults, units, behavior notes): [url=https://github.com/northaxosky/fallout4-house-rules/blob/master/docs/FEATURES.md]docs/FEATURES.md[/url]
+Includes support for [b]1.10.163 (OG), 1.10.984 (NG), and 1.11.240 (AE)[/b].
 
-[size=4][b]Caveats[/b][/size]
-
-[list]
-[*]The carry-weight unlock and the Survival kill-switches need a save reload after toggling for immediate effect. Otherwise they apply on the manager script's next tick (a few in-game minutes).
-[*]MCM changes apply when you close the pause menu. Native changes save automatically when you finish editing a control; if no save is ready, gameplay application waits for the next loading-screen close.
-[*]Native field errors keep the previous saved/effective value and can be retried by editing the field again. Per-setting Reset saves immediately; Reset all requires a confirmation dialog and is omitted on older compatible hosts that do not provide one.
-[*]Magnitude changes wait for the next consumable use; the Pip-Boy tooltip caches the old value until then.
+[size=5][color=#42FA60][b]INSTALLATION & USAGE[/b][/color][/size]
+[list=1]
+[*]Install F4SE, Address Library, and your preferred menu framework.[/*]
+[*]Install House Rules through your mod manager. Choose [b]Dear Modding UI[/b] or [b]MCM[/b] in the FOMOD installer.[/*]
+[*]Launch Fallout 4 through F4SE, using MO2 if that's how you manage your mods.[/*]
+[*]Open House Rules in your chosen menu and adjust the settings you want.[/*]
 [/list]
 
-[size=4][b]Installation and frontend switching[/b][/size]
+In [b]Dear Modding UI[/b], changes save when you finish editing a control. There's no Apply button. In [b]MCM[/b], close the pause menu to apply your changes.
 
-The installer offers exactly one frontend:
+[b]Saved settings:[/b] Data\MCM\Settings\HouseRules.ini
+Both menu options read this file. The folder name is retained for MCM compatibility; native DMUI reads it directly.
+
+[size=5][color=#42FA60][b]THINGS TO KNOW[/b][/color][/size]
 [list]
-[*][b]MCM (default)[/b] installs the existing config.json and lib.swf.
-[*][b]Dear Modding UI[/b] deliberately omits those MCM page assets so the DMUI-MCM bridge cannot import a duplicate page.
+[*]Consumable changes affect the next item you use, not an effect already running.[/*]
+[*]The Survival carry-weight unlock needs a save reload to refresh effects already applied to your character or companions.[/*]
+[*]Survival system toggles may wait for the manager script's next update. Reloading your save can refresh them sooner.[/*]
+[*]If you change settings at the main menu or during loading, they are saved and applied once a save is ready.[/*]
 [/list]
 
-Both choices retain the shared packaged defaults and never include or overwrite your Data\MCM\Settings\HouseRules.ini user overrides. Restart Fallout 4 after changing frontend.
+[b]Switching menus:[/b] Reinstall House Rules with the other option and restart the game. Use your mod manager's replace option rather than merging old files. Leftover MCM page files can cause a duplicate entry through DMUI's MCM bridge. Back up HouseRules.ini if your mod manager removes the whole mod folder during replacement.
 
-When switching an existing install, replace/remove the old mod files instead of merging. If selecting native Dear Modding UI, make sure stale Data\MCM\Config\HouseRules\config.json and lib.swf files are gone. House Rules does not delete files at runtime. If the native host is missing or incompatible, House Rules logs a clear diagnostic and continues headless with saved gameplay settings; there is no silent MCM fallback.
-
-[size=4][b]Source & bug reports[/b][/size]
-
+[size=5][color=#42FA60][b]LINKS & SUPPORT[/b][/color][/size]
 [list]
-[*]Source: [url=https://github.com/northaxosky/fallout4-house-rules]github.com/northaxosky/fallout4-house-rules[/url]
-[*]Issues: [url=https://github.com/northaxosky/fallout4-house-rules/issues]GitHub Issues[/url]
-[*]License: MIT
+[*][url=https://github.com/northaxosky/fallout4-house-rules][b]GitHub Repository[/b][/url][/*]
+[*][url=https://github.com/northaxosky/fallout4-house-rules/issues][b]Issue Tracker[/b][/url][/*]
+[*][url=https://github.com/northaxosky/fallout4-house-rules/blob/master/docs/FEATURES.md][b]Setting Reference[/b][/url][/*]
 [/list]
 
-If you hit a problem, include your [b]HouseRules.log[/b] from [i]Documents\My Games\Fallout4\F4SE\[/i] and your runtime version.
+Include your game version, F4SE version, chosen menu, and [b]HouseRules.log[/b] when reporting a problem. Describe which setting you changed and what happened.
+
+Logs are saved in: [b]Documents\My Games\Fallout4\F4SE\[/b]
