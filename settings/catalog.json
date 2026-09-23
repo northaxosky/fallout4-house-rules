@@ -986,12 +986,6 @@
           "setting": "iXPBumpBase:Progression"
         },
         {
-          "setting": "fXPModBase:Progression"
-        },
-        {
-          "setting": "fXPModMult:Progression"
-        },
-        {
           "setting": "fXPDeathRewardHealthThreshold:Progression"
         }
       ]
@@ -3756,46 +3750,6 @@
       }
     },
     {
-      "id": "fXPModBase:Progression",
-      "section": "Progression",
-      "key": "fXPModBase",
-      "cpp": "Progression::fXPModBase",
-      "type": "float",
-      "default": 1.0,
-      "iniDefault": "1.0",
-      "ui": {
-        "page": "progression",
-        "group": "XP Formula",
-        "label": "Mod XP Base",
-        "help": "Base XP for installing or removing a weapon/armor mod at a workbench. Vanilla 1.0.",
-        "control": "slider",
-        "order": 19,
-        "min": 0.0,
-        "max": 50.0,
-        "step": 0.5
-      }
-    },
-    {
-      "id": "fXPModMult:Progression",
-      "section": "Progression",
-      "key": "fXPModMult",
-      "cpp": "Progression::fXPModMult",
-      "type": "float",
-      "default": 0.03,
-      "iniDefault": "0.03",
-      "ui": {
-        "page": "progression",
-        "group": "XP Formula",
-        "label": "Mod XP Multiplier",
-        "help": "Multiplier on Mod XP. Vanilla 0.03.",
-        "control": "slider",
-        "order": 20,
-        "min": 0.0,
-        "max": 5.0,
-        "step": 0.01
-      }
-    },
-    {
       "id": "fXPDeathRewardHealthThreshold:Progression",
       "section": "Progression",
       "key": "fXPDeathRewardHealthThreshold",
@@ -3809,7 +3763,7 @@
         "label": "Death Reward Health Threshold",
         "help": "Engine penalty threshold for kills made just before the player's death. Vanilla 0.25.",
         "control": "slider",
-        "order": 21,
+        "order": 19,
         "min": 0.0,
         "max": 1.0,
         "step": 0.05

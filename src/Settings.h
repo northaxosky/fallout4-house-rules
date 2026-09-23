@@ -247,8 +247,6 @@ namespace HouseRules
 			// XP formula
 			inline static REX::INI::I32<> iXPBase     { "Progression", "iXPBase",      200 };
 			inline static REX::INI::I32<> iXPBumpBase { "Progression", "iXPBumpBase",   75 };
-			inline static REX::INI::F32<> fXPModBase  { "Progression", "fXPModBase",     1.0f  };
-			inline static REX::INI::F32<> fXPModMult  { "Progression", "fXPModMult",     0.03f };
 			inline static REX::INI::F32<> fXPDeathRewardHealthThreshold{
 				"Progression", "fXPDeathRewardHealthThreshold", 0.25f };
 		};

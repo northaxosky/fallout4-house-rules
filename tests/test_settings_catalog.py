@@ -30,8 +30,8 @@ class SettingsCatalogTests(unittest.TestCase):
     def test_catalog_is_valid_and_complete(self):
         self.generator.validate(self.catalog)
         exposed = [entry for entry in self.catalog["settings"] if entry.get("ui")]
-        self.assertEqual(255, len(self.catalog["settings"]))
-        self.assertEqual(226, len(exposed))
+        self.assertEqual(253, len(self.catalog["settings"]))
+        self.assertEqual(224, len(exposed))
         self.assertEqual(16, len(self.catalog["pages"]))
 
     def test_ui_control_counts_match_legacy_menu(self):
@@ -41,7 +41,7 @@ class SettingsCatalogTests(unittest.TestCase):
             if entry.get("ui")
         ]
         self.assertEqual(17, controls.count("switcher"))
-        self.assertEqual(208, controls.count("slider"))
+        self.assertEqual(206, controls.count("slider"))
         self.assertEqual(1, controls.count("stepper"))
 
     def test_mcm_bindings_match_catalog_types(self):

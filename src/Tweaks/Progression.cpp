@@ -16,7 +16,7 @@ namespace Tweaks::Progression
 		using GameSettings::IntTarget;
 		using GameSettings::Mode;
 
-		const std::array<FloatTarget, 16> kFloatTargets = { {
+		const std::array<FloatTarget, 14> kFloatTargets = { {
 			// Cooking
 			{ "fCookingExpBase", &MCM::Settings::Progression::fCookingExpBase, Mode::Direct, 1.0f  },
 			{ "fCookingExpMax",  &MCM::Settings::Progression::fCookingExpMax,  Mode::Direct, 10.0f },
@@ -38,9 +38,7 @@ namespace Tweaks::Progression
 			{ "fLockpickXPRewardHard",     &MCM::Settings::Progression::fLockpickXPExpert,     Mode::Direct, 15.0f },
 			{ "fLockpickXPRewardVeryHard", &MCM::Settings::Progression::fLockpickXPMaster,     Mode::Direct, 20.0f },
 
-			// XP formula (mod XP scaling + post-death penalty threshold)
-			{ "fXPModBase",                  &MCM::Settings::Progression::fXPModBase,                  Mode::Direct, 1.0f  },
-			{ "fXPModMult",                  &MCM::Settings::Progression::fXPModMult,                  Mode::Direct, 0.03f },
+			// fXPModBase/fXPModMult are owned by Tweaks::Difficulty.
 			{ "fXPDeathRewardHealthThreshold", &MCM::Settings::Progression::fXPDeathRewardHealthThreshold, Mode::Direct, 0.25f },
 		} };
 

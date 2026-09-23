@@ -70,8 +70,8 @@ Multipliers for combat damage and rewards on each difficulty level. `1.00` means
 |---|---|---|
 | Incoming Damage | `fDiffMultHPByPCVS<difficulty>` | Damage you take, per difficulty level. |
 | Outgoing Damage | `fDiffMultHPToPCVS<difficulty>` | Damage you deal, per difficulty level. |
-| Base XP Rate | `fXPDifficultyMult` | How much XP you earn overall. |
-| Intelligence XP Bonus | `fXPPerIntelligenceMult` | How much extra XP each point of Intelligence gives. |
+| Base XP Rate | `fXPModBase` | How much XP you earn overall, before the Intelligence bonus. |
+| Intelligence XP Bonus | `fXPModMult` | How much extra XP each point of Intelligence gives. |
 | Legendary Chance | `fLegendaryDropChance<tier>` | The chance an enemy drops a legendary item. |
 | Legendary Rarity | `fLegendaryDropRarityMult<tier>` | How rare the legendary effect is when one drops. |
 
@@ -242,8 +242,6 @@ The game keeps crafting XP between Base and Max. If you set Base higher than Max
 |---|---|---|---|
 | XP Base | `iXPBase` | 200 | Base XP scalar used by the level-up curve. |
 | Level-Up Bump | `iXPBumpBase` | 75 | Per-level XP bump value. |
-| Mod XP Base | `fXPModBase` | 1.0 | Base XP for installing or removing a weapon/armor mod at a workbench. |
-| Mod XP Multiplier | `fXPModMult` | 0.03 | Multiplier on Mod XP. |
 | Death Reward Health Threshold | `fXPDeathRewardHealthThreshold` | 0.25 | Engine penalty threshold for kills made just before the player's death. |
 
 All Direct sliders.

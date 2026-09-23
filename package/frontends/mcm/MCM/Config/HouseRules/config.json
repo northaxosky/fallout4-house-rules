@@ -2343,30 +2343,6 @@
           }
         },
         {
-          "id": "fXPModBase:Progression",
-          "text": "Mod XP Base",
-          "type": "slider",
-          "help": "Base XP for installing or removing a weapon/armor mod at a workbench. Vanilla 1.0.",
-          "valueOptions": {
-            "min": 0.0,
-            "max": 50.0,
-            "step": 0.5,
-            "sourceType": "ModSettingFloat"
-          }
-        },
-        {
-          "id": "fXPModMult:Progression",
-          "text": "Mod XP Multiplier",
-          "type": "slider",
-          "help": "Multiplier on Mod XP. Vanilla 0.03.",
-          "valueOptions": {
-            "min": 0.0,
-            "max": 5.0,
-            "step": 0.01,
-            "sourceType": "ModSettingFloat"
-          }
-        },
-        {
           "id": "fXPDeathRewardHealthThreshold:Progression",
           "text": "Death Reward Health Threshold",
           "type": "slider",
