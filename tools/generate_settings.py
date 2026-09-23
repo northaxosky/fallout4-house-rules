@@ -99,8 +99,8 @@ def parse_settings_header() -> list[dict[str, Any]]:
                 "iniDefault": ini_default,
             }
         )
-    if len(settings) != 253:
-        raise ValueError(f"expected 253 Settings.h entries, found {len(settings)}")
+    if len(settings) != 264:
+        raise ValueError(f"expected 264 Settings.h entries, found {len(settings)}")
     ids = [entry["id"] for entry in settings]
     if len(ids) != len(set(ids)):
         raise ValueError("Settings.h contains duplicate section/key pairs")
@@ -190,8 +190,8 @@ def import_existing() -> dict[str, Any]:
             }
         )
 
-    if len(seen) != 224:
-        raise ValueError(f"expected 224 MCM settings, found {len(seen)}")
+    if len(seen) != 235:
+        raise ValueError(f"expected 235 MCM settings, found {len(seen)}")
     return {
         "schemaVersion": 1,
         "product": {
@@ -224,11 +224,11 @@ def validate(catalog: dict[str, Any]) -> None:
     pages = catalog.get("pages")
     if not isinstance(settings, list) or not isinstance(pages, list):
         raise ValueError("catalog settings/pages must be arrays")
-    if len(settings) != 253:
-        raise ValueError(f"expected 253 settings, found {len(settings)}")
+    if len(settings) != 264:
+        raise ValueError(f"expected 264 settings, found {len(settings)}")
     page_ids = {page["id"] for page in pages}
-    if len(page_ids) != len(pages) or len(pages) != 16:
-        raise ValueError("catalog must contain 16 uniquely identified pages")
+    if len(page_ids) != len(pages) or len(pages) != 17:
+        raise ValueError("catalog must contain 17 uniquely identified pages")
     categories = catalog["categories"]
     if not isinstance(categories, list) or not categories:
         raise ValueError("catalog categories must be a nonempty array")
@@ -317,9 +317,9 @@ def validate(catalog: dict[str, Any]) -> None:
                 raise ValueError(f"{setting_id}: invalid slider range")
             if not (ui["min"] <= default <= ui["max"]):
                 raise ValueError(f"{setting_id}: default outside slider range")
-    if ui_count != 224:
-        raise ValueError(f"expected 224 UI settings, found {ui_count}")
-    if counts != {"bool": 39, "float": 173, "int": 34, "string": 7}:
+    if ui_count != 235:
+        raise ValueError(f"expected 235 UI settings, found {ui_count}")
+    if counts != {"bool": 40, "float": 180, "int": 37, "string": 7}:
         raise ValueError(f"unexpected settings type counts: {counts}")
 
     placed: list[str] = []
@@ -576,13 +576,13 @@ namespace HouseRules::SettingsCatalog
 {
 \tnamespace
 \t{
-\t\tconst std::array<Descriptor, 253> kDescriptors{
-"""
+\t\t"""
+        + f"const std::array<Descriptor, {len(rows)}> kDescriptors{{\n"
         + "\n".join(rows)
         + """
 \n\t\t};
-\n\t\tconstexpr std::array<Page, 16> kPages{
 """
+        + f"\n\t\tconstexpr std::array<Page, {len(page_rows)}> kPages{{\n"
         + "\n".join(page_rows)
         + """
 \n\t\t};

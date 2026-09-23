@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import importlib.util
+import configparser
 import json
 import pathlib
 import copy
@@ -27,12 +28,41 @@ class SettingsCatalogTests(unittest.TestCase):
             (ROOT / "settings" / "catalog.json").read_text(encoding="utf-8")
         )
 
+    def test_shipped_presets_reference_valid_gameplay_settings(self):
+        presets = sorted(
+            (ROOT / "package" / "frontends" / "dmui" / "F4SE" / "Plugins" / "HouseRules" / "Presets").glob("*.ini")
+        )
+        self.assertTrue(presets)
+        scoped = {
+            (entry["section"].lower(), entry["key"].lower()): entry
+            for entry in self.catalog["settings"]
+            if entry.get("ui") and entry["ui"]["page"] != "general"
+        }
+        for path in presets:
+            parser = configparser.ConfigParser(interpolation=None)
+            parser.optionxform = str
+            parser.read(path, encoding="utf-8")
+            self.assertTrue(parser.get("Preset", "Name", fallback="").strip(), path.name)
+            for section in parser.sections():
+                if section == "Preset":
+                    continue
+                for key, raw in parser.items(section):
+                    entry = scoped.get((section.lower(), key.lower()))
+                    self.assertIsNotNone(entry, f"{path.name}: [{section}]{key} is not preset-managed")
+                    ui = entry["ui"]
+                    if entry["type"] == "bool":
+                        self.assertIn(raw, {"0", "1"}, f"{path.name}: [{section}]{key}")
+                        continue
+                    value = int(raw) if entry["type"] == "int" else float(raw)
+                    self.assertTrue(ui["min"] <= value <= ui["max"], f"{path.name}: [{section}]{key} out of range")
+                    self.assertNotEqual(value, entry["default"], f"{path.name}: [{section}]{key} repeats vanilla")
+
     def test_catalog_is_valid_and_complete(self):
         self.generator.validate(self.catalog)
         exposed = [entry for entry in self.catalog["settings"] if entry.get("ui")]
-        self.assertEqual(253, len(self.catalog["settings"]))
-        self.assertEqual(224, len(exposed))
-        self.assertEqual(16, len(self.catalog["pages"]))
+        self.assertEqual(264, len(self.catalog["settings"]))
+        self.assertEqual(235, len(exposed))
+        self.assertEqual(17, len(self.catalog["pages"]))
 
     def test_ui_control_counts_match_legacy_menu(self):
         controls = [
@@ -40,8 +70,8 @@ class SettingsCatalogTests(unittest.TestCase):
             for entry in self.catalog["settings"]
             if entry.get("ui")
         ]
-        self.assertEqual(17, controls.count("switcher"))
-        self.assertEqual(206, controls.count("slider"))
+        self.assertEqual(18, controls.count("switcher"))
+        self.assertEqual(216, controls.count("slider"))
         self.assertEqual(1, controls.count("stepper"))
 
     def test_mcm_bindings_match_catalog_types(self):
@@ -93,7 +123,7 @@ class SettingsCatalogTests(unittest.TestCase):
                 "Survival & Healing": ["survival-unlocks", "survival", "magnitudes"],
                 "Character & Progression": ["character", "progression", "skills", "sneak"],
                 "Combat": ["difficulty", "damage-formulas", "power-armor", "vats", "combat-perks"],
-                "World": ["economy", "companions", "settlements"],
+                "World": ["economy", "companions", "settlements", "world-time"],
             },
             {
                 category["name"]: [

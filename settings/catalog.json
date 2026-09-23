@@ -8,11 +8,26 @@
     "pluginRequirements": []
   },
   "categories": [
-    { "id": "overview", "name": "Overview" },
-    { "id": "survival", "name": "Survival & Healing" },
-    { "id": "character", "name": "Character & Progression" },
-    { "id": "combat", "name": "Combat" },
-    { "id": "world", "name": "World" }
+    {
+      "id": "overview",
+      "name": "Overview"
+    },
+    {
+      "id": "survival",
+      "name": "Survival & Healing"
+    },
+    {
+      "id": "character",
+      "name": "Character & Progression"
+    },
+    {
+      "id": "combat",
+      "name": "Combat"
+    },
+    {
+      "id": "world",
+      "name": "World"
+    }
   ],
   "pages": [
     {
@@ -671,6 +686,25 @@
         },
         {
           "setting": "fCombatHealthRegenMult:Character"
+        },
+        {
+          "type": "spacer"
+        },
+        {
+          "text": "Falling & Jumping",
+          "type": "section"
+        },
+        {
+          "setting": "fJumpFallHeightMin:Character"
+        },
+        {
+          "setting": "fJumpFallHeightMult:Character"
+        },
+        {
+          "setting": "fJumpFallHeightExponent:Character"
+        },
+        {
+          "setting": "fJumpHeightMin:Character"
         }
       ]
     },
@@ -994,7 +1028,7 @@
       "id": "vats",
       "category": "combat",
       "name": "VATS",
-      "summary": "Targeting range, time slowdown, and incoming damage while VATS is active. Direct sliders show the vanilla default as their neutral value.",
+      "summary": "Targeting range, time slowdown, incoming damage, and critical meter gain in VATS. Direct sliders show the vanilla default as their neutral value.",
       "root": false,
       "content": [
         {
@@ -1003,7 +1037,7 @@
           "type": "text"
         },
         {
-          "text": "<font color='#AAAAAA'><p align='center'>Targeting range, time slowdown, and incoming damage while VATS is active. Direct sliders show the vanilla default as their neutral value.</p></font>",
+          "text": "<font color='#AAAAAA'><p align='center'>Targeting range, time slowdown, incoming damage, and critical meter gain in VATS. Direct sliders show the vanilla default as their neutral value.</p></font>",
           "html": true,
           "type": "text"
         },
@@ -1036,6 +1070,19 @@
         },
         {
           "setting": "fVATSPlayerDamageMult:VATS"
+        },
+        {
+          "type": "spacer"
+        },
+        {
+          "text": "Critical Meter",
+          "type": "section"
+        },
+        {
+          "setting": "fVATSCriticalChargeBase:VATS"
+        },
+        {
+          "setting": "fVATSCriticalChargeMult:VATS"
         }
       ]
     },
@@ -1403,6 +1450,54 @@
         },
         {
           "setting": "fRestrictedBuildMaxTurretRadius:Settlements"
+        }
+      ]
+    },
+    {
+      "id": "world-time",
+      "category": "world",
+      "name": "World & Time",
+      "summary": "Area respawn, vendor restock, and timescale. Direct sliders show the vanilla default as their neutral value.",
+      "root": false,
+      "content": [
+        {
+          "text": "<font size='24'><p align='center'>World & Time</p></font>",
+          "html": true,
+          "type": "text"
+        },
+        {
+          "text": "<font color='#AAAAAA'><p align='center'>Area respawn, vendor restock, and timescale. Direct sliders show the vanilla default as their neutral value.</p></font>",
+          "html": true,
+          "type": "text"
+        },
+        {
+          "type": "spacer"
+        },
+        {
+          "text": "Respawn",
+          "type": "section"
+        },
+        {
+          "setting": "iHoursToRespawnCell:World"
+        },
+        {
+          "setting": "iHoursToRespawnCellCleared:World"
+        },
+        {
+          "setting": "iDaysToRespawnVendor:World"
+        },
+        {
+          "type": "spacer"
+        },
+        {
+          "text": "Time",
+          "type": "section"
+        },
+        {
+          "setting": "bTimeScaleOverride:World"
+        },
+        {
+          "setting": "fTimeScale:World"
         }
       ]
     }
@@ -2870,6 +2965,86 @@
       }
     },
     {
+      "id": "fJumpFallHeightMin:Character",
+      "section": "Character",
+      "key": "fJumpFallHeightMin",
+      "cpp": "Character::fJumpFallHeightMin",
+      "type": "float",
+      "default": 600.0,
+      "iniDefault": "600.0",
+      "ui": {
+        "page": "character",
+        "group": "Falling & Jumping",
+        "label": "Safe Fall Height",
+        "help": "Fall height before the player takes fall damage. Lower = falls hurt sooner. Vanilla 600.",
+        "control": "slider",
+        "order": 16,
+        "min": 0.0,
+        "max": 3000.0,
+        "step": 50.0
+      }
+    },
+    {
+      "id": "fJumpFallHeightMult:Character",
+      "section": "Character",
+      "key": "fJumpFallHeightMult",
+      "cpp": "Character::fJumpFallHeightMult",
+      "type": "float",
+      "default": 0.1,
+      "iniDefault": "0.1",
+      "ui": {
+        "page": "character",
+        "group": "Falling & Jumping",
+        "label": "Fall Damage Scale",
+        "help": "Scales the height fallen past the safe height before the damage curve. Higher = more fall damage. Vanilla 0.1.",
+        "control": "slider",
+        "order": 17,
+        "min": 0.0,
+        "max": 1.0,
+        "step": 0.01
+      }
+    },
+    {
+      "id": "fJumpFallHeightExponent:Character",
+      "section": "Character",
+      "key": "fJumpFallHeightExponent",
+      "cpp": "Character::fJumpFallHeightExponent",
+      "type": "float",
+      "default": 1.45,
+      "iniDefault": "1.45",
+      "ui": {
+        "page": "character",
+        "group": "Falling & Jumping",
+        "label": "Fall Damage Curve",
+        "help": "Exponent of the player fall damage curve. Higher = long falls hurt much more. Vanilla 1.45.",
+        "control": "slider",
+        "order": 18,
+        "min": 0.5,
+        "max": 3.0,
+        "step": 0.05
+      }
+    },
+    {
+      "id": "fJumpHeightMin:Character",
+      "section": "Character",
+      "key": "fJumpHeightMin",
+      "cpp": "Character::fJumpHeightMin",
+      "type": "float",
+      "default": 90.0,
+      "iniDefault": "90.0",
+      "ui": {
+        "page": "character",
+        "group": "Falling & Jumping",
+        "label": "Jump Height",
+        "help": "Base player jump height. Vanilla 90.",
+        "control": "slider",
+        "order": 19,
+        "min": 0.0,
+        "max": 500.0,
+        "step": 5.0
+      }
+    },
+    {
       "id": "fRadiationDamageFactor:DamageFormulas",
       "section": "DamageFormulas",
       "key": "fRadiationDamageFactor",
@@ -3827,6 +4002,46 @@
         "min": 0.0,
         "max": 1.0,
         "step": 0.01
+      }
+    },
+    {
+      "id": "fVATSCriticalChargeBase:VATS",
+      "section": "VATS",
+      "key": "fVATSCriticalChargeBase",
+      "cpp": "VATS::fVATSCriticalChargeBase",
+      "type": "float",
+      "default": 5.0,
+      "iniDefault": "5.0",
+      "ui": {
+        "page": "vats",
+        "group": "Critical Meter",
+        "label": "Crit Charge per Hit",
+        "help": "Critical meter gained per VATS hit before Luck (the meter holds 100). Vanilla 5.",
+        "control": "slider",
+        "order": 3,
+        "min": 0.0,
+        "max": 100.0,
+        "step": 0.5
+      }
+    },
+    {
+      "id": "fVATSCriticalChargeMult:VATS",
+      "section": "VATS",
+      "key": "fVATSCriticalChargeMult",
+      "cpp": "VATS::fVATSCriticalChargeMult",
+      "type": "float",
+      "default": 1.5,
+      "iniDefault": "1.5",
+      "ui": {
+        "page": "vats",
+        "group": "Critical Meter",
+        "label": "Crit Charge per Luck",
+        "help": "Extra critical meter per point of Luck on each VATS hit. Vanilla 1.5.",
+        "control": "slider",
+        "order": 4,
+        "min": 0.0,
+        "max": 20.0,
+        "step": 0.1
       }
     },
     {
@@ -4987,6 +5202,103 @@
         "min": 0.0,
         "max": 500.0,
         "step": 5.0
+      }
+    },
+    {
+      "id": "iHoursToRespawnCell:World",
+      "section": "World",
+      "key": "iHoursToRespawnCell",
+      "cpp": "World::iHoursToRespawnCell",
+      "type": "int",
+      "default": 168,
+      "iniDefault": "168",
+      "ui": {
+        "page": "world-time",
+        "group": "Respawn",
+        "label": "Area Respawn Hours",
+        "help": "Game hours before a visited area respawns its enemies and loot. Vanilla 168 (7 days).",
+        "control": "slider",
+        "order": 1,
+        "min": 24,
+        "max": 2160,
+        "step": 24
+      }
+    },
+    {
+      "id": "iHoursToRespawnCellCleared:World",
+      "section": "World",
+      "key": "iHoursToRespawnCellCleared",
+      "cpp": "World::iHoursToRespawnCellCleared",
+      "type": "int",
+      "default": 480,
+      "iniDefault": "480",
+      "ui": {
+        "page": "world-time",
+        "group": "Respawn",
+        "label": "Cleared Area Respawn Hours",
+        "help": "Game hours before a cleared area respawns. Vanilla 480 (20 days).",
+        "control": "slider",
+        "order": 2,
+        "min": 24,
+        "max": 4320,
+        "step": 24
+      }
+    },
+    {
+      "id": "iDaysToRespawnVendor:World",
+      "section": "World",
+      "key": "iDaysToRespawnVendor",
+      "cpp": "World::iDaysToRespawnVendor",
+      "type": "int",
+      "default": 2,
+      "iniDefault": "2",
+      "ui": {
+        "page": "world-time",
+        "group": "Respawn",
+        "label": "Vendor Restock Days",
+        "help": "Game days before vendors restock their inventory and caps. Vanilla 2.",
+        "control": "slider",
+        "order": 3,
+        "min": 1,
+        "max": 30,
+        "step": 1
+      }
+    },
+    {
+      "id": "bTimeScaleOverride:World",
+      "section": "World",
+      "key": "bTimeScaleOverride",
+      "cpp": "World::bTimeScaleOverride",
+      "type": "bool",
+      "default": false,
+      "iniDefault": "0",
+      "ui": {
+        "page": "world-time",
+        "group": "Time",
+        "label": "Override Timescale",
+        "help": "ON applies the Timescale slider. Turning it OFF restores vanilla 20; while OFF, House Rules leaves the save's timescale alone.",
+        "control": "switcher",
+        "order": 4
+      }
+    },
+    {
+      "id": "fTimeScale:World",
+      "section": "World",
+      "key": "fTimeScale",
+      "cpp": "World::fTimeScale",
+      "type": "float",
+      "default": 20.0,
+      "iniDefault": "20.0",
+      "ui": {
+        "page": "world-time",
+        "group": "Time",
+        "label": "Timescale",
+        "help": "Game minutes that pass per real minute while Override Timescale is ON. The value is stored in your save. Vanilla 20.",
+        "control": "slider",
+        "order": 5,
+        "min": 1.0,
+        "max": 60.0,
+        "step": 1.0
       }
     },
     {

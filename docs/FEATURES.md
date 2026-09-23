@@ -19,6 +19,30 @@ A complete list of every setting House Rules exposes through either the MCM or n
 | Enable Plugin | Toggle | On | Master switch. With this off, none of the gameplay changes apply. Diagnostics can still run. |
 | Log Level | Stepper | Normal | How much detail House Rules writes to its log file: `Quiet`, `Normal`, `Verbose`, or `Trace`. |
 
+## Presets (Dear Modding UI)
+
+The native frontend adds a Presets page next to General. Applying a preset sets every gameplay setting to vanilla, then applies that preset's changes, and saves right away after confirmation. General page settings (the plugin switch and logging) are never changed. MCM users adjust sliders directly.
+
+| Preset | What it changes |
+|---|---|
+| Vanilla | Built in. Every gameplay setting at its default. |
+| Relaxed Survival | Manual saves, auto-saves, compass locations, and slower hunger, thirst, and sleep needs. |
+| Hardcore Wasteland | 1.5× damage taken and dealt on every difficulty, harsher falls, pricier vendors, weekly restocks, and slower VATS criticals. |
+| Explorer | 50% more base XP, cleared areas stay clear for 60 days, daily vendor restocks, and gentler falls. |
+
+**Save as...** writes your current gameplay settings as a new preset in `Data/MCM/Settings/HouseRules/Presets/`. Shipped presets live in `Data/F4SE/Plugins/HouseRules/Presets/`. A preset file lists only the settings it changes from vanilla:
+
+```ini
+[Preset]
+Name=My Setup
+Description=Optional text shown under the name.
+
+[World]
+iDaysToRespawnVendor=1
+```
+
+Sections and keys match `HouseRules.ini`. A preset with an invalid or out-of-range value is rejected as a whole. Unknown and General-page keys are ignored and logged. Use **Rescan** after adding or removing files while the game runs.
+
 ## Survival Unlocks
 
 All toggles default OFF (vanilla Survival). Turning one ON applies that change while keeping real Survival difficulty active. Damage scaling, food, water, sleep, and the rest stay in effect.
@@ -133,6 +157,17 @@ The `Remove Survival Carry-Weight Penalty` toggle (on Survival Unlocks) stacks w
 A few of these sliders change the formula but not your current value right away. Your AP pool, carry weight, and max health refresh when the game recalculates them: at level-up, when you change equipment, after fast travel, or after you load a save.
 
 The three regen sliders (AP Regen, Passive Health Regen, Combat Health Regen) are different from the others. They write a value directly to your character. This means they always have a known reset point so saves stay clean.
+
+### Falling & Jumping
+
+| Slider | Game Setting | Default | What it changes |
+|---|---|---|---|
+| Safe Fall Height | `fJumpFallHeightMin` | 600 | How far you can fall before taking damage. |
+| Fall Damage Scale | `fJumpFallHeightMult` | 0.1 | Scales the distance fallen past the safe height. |
+| Fall Damage Curve | `fJumpFallHeightExponent` | 1.45 | Exponent of the fall damage curve. Higher = long falls hurt much more. |
+| Jump Height | `fJumpHeightMin` | 90 | Base jump height. |
+
+Player fall damage is `((height - Safe Fall Height) × Fall Damage Scale) ^ Fall Damage Curve` before perks apply. NPC fall damage is unchanged. All Direct sliders.
 
 ## Damage Formulas
 
@@ -255,6 +290,10 @@ All Direct sliders.
 | Max Engage Distance | `fVATSMaxEngageDistance` | 5000 | How far you can be from a target to use VATS. `0` disables VATS. |
 | Target-Select Time | `fVATSTimeMultTargetSelect` | 0.04 | How much time slows while you choose targets. Lower = slower. |
 | Player Damage Multiplier | `fVATSPlayerDamageMult` | 0.10 | Damage you take while VATS is active. `1.0` removes the vanilla damage reduction. |
+| Crit Charge per Hit | `fVATSCriticalChargeBase` | 5 | Critical meter gained per VATS hit before Luck. The meter holds 100. |
+| Crit Charge per Luck | `fVATSCriticalChargeMult` | 1.5 | Extra critical meter per point of Luck on each VATS hit. |
+
+Each VATS hit adds `Crit Charge per Hit + Luck × Crit Charge per Luck` to the critical meter before perks apply. All Direct sliders.
 
 ## Skills (Pickpocket, Hacking, Lockpicking)
 
@@ -391,6 +430,27 @@ Sliders for vanilla workshop game settings: build timers, repair cost, wire leng
 
 All Direct sliders. Leaving one on its default keeps any changes another mod has made.
 
+## World & Time
+
+### Respawn
+
+| Slider | Game Setting | Default | What it changes |
+|---|---|---|---|
+| Area Respawn Hours | `iHoursToRespawnCell` | 168 | Game hours before a visited area respawns its enemies and loot. |
+| Cleared Area Respawn Hours | `iHoursToRespawnCellCleared` | 480 | Game hours before a cleared area respawns. |
+| Vendor Restock Days | `iDaysToRespawnVendor` | 2 | Game days before vendors restock their inventory and caps. |
+
+All Direct sliders. Leaving one on its default keeps any changes another mod has made.
+
+### Time
+
+| Setting | Game Value | Default | What it changes |
+|---|---|---|---|
+| Override Timescale | - | Off | Lets House Rules set the timescale. Turning it off restores vanilla `20`. |
+| Timescale | `TimeScale` global | 20 | Game minutes that pass per real minute while the override is on. |
+
+The timescale is saved in your save file. While the override is off, House Rules leaves it alone, so a value set by the console or another mod stays in effect.
+
 ## Survival
 
 Toggles for the vanilla Survival hardcore-rule systems. Use these to keep Survival difficulty active while disabling its food/water, sleep, disease, or adrenaline subsystems independently. All four default OFF (vanilla behavior).
@@ -500,9 +560,10 @@ python tools\validate_house_rules_log.py `
     --require-module PowerArmor --require-module Economy `
     --require-module Progression --require-module VATS `
     --require-module Skills --require-module Sneak `
-    --require-module CombatPerks --require-module Settlements
+    --require-module CombatPerks --require-module Settlements `
+    --require-module Movement --require-module World
 ```
 
-Companions Affinity, Survival kill-switches + tuning, and SurvivalCarryWeight don't run through this GMST audit; they verify via their own log line prefixes (`Globals: wrote FormID ...`, `HCManagerScript: 'PropName' = value`, `SurvivalCarryWeight: gate=ON wrote N effect magnitude(s)`).
+Companions Affinity, the World timescale override, Survival kill-switches + tuning, and SurvivalCarryWeight don't run through this GMST audit; they verify via their own log line prefixes (`Globals: wrote FormID ...`, `HCManagerScript: 'PropName' = value`, `SurvivalCarryWeight: gate=ON wrote N effect magnitude(s)`).
 
 The validation list will grow as new tracks ship.

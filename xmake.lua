@@ -121,6 +121,10 @@ target("HouseRules")
             os.cp(
                 "package/frontends/mcm/MCM/Config/HouseRules/lib.swf",
                 mcm_dir)
+        else
+            local presets_dir = path.join(plugins_dir, "HouseRules/Presets")
+            os.mkdir(presets_dir)
+            os.cp("package/frontends/dmui/F4SE/Plugins/HouseRules/Presets/*.ini", presets_dir)
         end
         cprint(
             "${bright green}deploy: ${clear}copied %s frontend to %s",
@@ -136,6 +140,7 @@ target("HouseRulesRuntimeTests")
     add_packages("simpleini")
     add_files(
         "tests/runtime_contracts.cpp",
+        "src/Configuration/Presets.cpp",
         "src/Configuration/SettingsPersistence.cpp",
         "src/Gameplay/Lifecycle.cpp"
     )

@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Configuration/Presets.h"
 #include "Configuration/SettingsPersistence.h"
 
 #include <atomic>
@@ -67,4 +68,5 @@ namespace HouseRules::Configuration
 
 	[[nodiscard]] Frontend SelectedFrontend();
 	[[nodiscard]] const char* FrontendName(Frontend a_frontend) noexcept;
+	[[nodiscard]] PresetDirectories InstalledPresetDirectories();
 }  // namespace HouseRules::Configuration

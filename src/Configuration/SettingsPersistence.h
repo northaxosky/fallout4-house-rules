@@ -3,8 +3,10 @@
 #include "SettingsCatalog.generated.h"
 
 #include <filesystem>
+#include <optional>
 #include <span>
 #include <string>
+#include <string_view>
 #include <vector>
 
 namespace HouseRules::Configuration
@@ -56,4 +58,12 @@ namespace HouseRules::Configuration
 
 	[[nodiscard]] bool CanUseNativeControlQuantization(
 	    const SettingsCatalog::Descriptor& a_descriptor) noexcept;
+
+	// Parses one INI value with the same rules as persisted settings.
+	[[nodiscard]] std::optional<SettingsCatalog::Value> ParseIniValue(
+	    const SettingsCatalog::Descriptor& a_descriptor,
+	    std::string_view a_raw);
+
+	// Round-trip text form accepted by ParseIniValue.
+	[[nodiscard]] std::string FormatIniValue(const SettingsCatalog::Value& a_value);
 }  // namespace HouseRules::Configuration

@@ -23,8 +23,8 @@ Requires **F4SE** and **Address Library for F4SE**. Choose one optional settings
 
 The native option must pair the House Rules build with a compatible Dear Modding UI host/API. House Rules uses the stable ABI 1 client API linked by this repository's CommonLibF4 submodule. Older compatible hosts can still show the settings pages; when the optional field-feedback tail or confirmation-dialog service is absent, validation falls back to setting/global status text and bulk page reset is disabled. Incompatible hosts are reported in `HouseRules.log` as a native connection failure.
 
-The native sidebar uses a scales icon and groups its 16 pages into Overview,
-Survival & Healing, Character & Progression, Combat, and World. MCM page layout is unchanged.
+The native sidebar uses a scales icon and groups its 17 settings pages plus a Presets page into Overview,
+Survival & Healing, Character & Progression, Combat, and World. Presets need the host's dialog service. MCM page layout is unchanged apart from the new World & Time page.
 
 ## Features
 
@@ -35,17 +35,19 @@ The full per-slider reference (defaults, units, behavior notes) lives in [docs/F
 - **Magnitudes** - stimpak / limb repair / RadAway / Rad-X / food healing and hunger / thirst / sleep penalty severity.
 - **Difficulty I** - per-tier incoming / outgoing damage, XP base + Intelligence bonus, legendary chance / rarity.
 - **Difficulty II** - per-tier effect duration and effect magnitude.
-- **Character** - AP pool, sprint cost, carry capacity, max-health scaling, AP / passive / combat health regen.
+- **Character** - AP pool, sprint cost, carry capacity, max-health scaling, AP / passive / combat health regen, fall damage curve, jump height.
 - **Damage Formulas** - radiation, physical, and energy damage factor + armor exponent.
 - **Power Armor & Jetpack** - jetpack drain / thrust, fusion-core drain, player / NPC PA durability.
 - **Economy** - barter min / max floors, buy / sell multiplier caps.
 - **Progression** - cooking / workbench / workshop XP, lockpick rewards, mine disarm XP.
-- **VATS** - max engage distance, target-select time scale, player damage mult.
+- **VATS** - max engage distance, target-select time scale, player damage mult, critical meter gain.
 - **Skills** - pickpocket, hacking, lockpicking.
 - **Sneak** - sneak attack multipliers, exterior / light / max detection.
 - **Combat Perks** - disarm / stagger / knockdown / paralyze chances and Light / Heavy Armor perk-tier multipliers.
 - **Settlements** - workshop build / repair / wire timers, settler population cap, placement-radius constraints.
+- **World & Time** - area and cleared-area respawn hours, vendor restock days, opt-in timescale override.
 - **Companions Affinity** - the nine vanilla TESGlobals that drive per-reaction affinity deltas and event cooldowns.
+- **Presets (Dear Modding UI)** - apply built-in Vanilla or shipped presets (Relaxed Survival, Hardcore Wasteland, Explorer), or save your own; each is a small INI of changes from vanilla.
 
 Two caveats to know about:
 
@@ -76,7 +78,7 @@ python tools/validate_house_rules_log.py
 ## Installation
 
 1. Download the latest zip from the [Releases page](https://github.com/northaxosky/fallout4-house-rules/releases).
-2. Install it through a FOMOD-capable mod manager and choose exactly one frontend. **Mod Configuration Menu** installs `config.json` and `lib.swf`; **Dear Modding UI** installs the native selector and omits those bridge-discoverable MCM page assets.
+2. Install it through a FOMOD-capable mod manager and choose exactly one frontend. **Mod Configuration Menu** installs `config.json` and `lib.swf`; **Dear Modding UI** installs the native selector and shipped presets, and omits those bridge-discoverable MCM page assets.
 3. Restart Fallout 4 after changing frontend choice. Frontend registration is startup-only.
 
 Both choices install the same DLL/PDB and shared packaged defaults. Neither package includes or overwrites `Data/MCM/Settings/HouseRules.ini`, so existing user overrides remain compatible.
@@ -115,8 +117,8 @@ The repository's authoritative, ready-to-zip Nexus archive root is
 into `package/core/F4SE/Plugins/`, then validates both choices by reading the
 tracked `package/fomod/ModuleConfig.xml`. Zip the **contents** of `package/`,
 not the `package` directory itself. The tracked generated defaults live under
-`package/core/`, while MCM-only `config.json`/`lib.swf` assets and both tracked
-frontend selectors live under `package/frontends/`.
+`package/core/`, while MCM-only `config.json`/`lib.swf` assets, native-only
+shipped presets, and both tracked frontend selectors live under `package/frontends/`.
 
 Only `releasedbg` builds populate upload binaries; debug builds are for local
 development and are never copied into the release package. Run

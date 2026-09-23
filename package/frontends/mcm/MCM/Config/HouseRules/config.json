@@ -1648,6 +1648,61 @@
             "step": 0.01,
             "sourceType": "ModSettingFloat"
           }
+        },
+        {
+          "type": "spacer"
+        },
+        {
+          "text": "Falling & Jumping",
+          "type": "section"
+        },
+        {
+          "id": "fJumpFallHeightMin:Character",
+          "text": "Safe Fall Height",
+          "type": "slider",
+          "help": "Fall height before the player takes fall damage. Lower = falls hurt sooner. Vanilla 600.",
+          "valueOptions": {
+            "min": 0.0,
+            "max": 3000.0,
+            "step": 50.0,
+            "sourceType": "ModSettingFloat"
+          }
+        },
+        {
+          "id": "fJumpFallHeightMult:Character",
+          "text": "Fall Damage Scale",
+          "type": "slider",
+          "help": "Scales the height fallen past the safe height before the damage curve. Higher = more fall damage. Vanilla 0.1.",
+          "valueOptions": {
+            "min": 0.0,
+            "max": 1.0,
+            "step": 0.01,
+            "sourceType": "ModSettingFloat"
+          }
+        },
+        {
+          "id": "fJumpFallHeightExponent:Character",
+          "text": "Fall Damage Curve",
+          "type": "slider",
+          "help": "Exponent of the player fall damage curve. Higher = long falls hurt much more. Vanilla 1.45.",
+          "valueOptions": {
+            "min": 0.5,
+            "max": 3.0,
+            "step": 0.05,
+            "sourceType": "ModSettingFloat"
+          }
+        },
+        {
+          "id": "fJumpHeightMin:Character",
+          "text": "Jump Height",
+          "type": "slider",
+          "help": "Base player jump height. Vanilla 90.",
+          "valueOptions": {
+            "min": 0.0,
+            "max": 500.0,
+            "step": 5.0,
+            "sourceType": "ModSettingFloat"
+          }
         }
       ]
     },
@@ -2365,7 +2420,7 @@
           "type": "text"
         },
         {
-          "text": "<font color='#AAAAAA'><p align='center'>Targeting range, time slowdown, and incoming damage while VATS is active. Direct sliders show the vanilla default as their neutral value.</p></font>",
+          "text": "<font color='#AAAAAA'><p align='center'>Targeting range, time slowdown, incoming damage, and critical meter gain in VATS. Direct sliders show the vanilla default as their neutral value.</p></font>",
           "html": true,
           "type": "text"
         },
@@ -2423,6 +2478,37 @@
             "min": 0.0,
             "max": 1.0,
             "step": 0.01,
+            "sourceType": "ModSettingFloat"
+          }
+        },
+        {
+          "type": "spacer"
+        },
+        {
+          "text": "Critical Meter",
+          "type": "section"
+        },
+        {
+          "id": "fVATSCriticalChargeBase:VATS",
+          "text": "Crit Charge per Hit",
+          "type": "slider",
+          "help": "Critical meter gained per VATS hit before Luck (the meter holds 100). Vanilla 5.",
+          "valueOptions": {
+            "min": 0.0,
+            "max": 100.0,
+            "step": 0.5,
+            "sourceType": "ModSettingFloat"
+          }
+        },
+        {
+          "id": "fVATSCriticalChargeMult:VATS",
+          "text": "Crit Charge per Luck",
+          "type": "slider",
+          "help": "Extra critical meter per point of Luck on each VATS hit. Vanilla 1.5.",
+          "valueOptions": {
+            "min": 0.0,
+            "max": 20.0,
+            "step": 0.1,
             "sourceType": "ModSettingFloat"
           }
         }
@@ -3292,6 +3378,92 @@
             "min": 0.0,
             "max": 500.0,
             "step": 5.0,
+            "sourceType": "ModSettingFloat"
+          }
+        }
+      ]
+    },
+    {
+      "pageDisplayName": "World & Time",
+      "content": [
+        {
+          "text": "<font size='24'><p align='center'>World & Time</p></font>",
+          "html": true,
+          "type": "text"
+        },
+        {
+          "text": "<font color='#AAAAAA'><p align='center'>Area respawn, vendor restock, and timescale. Direct sliders show the vanilla default as their neutral value.</p></font>",
+          "html": true,
+          "type": "text"
+        },
+        {
+          "type": "spacer"
+        },
+        {
+          "text": "Respawn",
+          "type": "section"
+        },
+        {
+          "id": "iHoursToRespawnCell:World",
+          "text": "Area Respawn Hours",
+          "type": "slider",
+          "help": "Game hours before a visited area respawns its enemies and loot. Vanilla 168 (7 days).",
+          "valueOptions": {
+            "min": 24,
+            "max": 2160,
+            "step": 24,
+            "sourceType": "ModSettingInt"
+          }
+        },
+        {
+          "id": "iHoursToRespawnCellCleared:World",
+          "text": "Cleared Area Respawn Hours",
+          "type": "slider",
+          "help": "Game hours before a cleared area respawns. Vanilla 480 (20 days).",
+          "valueOptions": {
+            "min": 24,
+            "max": 4320,
+            "step": 24,
+            "sourceType": "ModSettingInt"
+          }
+        },
+        {
+          "id": "iDaysToRespawnVendor:World",
+          "text": "Vendor Restock Days",
+          "type": "slider",
+          "help": "Game days before vendors restock their inventory and caps. Vanilla 2.",
+          "valueOptions": {
+            "min": 1,
+            "max": 30,
+            "step": 1,
+            "sourceType": "ModSettingInt"
+          }
+        },
+        {
+          "type": "spacer"
+        },
+        {
+          "text": "Time",
+          "type": "section"
+        },
+        {
+          "id": "bTimeScaleOverride:World",
+          "text": "Override Timescale",
+          "type": "switcher",
+          "help": "ON applies the Timescale slider. Turning it OFF restores vanilla 20; while OFF, House Rules leaves the save's timescale alone.",
+          "valueOptions": {
+            "sourceType": "ModSettingBool"
+          }
+        },
+        {
+          "id": "fTimeScale:World",
+          "text": "Timescale",
+          "type": "slider",
+          "help": "Game minutes that pass per real minute while Override Timescale is ON. The value is stored in your save. Vanilla 20.",
+          "valueOptions": {
+            "min": 1.0,
+            "max": 60.0,
+            "step": 1.0,
             "sourceType": "ModSettingFloat"
           }
         }

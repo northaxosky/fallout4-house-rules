@@ -1,9 +1,11 @@
+#include "Configuration/Presets.h"
 #include "Configuration/SettingsPersistence.h"
 #include "Gameplay/Lifecycle.h"
 #include "UI/ActionGate.h"
 
 #include <DearModdingUI/Client.h>
 
+#include <algorithm>
 #include <array>
 #include <cmath>
 #include <filesystem>
@@ -357,6 +359,83 @@ namespace
 		Check(ReadText(user).find("untouched") != std::string::npos, "completed edits preserve unknown user settings");
 	}
 
+	void TestPresets(const std::filesystem::path& a_root)
+	{
+		using namespace HouseRules::Configuration;
+
+		auto general = MakeDescriptor("toggle:General", "General", "toggle", ValueType::kBool, true, true);
+		general.pageId = "general";
+		const std::array descriptors {
+			MakeDescriptor("number:Test", "Test", "number", ValueType::kFloat, 2.333, true, 0.0, 24.0, 0.1, true),
+			general,
+			MakeDescriptor("hidden:Test", "Test", "hidden", ValueType::kInt, std::int64_t { 5 }, false),
+			MakeDescriptor("count:Test", "Test", "count", ValueType::kInt, std::int64_t { 4 }, true, 0.0, 10.0, 1.0, true)
+		};
+		Check(IsPresetScoped(descriptors[0]) && !IsPresetScoped(descriptors[1]) && !IsPresetScoped(descriptors[2]),
+		      "preset scope covers exposed gameplay settings only");
+
+		const PresetDirectories directories { a_root / "shipped", a_root / "user" };
+		WriteText(directories.shipped / "Tuned.ini",
+		          "[Preset]\nName=Tuned Setup\nDescription=Test preset.\n"
+		          "[test]\nNUMBER=4.5\nunknown=1\nhidden=9\n[General]\ntoggle=0\n");
+		WriteText(directories.shipped / "notes.txt", "ignored");
+		auto discovered = DiscoverPresets(directories);
+		Check(discovered.presets.size() == 2, "discovery lists built-in plus shipped .ini presets");
+		Check(discovered.presets[0].origin == PresetOrigin::kBuiltIn, "built-in Vanilla is listed first");
+		Check(discovered.presets[1].name == "Tuned Setup" && discovered.presets[1].origin == PresetOrigin::kShipped,
+		      "shipped preset name comes from its [Preset] header");
+
+		auto vanilla = ResolvePreset(descriptors, discovered.presets[0]);
+		Check(vanilla.success && vanilla.changes.size() == 2, "Vanilla resolves every scoped setting");
+		Check(vanilla.changes[0].index == 0 && std::get<double>(vanilla.changes[0].value) == 2.333 &&
+		          std::get<std::int64_t>(vanilla.changes[1].value) == 4,
+		      "Vanilla restores exact declared defaults");
+
+		auto tuned = ResolvePreset(descriptors, discovered.presets[1]);
+		Check(tuned.success, "valid shipped preset resolves");
+		Check(tuned.changes.size() == 2 && std::get<double>(tuned.changes[0].value) == 4.5,
+		      "preset keys match case-insensitively and override defaults");
+		Check(std::get<std::int64_t>(tuned.changes[1].value) == 4, "omitted scoped settings resolve to vanilla");
+		Check(tuned.warnings.size() == 3, "unknown, General, and hidden keys are reported and ignored");
+
+		WriteText(directories.shipped / "Broken.ini", "[Test]\nnumber=fast\n");
+		WriteText(directories.shipped / "Excess.ini", "[Test]\nnumber=99\n");
+		discovered = DiscoverPresets(directories);
+		for (const auto& preset : discovered.presets)
+		{
+			if (preset.name == "Broken" || preset.name == "Excess")
+			{
+				const auto rejected = ResolvePreset(descriptors, preset);
+				Check(!rejected.success && rejected.changes.empty(), "malformed or out-of-range preset values reject the whole preset");
+			}
+		}
+
+		std::vector<Value> current { 7.0, false, std::int64_t { 9 }, std::int64_t { 4 } };
+		auto saved = SaveUserPreset(descriptors, current, "  My Setup  ", directories.user);
+		Check(saved.success && std::filesystem::exists(directories.user / "My Setup.ini"), "user preset saves under its trimmed name");
+		const auto savedText = ReadText(directories.user / "My Setup.ini");
+		Check(savedText.find("number") != std::string::npos && savedText.find("count") == std::string::npos &&
+		          savedText.find("toggle") == std::string::npos && savedText.find("hidden") == std::string::npos,
+		      "saved preset records only changed gameplay settings");
+		discovered = DiscoverPresets(directories);
+		const auto user = std::ranges::find(discovered.presets, PresetOrigin::kUser, &Preset::origin);
+		Check(user != discovered.presets.end() && user->name == "My Setup", "saved preset is discovered as a user preset");
+		if (user != discovered.presets.end())
+		{
+			const auto roundTrip = ResolvePreset(descriptors, *user);
+			Check(roundTrip.success && std::get<double>(roundTrip.changes[0].value) == 7.0 &&
+			          std::get<std::int64_t>(roundTrip.changes[1].value) == 4,
+			      "saved preset round-trips the current gameplay values");
+		}
+
+		Check(!SaveUserPreset(descriptors, current, "My Setup", directories.user).success, "existing preset files are never overwritten");
+		Check(!SaveUserPreset(descriptors, current, "bad/name", directories.user).success, "path separators are rejected");
+		Check(!SaveUserPreset(descriptors, current, "con", directories.user).success, "reserved Windows names are rejected");
+		Check(!SaveUserPreset(descriptors, current, "   ", directories.user).success, "blank names are rejected");
+		Check(!SaveUserPreset(descriptors, std::span<const Value> {}, "Unloaded", directories.user).success,
+		      "saving before settings load is rejected");
+	}
+
 	void TestQuantizationAndReset()
 	{
 		using namespace HouseRules;
@@ -570,6 +649,7 @@ int main()
 
 	TestPersistence(root / "persistence");
 	TestCompletedChanges(root / "completed");
+	TestPresets(root / "presets");
 	TestQuantizationAndReset();
 	TestActionGate();
 	TestLifecycle();

@@ -137,6 +137,11 @@ namespace HouseRules
 			inline static REX::INI::F32<> fPassiveHealthRegen        { "Character", "fPassiveHealthRegen",        0.0f };
 			inline static REX::INI::F32<> fCombatHealthRegenMult     { "Character", "fCombatHealthRegenMult",     0.0f };
 
+			// Player fall damage = ((height - min) * mult) ^ exponent; Direct, Fallout4.esm values.
+			inline static REX::INI::F32<> fJumpFallHeightMin         { "Character", "fJumpFallHeightMin",       600.0f };
+			inline static REX::INI::F32<> fJumpFallHeightMult        { "Character", "fJumpFallHeightMult",        0.1f };
+			inline static REX::INI::F32<> fJumpFallHeightExponent    { "Character", "fJumpFallHeightExponent",   1.45f };
+			inline static REX::INI::F32<> fJumpHeightMin             { "Character", "fJumpHeightMin",            90.0f };
 		};
 
 		// Damage Formulas: raw damage factors and armor reduction
@@ -260,6 +265,10 @@ namespace HouseRules
 			inline static REX::INI::F32<> fVATSMaxEngageDistance   { "VATS", "fVATSMaxEngageDistance",    5000.0f };
 			inline static REX::INI::F32<> fVATSTimeMultTargetSelect{ "VATS", "fVATSTimeMultTargetSelect", 0.04f   };
 			inline static REX::INI::F32<> fVATSPlayerDamageMult    { "VATS", "fVATSPlayerDamageMult",     0.10f   };
+
+			// Critical meter gain per VATS hit = base + Luck * mult.
+			inline static REX::INI::F32<> fVATSCriticalChargeBase  { "VATS", "fVATSCriticalChargeBase",   5.0f    };
+			inline static REX::INI::F32<> fVATSCriticalChargeMult  { "VATS", "fVATSCriticalChargeMult",   1.5f    };
 		};
 
 		// Skills: pickpocket, hacking, and lockpicking GMSTs.
@@ -371,6 +380,19 @@ namespace HouseRules
 			inline static REX::INI::F32<> fRestrictedBuildMaxFloraRadius{ "Settlements", "fRestrictedBuildMaxFloraRadius",  50.0f };
 			inline static REX::INI::F32<> fRestrictedBuildMaxKeywordRadius{ "Settlements", "fRestrictedBuildMaxKeywordRadius", 50.0f };
 			inline static REX::INI::F32<> fRestrictedBuildMaxTurretRadius { "Settlements", "fRestrictedBuildMaxTurretRadius",  70.0f };
+		};
+
+		// World: respawn/restock GMSTs (Direct, Fallout4.esm values) and the TimeScale global.
+		class World
+		{
+		public:
+			inline static REX::INI::I32<>  iHoursToRespawnCell       { "World", "iHoursToRespawnCell",        168 };
+			inline static REX::INI::I32<>  iHoursToRespawnCellCleared{ "World", "iHoursToRespawnCellCleared", 480 };
+			inline static REX::INI::I32<>  iDaysToRespawnVendor      { "World", "iDaysToRespawnVendor",       2   };
+
+			// TimeScale is saved per game, so writes stay opt-in.
+			inline static REX::INI::Bool<> bTimeScaleOverride{ "World", "bTimeScaleOverride", false };
+			inline static REX::INI::F32<>  fTimeScale        { "World", "fTimeScale",         20.0f };
 		};
 
 		// Survival: kill-switch toggles for the vanilla hardcore rule globals + tuning sliders that write the manager script's bound-object properties.

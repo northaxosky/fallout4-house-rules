@@ -15,6 +15,7 @@
 #include "Tweaks/DifficultyEffects.h"
 #include "Tweaks/Economy.h"
 #include "Tweaks/Magnitudes.h"
+#include "Tweaks/Movement.h"
 #include "Tweaks/PlayerRefresh.h"
 #include "Tweaks/PowerArmor.h"
 #include "Tweaks/Progression.h"
@@ -24,6 +25,7 @@
 #include "Tweaks/Survival.h"
 #include "Tweaks/SurvivalCarryWeight.h"
 #include "Tweaks/VATS.h"
+#include "Tweaks/World.h"
 
 #include <utility>
 
@@ -45,6 +47,8 @@ namespace HouseRules::Gameplay
 			&Tweaks::Economy::Apply,
 			&Tweaks::Progression::Apply,
 			&Tweaks::VATS::Apply,
+			&Tweaks::Movement::Apply,
+			&Tweaks::World::Apply,
 			&Tweaks::Skills::Apply,
 			&Tweaks::Sneak::Apply,
 			&Tweaks::CompanionsAffinity::Apply,

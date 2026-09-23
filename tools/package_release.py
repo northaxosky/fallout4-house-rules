@@ -20,6 +20,11 @@ BUILD = ROOT / "build"
 
 DLL_RELATIVE = pathlib.Path("core/F4SE/Plugins/HouseRules.dll")
 PDB_RELATIVE = pathlib.Path("core/F4SE/Plugins/HouseRules.pdb")
+PRESETS_RELATIVE = pathlib.Path("frontends/dmui/F4SE/Plugins/HouseRules/Presets")
+PRESET_FILES = tuple(
+    PRESETS_RELATIVE / name
+    for name in ("Explorer.ini", "HardcoreWasteland.ini", "RelaxedSurvival.ini")
+)
 STATIC_FILES = (
     pathlib.Path("fomod/ModuleConfig.xml"),
     pathlib.Path("fomod/info.xml"),
@@ -36,6 +41,7 @@ STATIC_FILES = (
     pathlib.Path(
         "frontends/dmui/F4SE/Plugins/HouseRules.frontend.ini"
     ),
+    *PRESET_FILES,
 )
 EXPECTED_FILES = frozenset((*STATIC_FILES, DLL_RELATIVE, PDB_RELATIVE))
 OPTIONAL_FILES = frozenset((pathlib.Path("core/HouseRules.esp"),))
@@ -185,6 +191,9 @@ def validate_materialized_choice(
                 raise ValueError(
                     f"native installer choice contains forbidden {forbidden}"
                 )
+        for preset in PRESET_FILES:
+            if not (root / preset.relative_to("frontends/dmui")).is_file():
+                raise ValueError(f"native installer choice is missing {preset.name}")
 
 
 def validate_metadata(package_root: pathlib.Path) -> None:

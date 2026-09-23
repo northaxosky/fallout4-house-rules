@@ -22,6 +22,8 @@ namespace HouseRules::Configuration
 		constexpr auto kDefaultsPath = "Data/MCM/Config/HouseRules/settings.ini";
 		constexpr auto kUserPath = "Data/MCM/Settings/HouseRules.ini";
 		constexpr auto kFrontendPath = "Data/F4SE/Plugins/HouseRules.frontend.ini";
+		constexpr auto kShippedPresetsPath = "Data/F4SE/Plugins/HouseRules/Presets";
+		constexpr auto kUserPresetsPath = "Data/MCM/Settings/HouseRules/Presets";
 
 		[[nodiscard]] std::string Trim(std::string a_value)
 		{
@@ -284,5 +286,10 @@ namespace HouseRules::Configuration
 	const char* FrontendName(Frontend a_frontend) noexcept
 	{
 		return a_frontend == Frontend::kDearModdingUI ? "dmui" : "mcm";
+	}
+
+	PresetDirectories InstalledPresetDirectories()
+	{
+		return { kShippedPresetsPath, kUserPresetsPath };
 	}
 }  // namespace HouseRules::Configuration

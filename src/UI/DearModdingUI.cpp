@@ -12,9 +12,11 @@
 #include <atomic>
 #include <cmath>
 #include <format>
+#include <functional>
 #include <map>
 #include <optional>
 #include <ranges>
+#include <span>
 #include <string>
 #include <vector>
 
@@ -39,12 +41,17 @@ namespace HouseRules::UI
 		// Only unfinished or failed edits live here; the repository owns saved state.
 		std::map<std::size_t, Edit> g_edits;
 
-		struct PageReset
+		// Returns an error to keep the dialog open, or nullopt once the submission succeeded.
+		using DialogSubmit = std::function<std::optional<std::string>(const std::string&)>;
+		struct PendingDialog
 		{
 			DMUI_DialogHandle dialog;
-			std::string page;
+			DialogSubmit submit;
 		};
-		std::optional<PageReset> g_pageReset;
+		std::optional<PendingDialog> g_dialog;
+
+		Configuration::PresetDiscovery g_presets;
+		bool g_presetRowsStale { true };
 
 		Configuration::SettingsRepository& Repository()
 		{
@@ -303,73 +310,215 @@ namespace HouseRules::UI
 			return setting;
 		}
 
-		void RequestPageReset(std::string_view a_pageId, std::string_view a_pageName)
+		void RequestDialog(const DMUI_DialogDescriptor& a_descriptor, DialogSubmit a_submit)
 		{
-			if (!MutationReady() || !g_dialogsSupported || g_pageReset)
+			if (!MutationReady() || !g_dialogsSupported || g_dialog)
 			{
 				return;
 			}
-			const auto title = std::format("Reset {}?", a_pageName);
-			const auto body = std::format("Reset every setting on {} to its shipped default and save immediately?", a_pageName);
-			const DMUI_DialogDescriptor descriptor {
-				sizeof(DMUI_DialogDescriptor), DMUI_DIALOG_KIND_CONFIRM,
-				title.c_str(), body.c_str(), "Reset all", "Cancel", nullptr, nullptr, 0
-			};
-			if (const auto dialog = g_client.RequestDialog(descriptor))
+			if (const auto dialog = g_client.RequestDialog(a_descriptor))
 			{
-				g_pageReset = PageReset { *dialog, std::string { a_pageId } };
+				g_dialog = PendingDialog { *dialog, std::move(a_submit) };
 			}
 			else
 			{
-				ReportError(std::format("Could not open reset confirmation: {}.", DMUI_ResultToString(g_client.LastResult())));
+				ReportError(std::format("Could not open dialog: {}.", DMUI_ResultToString(g_client.LastResult())));
 			}
 		}
 
-		void PollPageReset()
+		void PollDialog()
 		{
-			if (!g_pageReset)
+			if (!g_dialog)
 			{
 				return;
 			}
 			std::string text;
-			const auto event = g_client.PollDialogEvent(g_pageReset->dialog, text);
+			const auto event = g_client.PollDialogEvent(g_dialog->dialog, text);
 			if (!event)
 			{
-				ReportError(std::format("Reset confirmation failed: {}.", DMUI_ResultToString(g_client.LastResult())));
-				g_pageReset.reset();
+				ReportError(std::format("Dialog failed: {}.", DMUI_ResultToString(g_client.LastResult())));
+				g_dialog.reset();
 				return;
 			}
 			if (event->kind == DMUI_DIALOG_EVENT_CANCELLED || event->kind == DMUI_DIALOG_EVENT_COMPLETED)
 			{
-				g_pageReset.reset();
+				g_dialog.reset();
 				return;
 			}
 			if (event->kind != DMUI_DIALOG_EVENT_SUBMITTED)
 			{
 				return;
 			}
-			std::vector<SettingChange> changes;
-			const auto descriptors = SettingsCatalog::All();
-			for (std::size_t index = 0; index < descriptors.size(); ++index)
-			{
-				if (descriptors[index].exposed && descriptors[index].pageId == g_pageReset->page)
-				{
-					changes.push_back({ index, descriptors[index].defaultValue });
-				}
-			}
-			const bool ready = MutationReady();
-			const bool saved = ready && Commit(changes);
-			const auto error = ready ? Repository().StatusMessage() : "Settings are not ready yet.";
+			const auto error = MutationReady() ? g_dialog->submit(text) : std::optional<std::string> { "Settings are not ready yet." };
 			if (!g_client.ResolveDialogSubmission(
-			        g_pageReset->dialog, event->submissionId, saved, saved ? nullptr : error.c_str()))
+			        g_dialog->dialog, event->submissionId, !error, error ? error->c_str() : nullptr))
 			{
-				ReportError(std::format("Could not finish reset confirmation: {}.", DMUI_ResultToString(g_client.LastResult())));
-				g_pageReset.reset();
+				ReportError(std::format("Could not finish dialog: {}.", DMUI_ResultToString(g_client.LastResult())));
+				g_dialog.reset();
 			}
-			else if (saved)
+			else if (!error)
 			{
-				g_pageReset.reset();
+				g_dialog.reset();
 			}
+		}
+
+		std::optional<std::string> CommitOrError(std::span<const SettingChange> a_changes)
+		{
+			if (Commit(a_changes))
+			{
+				return std::nullopt;
+			}
+			return Repository().StatusMessage();
+		}
+
+		void RequestPageReset(std::string_view a_pageId, std::string_view a_pageName)
+		{
+			const auto title = std::format("Reset {}?", a_pageName);
+			const auto body = std::format("Reset every setting on {} to its shipped default and save immediately?", a_pageName);
+			const DMUI_DialogDescriptor descriptor {
+				sizeof(DMUI_DialogDescriptor), DMUI_DIALOG_KIND_CONFIRM,
+				title.c_str(), body.c_str(), "Reset all", "Cancel", nullptr, nullptr, 0
+			};
+			RequestDialog(descriptor, [page = std::string { a_pageId }](const std::string&) {
+				std::vector<SettingChange> changes;
+				const auto descriptors = SettingsCatalog::All();
+				for (std::size_t index = 0; index < descriptors.size(); ++index)
+				{
+					if (descriptors[index].exposed && descriptors[index].pageId == page)
+					{
+						changes.push_back({ index, descriptors[index].defaultValue });
+					}
+				}
+				return CommitOrError(changes);
+			});
+		}
+
+		void RefreshPresets()
+		{
+			g_presets = Configuration::DiscoverPresets(Configuration::InstalledPresetDirectories());
+			for (const auto& warning : g_presets.warnings)
+			{
+				REX::WARN("Presets: {}", warning);
+			}
+			g_presetRowsStale = true;
+		}
+
+		void RequestPresetApply(const Configuration::Preset& a_preset)
+		{
+			const auto title = std::format("Apply {}?", a_preset.name);
+			const auto body = std::format(
+			    "Set every House Rules gameplay setting to vanilla, apply the {} preset's changes, and save immediately? "
+			    "General page settings are not changed.",
+			    a_preset.name);
+			const DMUI_DialogDescriptor descriptor {
+				sizeof(DMUI_DialogDescriptor), DMUI_DIALOG_KIND_CONFIRM,
+				title.c_str(), body.c_str(), "Apply preset", "Cancel", nullptr, nullptr, 0
+			};
+			RequestDialog(descriptor, [a_preset](const std::string&) -> std::optional<std::string> {
+				auto resolved = Configuration::ResolvePreset(SettingsCatalog::All(), a_preset);
+				for (const auto& warning : resolved.warnings)
+				{
+					REX::WARN("Presets: {}", warning);
+				}
+				if (!resolved.success)
+				{
+					return resolved.message;
+				}
+				if (auto error = CommitOrError(resolved.changes))
+				{
+					return error;
+				}
+				REX::INFO("Presets: applied '{}' ({} settings).", a_preset.name, resolved.changes.size());
+				return std::nullopt;
+			});
+		}
+
+		void RequestPresetSave()
+		{
+			const DMUI_DialogDescriptor descriptor {
+				sizeof(DMUI_DialogDescriptor), DMUI_DIALOG_KIND_TEXT_ENTRY,
+				"Save preset",
+				"Name the new preset. It records every gameplay setting that differs from vanilla.",
+				"Save", "Cancel", "Preset name", "", 64
+			};
+			RequestDialog(descriptor, [](const std::string& a_name) -> std::optional<std::string> {
+				const auto saved = Configuration::SaveUserPreset(
+				    SettingsCatalog::All(), Repository().GetSnapshot().values, a_name, Configuration::InstalledPresetDirectories().user);
+				if (!saved.success)
+				{
+					return saved.message;
+				}
+				REX::INFO("Presets: saved '{}' to {}.", saved.preset.name, saved.preset.path.string());
+				RefreshPresets();
+				Repository().PublishStatus(0, false, saved.message);
+				PublishStatus();
+				return std::nullopt;
+			});
+		}
+
+		std::string PresetLabel(const Configuration::Preset& a_preset)
+		{
+			switch (a_preset.origin)
+			{
+				case Configuration::PresetOrigin::kBuiltIn:
+					return std::format("{} (built-in)", a_preset.name);
+				case Configuration::PresetOrigin::kShipped:
+					return std::format("{} (House Rules)", a_preset.name);
+				case Configuration::PresetOrigin::kUser:
+					return std::format("{} (yours)", a_preset.name);
+			}
+			return a_preset.name;
+		}
+
+		std::vector<dmui::SettingGroup> MakePresetGroups()
+		{
+			const auto enabled = [] { return g_dialogsSupported && MutationReady(false); };
+			dmui::SettingGroup presets { .id = "presets", .label = "Presets" };
+			for (const auto& preset : g_presets.presets)
+			{
+				presets.actionRows.push_back({ .id = std::format("preset-{}", preset.id),
+				                               .label = PresetLabel(preset),
+				                               .buttonLabel = "Apply...",
+				                               .description = preset.description,
+				                               .activate = [preset] { RequestPresetApply(preset); },
+				                               .isEnabled = enabled });
+			}
+			dmui::SettingGroup manage { .id = "manage", .label = "Manage" };
+			manage.actionRows.push_back({ .id = "preset-save",
+			                              .label = "Save current settings",
+			                              .buttonLabel = "Save as...",
+			                              .description = "Saves your gameplay settings as a new preset in Data\\MCM\\Settings\\HouseRules\\Presets.",
+			                              .activate = [] { RequestPresetSave(); },
+			                              .isEnabled = enabled });
+			manage.actionRows.push_back({ .id = "preset-rescan",
+			                              .label = "Rescan preset folders",
+			                              .buttonLabel = "Rescan",
+			                              .description = "Reloads the preset list after adding or removing preset files.",
+			                              .activate = [] { RefreshPresets(); } });
+			return { std::move(presets), std::move(manage) };
+		}
+
+		dmui::SettingsPage MakePresetsPage()
+		{
+			dmui::SettingsPage page {
+				.filterOptions = { .showSearch = false, .showModifiedOnly = false },
+				.notes = { { "Waiting for settings state.", false, "house-rules-status" },
+				           { "Applying a preset replaces every gameplay setting with vanilla plus that preset's changes.", true, "house-rules-preset-help" } },
+				.prepare = [] { PollDialog(); },
+				.prepareView = [](dmui::SettingsPage& a_page) {
+					if (g_presetRowsStale)
+					{
+						a_page.groups = MakePresetGroups();
+						g_presetRowsStale = false;
+					}
+					a_page.notes[0].text = Repository().StatusMessage();
+					a_page.notes[0].muted = !Repository().StatusIsError(); }
+			};
+			if (!g_dialogsSupported)
+			{
+				page.notes.push_back({ "This host has no dialogs, so presets cannot be applied or saved here.", true, "house-rules-preset-dialogs" });
+			}
+			return page;
 		}
 
 		std::vector<dmui::SettingGroup> MakeGroups(std::string_view a_pageId)
@@ -417,7 +566,7 @@ namespace HouseRules::UI
 				.filterOptions = { .showSearch = true, .showModifiedOnly = true, .searchHint = "Search House Rules settings..." },
 				.notes = { { "Waiting for settings state.", false, "house-rules-status" },
 				           { "Completed edits save automatically. Gameplay changes wait until a save is ready; some effects refresh on their next use or update.", true, "house-rules-save-help" } },
-				.prepare = [] { PollPageReset(); },
+				.prepare = [] { PollDialog(); },
 				.prepareView = [](dmui::SettingsPage& a_page) {
 					a_page.notes[0].text = Repository().StatusMessage();
 					a_page.notes[0].muted = !Repository().StatusIsError(); }
@@ -487,6 +636,15 @@ namespace HouseRules::UI
 				return;
 			}
 		}
+		RefreshPresets();
+		// Sorts between General (0) and the next catalog page (100).
+		if (!g_client.AddSettingsPage(
+		        { .id = "presets", .displayName = "Presets", .categoryId = "overview", .summary = "Apply or save complete House Rules setups.", .sortKey = 50 }, MakePresetsPage()))
+		{
+			ReportError(std::format("Page 'Presets' registration failed: {}. House Rules controls are disabled.",
+			                        DMUI_ResultToString(g_client.LastResult())));
+			return;
+		}
 		if (!g_client.AddFrameObserver([] {
 			    if (g_registrationComplete.load(std::memory_order_acquire))
 			    {
@@ -499,6 +657,6 @@ namespace HouseRules::UI
 		}
 		g_registrationComplete.store(true, std::memory_order_release);
 		PublishStatus();
-		REX::INFO("DearModdingUI: registered {} House Rules settings pages.", SettingsCatalog::Pages().size());
+		REX::INFO("DearModdingUI: registered {} House Rules settings pages and Presets.", SettingsCatalog::Pages().size());
 	}
 }  // namespace HouseRules::UI

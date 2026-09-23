@@ -14,6 +14,8 @@
 #include <optional>
 #include <ranges>
 #include <string_view>
+#include <type_traits>
+#include <variant>
 
 namespace HouseRules::Configuration
 {
@@ -299,6 +301,33 @@ namespace HouseRules::Configuration
 			    a_error);
 		}
 	}  // namespace
+
+	std::optional<SettingsCatalog::Value> ParseIniValue(
+	    const SettingsCatalog::Descriptor& a_descriptor,
+	    std::string_view a_raw)
+	{
+		return ParseValue(a_descriptor, a_raw);
+	}
+
+	std::string FormatIniValue(const SettingsCatalog::Value& a_value)
+	{
+		return std::visit(
+		    []<class T>(const T& a_typed) -> std::string {
+			    if constexpr (std::is_same_v<T, bool>)
+			    {
+				    return a_typed ? "1" : "0";
+			    }
+			    else if constexpr (std::is_same_v<T, std::string>)
+			    {
+				    return a_typed;
+			    }
+			    else
+			    {
+				    return std::format("{}", a_typed);
+			    }
+		    },
+		    a_value);
+	}
 
 	bool ValidateRequestedValue(
 	    const SettingsCatalog::Descriptor& a_descriptor,
