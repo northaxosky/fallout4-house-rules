@@ -68,12 +68,14 @@ Multipliers for combat damage and rewards on each difficulty level. `1.00` means
 
 | Slider | Game Setting | What it changes |
 |---|---|---|
-| Incoming Damage | `fDiffMultHPByPCVS<difficulty>` | Damage you take, per difficulty level. |
-| Outgoing Damage | `fDiffMultHPToPCVS<difficulty>` | Damage you deal, per difficulty level. |
+| Incoming Damage | `fDiffMultHPToPC<difficulty>` | Damage you take, per difficulty level. |
+| Outgoing Damage | `fDiffMultHPByPC<difficulty>` | Damage you deal, per difficulty level. |
 | Base XP Rate | `fXPModBase` | How much XP you earn overall, before the Intelligence bonus. |
 | Intelligence XP Bonus | `fXPModMult` | How much extra XP each point of Intelligence gives. |
-| Legendary Chance | `fLegendaryDropChance<tier>` | The chance an enemy drops a legendary item. |
-| Legendary Rarity | `fLegendaryDropRarityMult<tier>` | How rare the legendary effect is when one drops. |
+| Legendary Chance | `fDiffMultLegendaryChance_<difficulty>` | The chance an enemy drops a legendary item. |
+| Legendary Rarity | `fDiffMultLegendaryRarity_<difficulty>` | How rare the legendary effect is when one drops. |
+
+`<difficulty>` is `VE`, `E`, `N`, `H`, `VH`, or `TSV` (Survival).
 
 ## Difficulty II (Effect Duration & Strength)
 
