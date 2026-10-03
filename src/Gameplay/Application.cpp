@@ -98,6 +98,7 @@ namespace HouseRules::Gameplay
 			if (!repository.ApplyToRuntime(a_snapshot, error))
 			{
 				repository.PublishStatus(a_snapshot.revision, true, error);
+				repository.PublishNotification(a_snapshot.revision, true, error);
 				REX::ERROR("Settings: {}"sv, error);
 				return;
 			}
@@ -105,7 +106,8 @@ namespace HouseRules::Gameplay
 			repository.PublishStatus(
 			    a_snapshot.revision,
 			    false,
-			    "Settings saved and applied.");
+			    "Gameplay settings are up to date.");
+			repository.PublishNotification(a_snapshot.revision, false, "Settings applied.");
 		}
 	}  // namespace
 
@@ -164,7 +166,7 @@ namespace HouseRules::Gameplay
 			return;
 		}
 		ApplyTweaks(a_probeLabel);
-		repository.PublishStatus(snapshot.revision, false, "Settings applied.");
+		repository.PublishStatus(snapshot.revision, false, "Gameplay settings are up to date.");
 	}
 
 	void OnLoadingMenuClosed()
@@ -205,6 +207,10 @@ namespace HouseRules::Gameplay
 		if (!tasks)
 		{
 			Configuration::SettingsRepository::GetSingleton().PublishStatus(
+			    a_snapshot.revision,
+			    true,
+			    "Settings were saved, but the F4SE game-thread task interface is unavailable.");
+			Configuration::SettingsRepository::GetSingleton().PublishNotification(
 			    a_snapshot.revision,
 			    true,
 			    "Settings were saved, but the F4SE game-thread task interface is unavailable.");

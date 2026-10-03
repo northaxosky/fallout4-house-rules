@@ -32,6 +32,12 @@ namespace HouseRules::Configuration
 		bool changed {};
 	};
 
+	struct SettingsNotification
+	{
+		bool error {};
+		std::string message;
+	};
+
 	class SettingsRepository
 	{
 	public:
@@ -55,6 +61,12 @@ namespace HouseRules::Configuration
 		    std::string a_message);
 		[[nodiscard]] std::string StatusMessage() const;
 		[[nodiscard]] bool StatusIsError() const;
+		void EnableNotifications();
+		void PublishNotification(
+		    std::uint64_t a_revision,
+		    bool a_error,
+		    std::string a_message);
+		[[nodiscard]] std::vector<SettingsNotification> TakeNotifications();
 
 	private:
 		SettingsRepository() = default;
@@ -63,6 +75,8 @@ namespace HouseRules::Configuration
 		Snapshot _committed;
 		std::string _status { "Waiting for settings to load." };
 		bool _statusError {};
+		std::vector<SettingsNotification> _notifications;
+		bool _notificationsEnabled {};
 		std::atomic_bool _loaded { false };
 	};
 

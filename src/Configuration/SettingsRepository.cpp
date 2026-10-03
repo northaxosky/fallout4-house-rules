@@ -108,12 +108,12 @@ namespace HouseRules::Configuration
 		    kUserPath);
 		if (!persisted.success)
 		{
-			PublishStatus(0, true, persisted.message);
+			PublishNotification(committed.revision, true, persisted.message);
 			return { false, persisted.message, GetSnapshot() };
 		}
 		if (persisted.values == committed.values)
 		{
-			PublishStatus(committed.revision, false, persisted.message);
+			PublishNotification(committed.revision, false, persisted.message);
 			return { true, persisted.message, committed };
 		}
 
@@ -126,6 +126,7 @@ namespace HouseRules::Configuration
 			_status = "Settings saved; gameplay application is pending.";
 			_statusError = false;
 		}
+		PublishNotification(next.revision, false, "Settings saved.");
 		return {
 			true,
 			"Settings saved; gameplay application is pending.",
@@ -221,6 +222,33 @@ namespace HouseRules::Configuration
 	{
 		std::scoped_lock lock { _lock };
 		return _statusError;
+	}
+
+	void SettingsRepository::EnableNotifications()
+	{
+		std::scoped_lock lock { _lock };
+		_notificationsEnabled = true;
+	}
+
+	void SettingsRepository::PublishNotification(
+	    std::uint64_t a_revision,
+	    bool a_error,
+	    std::string a_message)
+	{
+		std::scoped_lock lock { _lock };
+		if (!_notificationsEnabled || (a_revision != 0 && a_revision != _committed.revision))
+		{
+			return;
+		}
+		_notifications.push_back({ a_error, std::move(a_message) });
+	}
+
+	std::vector<SettingsNotification> SettingsRepository::TakeNotifications()
+	{
+		std::scoped_lock lock { _lock };
+		std::vector<SettingsNotification> notifications;
+		notifications.swap(_notifications);
+		return notifications;
 	}
 
 	Frontend SelectedFrontend()
