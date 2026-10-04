@@ -4,7 +4,7 @@ An F4SE plugin that exposes high-impact vanilla Fallout 4 settings through eithe
 
 ## Status
 
-**v1.2.0** - adds explicit support for Fallout 4 1.11.240 (AE), fixes the Re-enable Survival unlock on NG/AE, and adds a selectable native Dear Modding UI frontend without changing the gameplay settings format.
+**v1.3.0** - adds world respawn, fall damage, and VATS critical charge tuning with native presets, and updates the Dear Modding UI frontend for DearModdingUI 0.2.0.
 
 ## Compatibility
 
@@ -125,10 +125,10 @@ development and are never copied into the release package. Run
 `python tools/package_release.py --dll build/windows/x64/releasedbg/HouseRules.dll --pdb build/windows/x64/releasedbg/HouseRules.pdb`
 to prepare and validate the archive root explicitly.
 
-Add `--zip` to create `build/HouseRules-1.2.0.zip`. Its root contains `fomod/`,
+Add `--zip` to create `build/HouseRules-1.3.0.zip`. Its root contains `fomod/`,
 `core/`, and `frontends/`, ready to upload directly to Nexus.
 GitHub Actions produces this ZIP on branch builds. Pushing the version-matched
-`v1.2.0` tag runs the same checks and publishes a GitHub Release with that ZIP
+`v1.3.0` tag runs the same checks and publishes a GitHub Release with that ZIP
 attached. Download the release asset itself for Nexus, not GitHub's source archive.
 
 Development deployment defaults to the MCM frontend. Use

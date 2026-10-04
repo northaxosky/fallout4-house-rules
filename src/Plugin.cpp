@@ -5,7 +5,7 @@ namespace
 {
 	constexpr auto kRuntimeOG = REL::Version{ 1, 10, 163, 0 };  // pre-Next-Gen
 
-	constexpr std::uint32_t kPluginVersion = (1u << 24) | (2u << 16) | (0u << 4) | 0u;  // 1.2.0.0
+	constexpr std::uint32_t kPluginVersion = (1u << 24) | (3u << 16) | (0u << 4) | 0u;  // 1.3.0.0
 }
 
 // New-API plugin declaration (Next-Gen runtimes, 1.10.980+).
