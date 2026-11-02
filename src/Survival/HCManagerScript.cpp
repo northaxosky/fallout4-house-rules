@@ -5,6 +5,7 @@
 #include <cmath>
 #include <cstdint>
 #include <string_view>
+#include <type_traits>
 
 namespace Survival::HCManagerScript
 {
@@ -61,6 +62,22 @@ namespace Survival::HCManagerScript
 			g_warnedMissing = false;
 			return true;
 		}
+
+		template <class T>
+		RE::BSScript::Variable* FindTyped(RE::BSScript::Object& a_obj, const char* a_property)
+		{
+			auto* var = a_obj.GetProperty(RE::BSFixedString{ a_property });
+			if (!var) {
+				REX::WARN("HCManagerScript: property '{}' not found on bound object", a_property);
+				return nullptr;
+			}
+			if (!var->is<T>()) {
+				REX::WARN("HCManagerScript: '{}' is not {}; skipping", a_property,
+					std::is_same_v<T, float> ? "float" : "int");
+				return nullptr;
+			}
+			return var;
+		}
 	}
 
 	Batch::Batch() :
@@ -80,62 +97,34 @@ namespace Survival::HCManagerScript
 
 	std::optional<float> Batch::GetFloat(const char* a_property) const
 	{
-		if (!m_impl) {
-			return std::nullopt;
-		}
-		RE::BSFixedString key{ a_property };
-		const auto* var = m_impl->obj->GetProperty(key);
-		if (!var || !var->is<float>()) {
-			REX::WARN("HCManagerScript: float property '{}' not found on bound object", a_property);
-			return std::nullopt;
-		}
-		return RE::BSScript::get<float>(*var);
+		const auto* var = m_impl ? FindTyped<float>(*m_impl->obj, a_property) : nullptr;
+		return var ? std::optional{ RE::BSScript::get<float>(*var) } : std::nullopt;
 	}
 
 	bool Batch::SetFloat(const char* a_property, float a_value)
 	{
-		if (!m_impl) {
-			return false;
-		}
-		RE::BSFixedString key{ a_property };
-		auto* var = m_impl->obj->GetProperty(key);
+		auto* var = m_impl ? FindTyped<float>(*m_impl->obj, a_property) : nullptr;
 		if (!var) {
-			REX::WARN("HCManagerScript: property '{}' not found on bound object", a_property);
 			return false;
 		}
-		if (var->is<float>()) {
-			const float current = RE::BSScript::get<float>(*var);
-			if (std::abs(current - a_value) > 1e-4f) {
-				*var = a_value;
-				REX::INFO("HCManagerScript: '{}' = {} (float)", a_property, a_value);
-			}
-			return true;
+		if (std::abs(RE::BSScript::get<float>(*var) - a_value) > 1e-4f) {
+			*var = a_value;
+			REX::INFO("HCManagerScript: '{}' = {} (float)", a_property, a_value);
 		}
-		REX::WARN("HCManagerScript: '{}' is not float; skipping write", a_property);
-		return false;
+		return true;
 	}
 
 	bool Batch::SetInt(const char* a_property, std::int32_t a_value)
 	{
-		if (!m_impl) {
-			return false;
-		}
-		RE::BSFixedString key{ a_property };
-		auto* var = m_impl->obj->GetProperty(key);
+		auto* var = m_impl ? FindTyped<std::int32_t>(*m_impl->obj, a_property) : nullptr;
 		if (!var) {
-			REX::WARN("HCManagerScript: property '{}' not found on bound object", a_property);
 			return false;
 		}
-		if (var->is<std::int32_t>()) {
-			const auto current = RE::BSScript::get<std::int32_t>(*var);
-			if (current != a_value) {
-				*var = a_value;
-				REX::INFO("HCManagerScript: '{}' = {} (int)", a_property, a_value);
-			}
-			return true;
+		if (RE::BSScript::get<std::int32_t>(*var) != a_value) {
+			*var = a_value;
+			REX::INFO("HCManagerScript: '{}' = {} (int)", a_property, a_value);
 		}
-		REX::WARN("HCManagerScript: '{}' is not int; skipping write", a_property);
-		return false;
+		return true;
 	}
 
 	void Reset()

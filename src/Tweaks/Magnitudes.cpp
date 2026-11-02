@@ -54,7 +54,7 @@ namespace Tweaks::Magnitudes
 		constexpr std::uint32_t kEffectRestoreRadsChem            = 0x00023738;
 		constexpr std::uint32_t kEffectFortifyResistRadsRadX      = 0x00246B11;
 
-		// StimpakEffect also restores every limb condition by its health delta times this GMST.
+		// StimpakEffect scales each limb's restore by health delta times this GMST.
 		const std::array<GameSettings::FloatTarget, 1> kLimbRepairTargets = { {
 			{ "fMagicVACNoPartTargetedMult", &MCM::Settings::Magnitudes::fStimpakLimbRepair },
 		} };

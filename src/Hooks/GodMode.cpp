@@ -16,14 +16,8 @@
 //   +0x35  cmp eax, 6
 //   +0x38  je  return_0        ; god mode blocked when eax == 6
 //
-// We flip the `5` immediate of `add eax, 5` to `0`, so the high-diff path
-// produces eax = 0 or 1, never 6. The final `je` never fires, so god mode
-// returns 1 whenever the engine's flag is set, regardless of Survival.
-// Low-difficulty (diff < 5) takes the `jl` skip and isn't affected.
-//
-// PlayerCharacter::CheckClampDamageModifier (vfunc 0x131) inlines both
-// checks with the same gate; the health-damage clamp lives there, so those
-// immediates need the same patch. Offsets are identical in OG/NG/AE.
+// Patching the add immediate to 0 makes eax 0/1, never 6, so the je never fires.
+// CheckClampDamageModifier (vfunc 0x131) inlines both gates at +0x54/+0xBB.
 //
 // Why byte-patch over replace_func: leaves vanilla IsGodMode's return-value
 // logic intact, so the console's ToggleGodModeFunction reads a faithful
@@ -45,17 +39,20 @@ namespace Hooks::GodMode
 		struct Site
 		{
 			const char*    label;
-			REL::ID        function;
+			REL::VariantID function;
 			std::size_t    offset;  // start of the gate sequence
 			Sequence       vanilla;
 			std::uintptr_t imm = 0;
 		};
 
+		// PlayerCharacter vfunc 0x131; CommonLib does not name it.
+		constexpr REL::VariantID kCheckClampDamageModifier{ 1500216, 2233170 };
+
 		std::array g_sites{
-			Site{ "IsGodMode", REL::ID({ 1032309, 2232986 }), 0x32, kGateEax },
-			Site{ "IsImmortal", REL::ID({ 500346, 2232988 }), 0x32, kGateEax },
-			Site{ "CheckClampDamageModifier (immortal)", REL::ID({ 1500216, 2233170 }), 0x54, kGateEcx },
-			Site{ "CheckClampDamageModifier (god mode)", REL::ID({ 1500216, 2233170 }), 0xBB, kGateEax }
+			Site{ "IsGodMode", RE::ID::PlayerCharacter::IsGodMode, 0x32, kGateEax },
+			Site{ "IsImmortal", RE::ID::PlayerCharacter::IsImmortal, 0x32, kGateEax },
+			Site{ "CheckClampDamageModifier (immortal)", kCheckClampDamageModifier, 0x54, kGateEcx },
+			Site{ "CheckClampDamageModifier (god mode)", kCheckClampDamageModifier, 0xBB, kGateEax }
 		};
 
 		bool g_patched   = false;

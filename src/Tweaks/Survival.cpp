@@ -29,7 +29,7 @@ namespace Tweaks::Survival
 			Globals::WriteByFormID(kHCRuleAdrenalineOn,      S::bDisableAdrenaline.GetValue()       ? 0.0f : 1.0f);
 		}
 
-		// Vanilla's consume path ignores HC_Rule_SustenanceEffects, so zero its costs too.
+		// The consume path ignores HC_Rule_SustenanceEffects; zero its costs too.
 		struct ConsumeCost
 		{
 			const char*          property;
