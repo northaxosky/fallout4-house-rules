@@ -13,3 +13,6 @@
 *.esl    binary
 *.esm    binary
 *.ba2    binary
+
+# UTF-16 LE translation files (MCM format)
+package/core/Interface/Translations/*.txt -text

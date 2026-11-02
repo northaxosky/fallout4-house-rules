@@ -35,6 +35,11 @@ namespace HouseRules::SettingsCatalog
 		std::int32_t sortKey;
 		Value (*read)();
 		bool (*write)(const Value&);
+		// Translation keys; empty for hidden settings and empty text.
+		std::string_view labelKey;
+		std::string_view helpKey;
+		std::string_view groupKey;
+		std::string_view optionKeys;
 	};
 
 	struct Page
@@ -44,6 +49,9 @@ namespace HouseRules::SettingsCatalog
 		std::string_view summary;
 		std::int32_t sortKey;
 		std::string_view categoryId;
+		std::string_view nameKey;
+		std::string_view summaryKey;
+		std::string_view iconName;
 	};
 
 	struct Category
@@ -51,7 +59,50 @@ namespace HouseRules::SettingsCatalog
 		std::string_view id;
 		std::string_view name;
 		std::int32_t sortKey;
+		std::string_view nameKey;
+		std::string_view iconName;
 	};
+
+	struct Text
+	{
+		std::string_view key;
+		std::string_view english;
+	};
+
+	// Frontend text outside the settings, pages, and categories.
+	namespace Strings
+	{
+		inline constexpr Text kPresetsPage{ "$HouseRules_PresetsPage", "Presets" };
+		inline constexpr Text kPresetsPageSummary{ "$HouseRules_PresetsPageSummary", "Apply or save complete House Rules setups." };
+		inline constexpr Text kPresetsGroup{ "$HouseRules_PresetsGroup", "Presets" };
+		inline constexpr Text kManageGroup{ "$HouseRules_ManageGroup", "Manage" };
+		inline constexpr Text kPresetBuiltIn{ "$HouseRules_PresetBuiltIn", "{} (built-in)" };
+		inline constexpr Text kPresetShipped{ "$HouseRules_PresetShipped", "{} (House Rules)" };
+		inline constexpr Text kPresetUser{ "$HouseRules_PresetUser", "{} (yours)" };
+		inline constexpr Text kPresetApplyButton{ "$HouseRules_PresetApplyButton", "Apply..." };
+		inline constexpr Text kPresetSaveRow{ "$HouseRules_PresetSaveRow", "Save current settings" };
+		inline constexpr Text kPresetSaveButton{ "$HouseRules_PresetSaveButton", "Save as..." };
+		inline constexpr Text kPresetSaveRowHelp{ "$HouseRules_PresetSaveRowHelp", "Saves your gameplay settings as a new preset in Data\\MCM\\Settings\\HouseRules\\Presets." };
+		inline constexpr Text kPresetRescanRow{ "$HouseRules_PresetRescanRow", "Rescan preset folders" };
+		inline constexpr Text kPresetRescanButton{ "$HouseRules_PresetRescanButton", "Rescan" };
+		inline constexpr Text kPresetRescanRowHelp{ "$HouseRules_PresetRescanRowHelp", "Reloads the preset list after adding or removing preset files." };
+		inline constexpr Text kPresetsReloaded{ "$HouseRules_PresetsReloaded", "Presets reloaded." };
+		inline constexpr Text kPresetHelpNote{ "$HouseRules_PresetHelpNote", "Applying a preset replaces every gameplay setting with vanilla plus that preset's changes." };
+		inline constexpr Text kSaveHelpNote{ "$HouseRules_SaveHelpNote", "Completed edits save automatically. Gameplay changes wait until a save is ready; some effects refresh on their next use or update." };
+		inline constexpr Text kResetTooltip{ "$HouseRules_ResetTooltip", "Reset this page to shipped defaults after confirmation." };
+		inline constexpr Text kResetPageTitle{ "$HouseRules_ResetPageTitle", "Reset {}?" };
+		inline constexpr Text kResetPageBody{ "$HouseRules_ResetPageBody", "Reset every setting on {} to its shipped default and save immediately?" };
+		inline constexpr Text kResetPageAccept{ "$HouseRules_ResetPageAccept", "Reset all" };
+		inline constexpr Text kApplyPresetTitle{ "$HouseRules_ApplyPresetTitle", "Apply {}?" };
+		inline constexpr Text kApplyPresetBody{ "$HouseRules_ApplyPresetBody", "Set every House Rules gameplay setting to vanilla, apply the {} preset's changes, and save immediately? General page settings are not changed." };
+		inline constexpr Text kApplyPresetAccept{ "$HouseRules_ApplyPresetAccept", "Apply preset" };
+		inline constexpr Text kSavePresetTitle{ "$HouseRules_SavePresetTitle", "Save preset" };
+		inline constexpr Text kSavePresetBody{ "$HouseRules_SavePresetBody", "Name the new preset. It records every gameplay setting that differs from vanilla." };
+		inline constexpr Text kSavePresetAccept{ "$HouseRules_SavePresetAccept", "Save" };
+		inline constexpr Text kSavePresetHint{ "$HouseRules_SavePresetHint", "Preset name" };
+		inline constexpr Text kDialogCancel{ "$HouseRules_DialogCancel", "Cancel" };
+		inline constexpr Text kNotReady{ "$HouseRules_NotReady", "Settings are not ready yet." };
+	}
 
 	[[nodiscard]] std::span<const Descriptor> All() noexcept;
 	[[nodiscard]] std::span<const Page> Pages() noexcept;

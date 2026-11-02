@@ -120,6 +120,9 @@ target("HouseRules")
             os.cp(esp, deploy_dir)
         end
         os.cp("package/core/MCM/Config/HouseRules/settings.ini", mcm_dir)
+        local translations_dir = path.join(deploy_dir, "Interface/Translations")
+        os.mkdir(translations_dir)
+        os.cp("package/core/Interface/Translations/*.txt", translations_dir)
         os.cp(
             path.join(
                 "package/frontends",

@@ -42,6 +42,17 @@ DEFAULTS_INI = (
     / "HouseRules"
     / "settings.ini"
 )
+# DMUI reads these as the client's owner-scoped translations.
+CLIENT_ID = "northaxosky.house-rules"
+TRANSLATIONS_EN = (
+    ROOT
+    / "package"
+    / "core"
+    / "Interface"
+    / "Translations"
+    / f"{CLIENT_ID}_en.txt"
+)
+KEY_PREFIX = "$HouseRules_"
 
 SETTING_RE = re.compile(
     r'inline\s+static\s+REX::INI::(Bool|F32|I32|Str)<>\s+(\w+)\s*'
@@ -111,9 +122,87 @@ def strip_html(text: str) -> str:
     return html.unescape(re.sub(r"<[^>]*>", "", text)).strip()
 
 
+def valid_icon(name: Any) -> bool:
+    return isinstance(name, str) and re.fullmatch(r"[a-z0-9]+(?:-[a-z0-9]+)*", name) is not None
+
+
+def pascal(text: str) -> str:
+    return "".join(word[:1].upper() + word[1:] for word in re.findall(r"[A-Za-z0-9]+", text))
+
+
+def category_key(category: dict[str, Any]) -> str:
+    return f"{KEY_PREFIX}Category_{pascal(category['id'])}"
+
+
+def page_key(page: dict[str, Any]) -> str:
+    return f"{KEY_PREFIX}Page_{pascal(page['id'])}"
+
+
+def page_summary_key(page: dict[str, Any]) -> str:
+    return f"{page_key(page)}_Summary"
+
+
+def group_key(page_id: str, group: str) -> str:
+    return f"{KEY_PREFIX}Group_{pascal(page_id)}_{pascal(group)}"
+
+
+def setting_key(entry: dict[str, Any]) -> str:
+    return f"{KEY_PREFIX}Setting_{entry['section']}_{entry['key']}"
+
+
+def help_key(entry: dict[str, Any]) -> str:
+    return f"{setting_key(entry)}_Help" if entry["ui"]["help"] else ""
+
+
+def option_keys(entry: dict[str, Any]) -> list[str]:
+    options = entry["ui"].get("options", [])
+    return [f"{setting_key(entry)}_Option{index}" for index in range(len(options))]
+
+
+def text_key(name: str) -> str:
+    return f"{KEY_PREFIX}{name}"
+
+
+def translations(catalog: dict[str, Any]) -> list[tuple[str, str]]:
+    entries: dict[str, str] = {}
+
+    def add(key: str, english: str) -> None:
+        if not re.fullmatch(r"\$[A-Za-z0-9_]+", key):
+            raise ValueError(f"invalid translation key {key!r}")
+        # The MCM format holds one trimmed value per line.
+        if not english or english != english.strip() or re.search(r"[\t\r\n]", english):
+            raise ValueError(f"{key}: text must be nonempty, trimmed, and single-line")
+        if entries.setdefault(key, english) != english:
+            raise ValueError(f"translation key collision: {key}")
+
+    for category in catalog["categories"]:
+        add(category_key(category), category["name"])
+    for page in catalog["pages"]:
+        add(page_key(page), page["name"])
+        add(page_summary_key(page), page["summary"])
+    for entry in catalog["settings"]:
+        ui = entry.get("ui")
+        if not ui:
+            continue
+        add(group_key(ui["page"], ui["group"]), ui["group"])
+        add(setting_key(entry), ui["label"])
+        if ui["help"]:
+            add(help_key(entry), ui["help"])
+        for key, option in zip(option_keys(entry), ui.get("options", [])):
+            add(key, option)
+    for name, english in catalog["text"].items():
+        add(text_key(name), english)
+    return list(entries.items())
+
+
+def translations_file(catalog: dict[str, Any]) -> str:
+    return "".join(f"{key}\t{english}\n" for key, english in translations(catalog))
+
+
 def import_existing() -> dict[str, Any]:
     navigation = json.loads(CATALOG.read_text(encoding="utf-8"))
     page_categories = {page["id"]: page["category"] for page in navigation["pages"]}
+    page_icons = {page["id"]: page["icon"] for page in navigation["pages"]}
     settings = parse_settings_header()
     by_id = {entry["id"]: entry for entry in settings}
     mcm = json.loads(MCM_JSON.read_text(encoding="utf-8-sig"))
@@ -184,6 +273,7 @@ def import_existing() -> dict[str, Any]:
                 "id": page_id,
                 "category": page_categories[page_id],
                 "name": name,
+                "icon": page_icons[page_id],
                 "summary": summary or f"{name} settings.",
                 "root": page_index == 0,
                 "content": content,
@@ -204,11 +294,12 @@ def import_existing() -> dict[str, Any]:
         "categories": navigation["categories"],
         "pages": pages,
         "settings": settings,
+        "text": navigation["text"],
     }
 
 
 def validate(catalog: dict[str, Any]) -> None:
-    if set(catalog) != {"schemaVersion", "product", "categories", "pages", "settings"}:
+    if set(catalog) != {"schemaVersion", "product", "categories", "pages", "settings", "text"}:
         raise ValueError(f"unrecognized catalog fields: {set(catalog)}")
     if catalog.get("schemaVersion") != 1:
         raise ValueError("unsupported catalog schemaVersion")
@@ -234,13 +325,14 @@ def validate(catalog: dict[str, Any]) -> None:
         raise ValueError("catalog categories must be a nonempty array")
     category_ids: set[str] = set()
     for category in categories:
-        if not isinstance(category, dict) or set(category) != {"id", "name"}:
+        if not isinstance(category, dict) or set(category) != {"id", "name", "icon"}:
             raise ValueError("invalid category fields")
         if (
             not isinstance(category["id"], str)
             or not re.fullmatch(r"[a-z0-9]+(?:-[a-z0-9]+)*", category["id"])
             or not isinstance(category["name"], str)
             or not category["name"].strip()
+            or not valid_icon(category["icon"])
             or category["id"] in category_ids
         ):
             raise ValueError(f"invalid or duplicate category: {category}")
@@ -324,9 +416,11 @@ def validate(catalog: dict[str, Any]) -> None:
 
     placed: list[str] = []
     for page in pages:
-        allowed = {"id", "category", "name", "summary", "root", "content"}
+        allowed = {"id", "category", "name", "icon", "summary", "root", "content"}
         if set(page) != allowed:
             raise ValueError(f"{page.get('id')}: invalid page fields")
+        if not valid_icon(page["icon"]):
+            raise ValueError(f"{page['id']}: invalid icon {page['icon']!r}")
         if page["category"] not in category_ids:
             raise ValueError(f"{page['id']}: unknown category {page['category']}")
         for item in page["content"]:
@@ -353,6 +447,14 @@ def validate(catalog: dict[str, Any]) -> None:
         raise ValueError("a UI setting is placed more than once")
     if {page["category"] for page in pages} != category_ids:
         raise ValueError("each category must contain at least one page")
+
+    text = catalog["text"]
+    if not isinstance(text, dict) or not text:
+        raise ValueError("catalog text must be a nonempty object")
+    for name, english in text.items():
+        if not re.fullmatch(r"[A-Z][A-Za-z0-9]*", name) or not isinstance(english, str):
+            raise ValueError(f"invalid text entry {name!r}")
+    translations(catalog)
 
 
 def mcm_document(catalog: dict[str, Any]) -> dict[str, Any]:
@@ -424,7 +526,11 @@ def cpp_value(entry: dict[str, Any], default: bool = False) -> str:
     return f"std::string{{ {cpp_string(value)} }}"
 
 
-def generated_header() -> str:
+def generated_header(catalog: dict[str, Any]) -> str:
+    text_rows = "\n".join(
+        f"\t\tinline constexpr Text k{name}{{ {cpp_string(text_key(name))}, {cpp_string(english)} }};"
+        for name, english in catalog["text"].items()
+    )
     return """// Generated by tools/generate_settings.py. Do not edit.
 #pragma once
 
@@ -462,6 +568,11 @@ namespace HouseRules::SettingsCatalog
 \t\tstd::int32_t sortKey;
 \t\tValue (*read)();
 \t\tbool (*write)(const Value&);
+\t\t// Translation keys; empty for hidden settings and empty text.
+\t\tstd::string_view labelKey;
+\t\tstd::string_view helpKey;
+\t\tstd::string_view groupKey;
+\t\tstd::string_view optionKeys;
 \t};
 
 \tstruct Page
@@ -471,6 +582,9 @@ namespace HouseRules::SettingsCatalog
 \t\tstd::string_view summary;
 \t\tstd::int32_t sortKey;
 \t\tstd::string_view categoryId;
+\t\tstd::string_view nameKey;
+\t\tstd::string_view summaryKey;
+\t\tstd::string_view iconName;
 \t};
 
 \tstruct Category
@@ -478,7 +592,21 @@ namespace HouseRules::SettingsCatalog
 \t\tstd::string_view id;
 \t\tstd::string_view name;
 \t\tstd::int32_t sortKey;
+\t\tstd::string_view nameKey;
+\t\tstd::string_view iconName;
 \t};
+
+\tstruct Text
+\t{
+\t\tstd::string_view key;
+\t\tstd::string_view english;
+\t};
+
+\t// Frontend text outside the settings, pages, and categories.
+\tnamespace Strings
+\t{
+""" + text_rows + """
+\t}
 
 \t[[nodiscard]] std::span<const Descriptor> All() noexcept;
 \t[[nodiscard]] std::span<const Page> Pages() noexcept;
@@ -550,17 +678,23 @@ def generated_cpp(catalog: dict[str, Any]) -> str:
                         f"Settings::{entry['cpp']}.SetValue({set_conversion}); return true; "
                         "} return false; }"
                     ),
+                    cpp_string(setting_key(entry) if ui else ""),
+                    cpp_string(help_key(entry) if ui else ""),
+                    cpp_string(group_key(ui["page"], ui["group"]) if ui else ""),
+                    cpp_string("|".join(option_keys(entry)) if ui else ""),
                 ]
             )
             + " },"
         )
     page_rows = [
         f'\t\tPage{{ {cpp_string(page["id"])}, {cpp_string(page["name"])}, '
-        f'{cpp_string(page["summary"])}, {index * 100}, {cpp_string(page["category"])} }},'
+        f'{cpp_string(page["summary"])}, {index * 100}, {cpp_string(page["category"])}, '
+        f'{cpp_string(page_key(page))}, {cpp_string(page_summary_key(page))}, {cpp_string(page["icon"])} }},'
         for index, page in enumerate(catalog["pages"])
     ]
     category_rows = [
-        f'\t\tCategory{{ {cpp_string(category["id"])}, {cpp_string(category["name"])}, {index * 100} }},'
+        f'\t\tCategory{{ {cpp_string(category["id"])}, {cpp_string(category["name"])}, {index * 100}, '
+        f'{cpp_string(category_key(category))}, {cpp_string(category["icon"])} }},'
         for index, category in enumerate(catalog["categories"])
     ]
     return (
@@ -638,11 +772,26 @@ def defaults_ini(catalog: dict[str, Any]) -> str:
 
 def render_outputs(catalog: dict[str, Any]) -> dict[pathlib.Path, str]:
     return {
-        GENERATED_H: generated_header(),
+        GENERATED_H: generated_header(catalog),
         GENERATED_CPP: generated_cpp(catalog),
         MCM_JSON: json.dumps(mcm_document(catalog), indent=2, ensure_ascii=False) + "\n",
         DEFAULTS_INI: defaults_ini(catalog),
+        TRANSLATIONS_EN: translations_file(catalog),
     }
+
+
+def read_output(path: pathlib.Path) -> str:
+    if path == TRANSLATIONS_EN:
+        return path.read_bytes().decode("utf-16").replace("\r\n", "\n")
+    return path.read_text(encoding="utf-8-sig")
+
+
+def write_output(path: pathlib.Path, content: str) -> None:
+    # Translations use the MCM file format: UTF-16 LE with a BOM and CRLF.
+    if path == TRANSLATIONS_EN:
+        path.write_bytes(("\ufeff" + content.replace("\n", "\r\n")).encode("utf-16-le"))
+    else:
+        path.write_text(content, encoding="utf-8")
 
 
 def main() -> int:
@@ -683,12 +832,12 @@ def main() -> int:
     failed = False
     for path, content in render_outputs(catalog).items():
         if args.check:
-            if not path.exists() or path.read_text(encoding="utf-8-sig") != content:
+            if not path.exists() or read_output(path) != content:
                 print(f"drift: {path.relative_to(ROOT)}", file=sys.stderr)
                 failed = True
         else:
             path.parent.mkdir(parents=True, exist_ok=True)
-            path.write_text(content, encoding="utf-8")
+            write_output(path, content)
             print(f"generated {path.relative_to(ROOT)}")
     return 1 if failed else 0
 

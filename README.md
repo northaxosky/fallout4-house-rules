@@ -21,7 +21,7 @@ Requires **F4SE** and **Address Library for F4SE**. Choose one optional settings
 - **MCM (default/backward-compatible):** requires [Mod Configuration Menu](https://www.nexusmods.com/fallout4/mods/21497).
 - **Native Dear Modding UI:** requires a matching standalone Dear Modding UI host. If the host is absent or incompatible, the DLL logs the reason and continues headless with saved gameplay settings; it does not pretend an MCM page is available.
 
-The native option requires a matching Dear Modding UI ABI 2 host. Field feedback, confirmation dialogs, text-entry dialogs, and toast notifications are required parts of that ABI. ABI 1 hosts are incompatible and are reported in `HouseRules.log` as a native connection failure.
+The native option requires a matching Dear Modding UI ABI 2 host. Field feedback, confirmation dialogs, text-entry dialogs, and toast notifications are required parts of that ABI. ABI 1 hosts are incompatible and are reported in `HouseRules.log` as a native connection failure. ABI 2.2 hosts (DearModdingUI 0.2.2+) translate House Rules text from `Data\Interface\Translations\northaxosky.house-rules_<language>.txt`, falling back to the shipped `_en` file; older ABI 2 hosts show English.
 
 The native sidebar uses a scales icon and groups its 17 settings pages plus a Presets page into Overview,
 Survival & Healing, Character & Progression, Combat, and World. MCM page layout is unchanged apart from the new World & Time page.

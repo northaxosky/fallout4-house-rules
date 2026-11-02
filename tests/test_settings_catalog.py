@@ -101,7 +101,7 @@ class SettingsCatalogTests(unittest.TestCase):
             self.assertTrue(path.is_file(), path)
             self.assertEqual(
                 expected,
-                path.read_text(encoding="utf-8-sig"),
+                self.generator.read_output(path),
                 path.relative_to(ROOT),
             )
 

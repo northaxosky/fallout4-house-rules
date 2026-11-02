@@ -30,6 +30,9 @@ STATIC_FILES = (
     pathlib.Path("fomod/info.xml"),
     pathlib.Path("core/MCM/Config/HouseRules/settings.ini"),
     pathlib.Path(
+        "core/Interface/Translations/northaxosky.house-rules_en.txt"
+    ),
+    pathlib.Path(
         "frontends/mcm/F4SE/Plugins/HouseRules.frontend.ini"
     ),
     pathlib.Path(

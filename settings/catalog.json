@@ -10,23 +10,28 @@
   "categories": [
     {
       "id": "overview",
-      "name": "Overview"
+      "name": "Overview",
+      "icon": "list-bullets"
     },
     {
       "id": "survival",
-      "name": "Survival & Healing"
+      "name": "Survival & Healing",
+      "icon": "campfire"
     },
     {
       "id": "character",
-      "name": "Character & Progression"
+      "name": "Character & Progression",
+      "icon": "user"
     },
     {
       "id": "combat",
-      "name": "Combat"
+      "name": "Combat",
+      "icon": "sword"
     },
     {
       "id": "world",
-      "name": "World"
+      "name": "World",
+      "icon": "globe"
     }
   ],
   "pages": [
@@ -34,6 +39,7 @@
       "id": "general",
       "category": "overview",
       "name": "General",
+      "icon": "gear",
       "summary": "Tune high-impact vanilla Fallout 4 systems through one MCM: combat, character, economy, progression, perks, settlements, companions, and Survival mechanics.",
       "root": true,
       "content": [
@@ -82,6 +88,7 @@
       "id": "survival-unlocks",
       "category": "survival",
       "name": "Survival Unlocks",
+      "icon": "campfire",
       "summary": "Each toggle: OFF mirrors vanilla Survival, ON applies the tweak.",
       "root": false,
       "content": [
@@ -158,6 +165,7 @@
       "id": "survival",
       "category": "survival",
       "name": "Survival",
+      "icon": "campfire",
       "summary": "Toggles for the vanilla Survival hardcore-rule systems (food/water and sleep deprivation). Save and reload after toggling so the script picks up the new state immediately; otherwise the change takes effect on the next in-game tick (within a few in-game minutes).",
       "root": false,
       "content": [
@@ -359,6 +367,7 @@
       "id": "magnitudes",
       "category": "survival",
       "name": "Magnitudes",
+      "icon": "campfire",
       "summary": "Magnitude Scalers",
       "root": false,
       "content": [
@@ -416,6 +425,7 @@
       "id": "difficulty",
       "category": "combat",
       "name": "Difficulty",
+      "icon": "gauge",
       "summary": "Difficulty Multipliers",
       "root": false,
       "content": [
@@ -598,6 +608,7 @@
       "id": "character",
       "category": "character",
       "name": "Character",
+      "icon": "user",
       "summary": "Character Feel",
       "root": false,
       "content": [
@@ -712,6 +723,7 @@
       "id": "damage-formulas",
       "category": "combat",
       "name": "Damage Formulas",
+      "icon": "function",
       "summary": "Raw damage factors and armor reduction exponents. Neutral values are vanilla; sliders move the engine baseline directly.",
       "root": false,
       "content": [
@@ -770,6 +782,7 @@
       "id": "power-armor",
       "category": "combat",
       "name": "Power Armor",
+      "icon": "robot",
       "summary": "Jetpack, fusion-core drain, and PA durability. Multiplier sliders show 1.00 = vanilla; Direct sliders show the vanilla default as their neutral value.",
       "root": false,
       "content": [
@@ -849,6 +862,7 @@
       "id": "economy",
       "category": "world",
       "name": "Economy",
+      "icon": "coins",
       "summary": "Vendor buy/sell pricing. Direct sliders show the vanilla default as their neutral value.",
       "root": false,
       "content": [
@@ -900,6 +914,7 @@
       "id": "progression",
       "category": "character",
       "name": "Progression",
+      "icon": "trend-up",
       "summary": "Non-difficulty XP sources: crafting, lockpicking, mine disarm. Direct sliders show the vanilla default as their neutral value.",
       "root": false,
       "content": [
@@ -1028,6 +1043,7 @@
       "id": "vats",
       "category": "combat",
       "name": "VATS",
+      "icon": "crosshair",
       "summary": "Targeting range, time slowdown, incoming damage, and critical meter gain in VATS. Direct sliders show the vanilla default as their neutral value.",
       "root": false,
       "content": [
@@ -1090,6 +1106,7 @@
       "id": "skills",
       "category": "character",
       "name": "Skills",
+      "icon": "student",
       "summary": "Pickpocket, hacking, and lockpicking constants. Direct sliders show the vanilla default as their neutral value.",
       "root": false,
       "content": [
@@ -1189,6 +1206,7 @@
       "id": "sneak",
       "category": "character",
       "name": "Sneak",
+      "icon": "eye-slash",
       "summary": "Sneak & Detection",
       "root": false,
       "content": [
@@ -1243,6 +1261,7 @@
       "id": "companions",
       "category": "world",
       "name": "Companions",
+      "icon": "users",
       "summary": "Companions Affinity",
       "root": false,
       "content": [
@@ -1303,6 +1322,7 @@
       "id": "combat-perks",
       "category": "combat",
       "name": "Combat Perks",
+      "icon": "medal",
       "summary": "Tier multipliers and trigger chances for combat perks. Direct sliders show the vanilla default as their neutral value.",
       "root": false,
       "content": [
@@ -1397,6 +1417,7 @@
       "id": "settlements",
       "category": "world",
       "name": "Settlements",
+      "icon": "house",
       "summary": "Workshop GMSTs for build timers, repair cost, wire length, settler cap, and placement constraints. Settlement-surplus production caps are baked into script code, not game settings, so they aren't covered here.",
       "root": false,
       "content": [
@@ -1457,6 +1478,7 @@
       "id": "world-time",
       "category": "world",
       "name": "World & Time",
+      "icon": "globe",
       "summary": "Area respawn, vendor restock, and timescale. Direct sliders show the vanilla default as their neutral value.",
       "root": false,
       "content": [
@@ -6413,5 +6435,37 @@
       "default": "Hardcore,Survival,Hunger,Thirst,Sleep,Fatigue,Stimpak,RadAway,RadX,Peckish,Weary,Parched,Dehydr,Starv",
       "iniDefault": "Hardcore,Survival,Hunger,Thirst,Sleep,Fatigue,Stimpak,RadAway,RadX,Peckish,Weary,Parched,Dehydr,Starv"
     }
-  ]
+  ],
+  "text": {
+    "PresetsPage": "Presets",
+    "PresetsPageSummary": "Apply or save complete House Rules setups.",
+    "PresetsGroup": "Presets",
+    "ManageGroup": "Manage",
+    "PresetBuiltIn": "{} (built-in)",
+    "PresetShipped": "{} (House Rules)",
+    "PresetUser": "{} (yours)",
+    "PresetApplyButton": "Apply...",
+    "PresetSaveRow": "Save current settings",
+    "PresetSaveButton": "Save as...",
+    "PresetSaveRowHelp": "Saves your gameplay settings as a new preset in Data\\MCM\\Settings\\HouseRules\\Presets.",
+    "PresetRescanRow": "Rescan preset folders",
+    "PresetRescanButton": "Rescan",
+    "PresetRescanRowHelp": "Reloads the preset list after adding or removing preset files.",
+    "PresetsReloaded": "Presets reloaded.",
+    "PresetHelpNote": "Applying a preset replaces every gameplay setting with vanilla plus that preset's changes.",
+    "SaveHelpNote": "Completed edits save automatically. Gameplay changes wait until a save is ready; some effects refresh on their next use or update.",
+    "ResetTooltip": "Reset this page to shipped defaults after confirmation.",
+    "ResetPageTitle": "Reset {}?",
+    "ResetPageBody": "Reset every setting on {} to its shipped default and save immediately?",
+    "ResetPageAccept": "Reset all",
+    "ApplyPresetTitle": "Apply {}?",
+    "ApplyPresetBody": "Set every House Rules gameplay setting to vanilla, apply the {} preset's changes, and save immediately? General page settings are not changed.",
+    "ApplyPresetAccept": "Apply preset",
+    "SavePresetTitle": "Save preset",
+    "SavePresetBody": "Name the new preset. It records every gameplay setting that differs from vanilla.",
+    "SavePresetAccept": "Save",
+    "SavePresetHint": "Preset name",
+    "DialogCancel": "Cancel",
+    "NotReady": "Settings are not ready yet."
+  }
 }

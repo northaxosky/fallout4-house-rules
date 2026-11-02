@@ -25,10 +25,60 @@ namespace HouseRules::UI
 	namespace
 	{
 		using Configuration::SettingChange;
+		using SettingsCatalog::Text;
 		using SettingsCatalog::Value;
+		namespace Strings = SettingsCatalog::Strings;
 
-		dmui::Client g_client { "northaxosky.house-rules", "House Rules", dmui::Version { Version::kMajor, Version::kMinor }, "scales" };
+		// Also names the translation files under Interface\Translations.
+		constexpr std::string_view kClientId { "northaxosky.house-rules" };
+
+		dmui::Client g_client { kClientId, "House Rules", dmui::Version { Version::kMajor, Version::kMinor }, "scales" };
 		std::atomic_bool g_registrationComplete { false };
+
+		// Render thread only: the host knows the game language after startup.
+		bool TextFinal()
+		{
+			static bool resolved {};
+			if (!resolved)
+			{
+				DMUI_Result result {};
+				(void)dmui::Client::ResolveText(kClientId, Strings::kPresetsPage.key, &result);
+				resolved = result != DMUI_RESULT_HOST_NOT_READY;
+			}
+			return resolved;
+		}
+
+		std::string Localize(std::string_view a_key, std::string_view a_english)
+		{
+			return a_key.empty() ? std::string { a_english } : dmui::Client::Localize(kClientId, a_key, a_english);
+		}
+
+		std::string Localize(const Text& a_text)
+		{
+			return Localize(a_text.key, a_text.english);
+		}
+
+		// Not std::format: a malformed translation must not throw.
+		std::string Localize(const Text& a_text, std::string_view a_value)
+		{
+			auto text = Localize(a_text);
+			if (const auto at = text.find("{}"); at != std::string::npos)
+			{
+				text.replace(at, 2, a_value);
+			}
+			return text;
+		}
+
+		// Hosts before ABI 2.2 would show registration keys verbatim.
+		const char* RegistrationText(std::string_view a_key, std::string_view a_english)
+		{
+			return (g_client.AbiMinor() >= 2 ? a_key : a_english).data();
+		}
+
+		const char* RegistrationText(const Text& a_text)
+		{
+			return RegistrationText(a_text.key, a_text.english);
+		}
 
 		struct Edit
 		{
@@ -151,7 +201,7 @@ namespace HouseRules::UI
 		{
 			if (!MutationReady())
 			{
-				return "Settings are not ready yet.";
+				return Localize(Strings::kNotReady);
 			}
 			auto result = Repository().SaveUserOverrides(a_changes);
 			if (!result.success)
@@ -235,9 +285,12 @@ namespace HouseRules::UI
 					if (!a_descriptor.options.empty())
 					{
 						dmui::ChoiceSettingControl control;
-						for (const auto& option : SplitOptions(a_descriptor.options))
+						const auto options = SplitOptions(a_descriptor.options);
+						const auto keys = SplitOptions(a_descriptor.optionKeys);
+						for (std::size_t index = 0; index < options.size(); ++index)
 						{
-							control.options.push_back({ option, option });
+							// Values stay English; the binding maps them to indices.
+							control.options.push_back({ options[index], Localize(keys.at(index), options[index]) });
 						}
 						return control;
 					}
@@ -296,8 +349,8 @@ namespace HouseRules::UI
 			}
 			dmui::SettingDescriptor setting {
 				.id = std::string { a_descriptor.id },
-				.label = std::string { a_descriptor.label },
-				.description = std::string { a_descriptor.help },
+				.label = Localize(a_descriptor.labelKey, a_descriptor.label),
+				.description = Localize(a_descriptor.helpKey, a_descriptor.help),
 				.control = MakeControl(a_descriptor),
 				.defaultValue = std::move(defaultValue),
 				.binding = MakeBinding(a_index, a_descriptor),
@@ -318,7 +371,7 @@ namespace HouseRules::UI
 				return;
 			}
 			if (!g_dialog.Open(g_client, a_descriptor, [submit = std::move(a_submit)](std::string_view a_text) {
-				    return MutationReady() ? submit(a_text) : std::optional<std::string> { "Settings are not ready yet." };
+				    return MutationReady() ? submit(a_text) : std::optional<std::string> { Localize(Strings::kNotReady) };
 			    }))
 			{
 				ReportError(std::format("Could not open dialog: {}.", DMUI_ResultToString(g_dialog.LastResult())));
@@ -338,18 +391,21 @@ namespace HouseRules::UI
 			}
 		}
 
-		void RequestPageReset(std::string_view a_pageId, std::string_view a_pageName)
+		void RequestPageReset(const SettingsCatalog::Page& a_page)
 		{
-			const auto title = std::format("Reset {}?", a_pageName);
-			const auto body = std::format("Reset every setting on {} to its shipped default and save immediately?", a_pageName);
+			const auto name = Localize(a_page.nameKey, a_page.name);
+			const auto title = Localize(Strings::kResetPageTitle, name);
+			const auto body = Localize(Strings::kResetPageBody, name);
+			const auto accept = Localize(Strings::kResetPageAccept);
+			const auto cancel = Localize(Strings::kDialogCancel);
 			const DMUI_DialogDescriptor descriptor {
 				.kind = DMUI_DIALOG_KIND_CONFIRM,
 				.title = title.c_str(),
 				.body = body.c_str(),
-				.acceptLabel = "Reset all",
-				.cancelLabel = "Cancel"
+				.acceptLabel = accept.c_str(),
+				.cancelLabel = cancel.c_str()
 			};
-			RequestDialog(descriptor, [page = std::string { a_pageId }](std::string_view) {
+			RequestDialog(descriptor, [page = a_page.id](std::string_view) {
 				std::vector<SettingChange> changes;
 				const auto descriptors = SettingsCatalog::All();
 				for (std::size_t index = 0; index < descriptors.size(); ++index)
@@ -375,17 +431,16 @@ namespace HouseRules::UI
 
 		void RequestPresetApply(const Configuration::Preset& a_preset)
 		{
-			const auto title = std::format("Apply {}?", a_preset.name);
-			const auto body = std::format(
-			    "Set every House Rules gameplay setting to vanilla, apply the {} preset's changes, and save immediately? "
-			    "General page settings are not changed.",
-			    a_preset.name);
+			const auto title = Localize(Strings::kApplyPresetTitle, a_preset.name);
+			const auto body = Localize(Strings::kApplyPresetBody, a_preset.name);
+			const auto accept = Localize(Strings::kApplyPresetAccept);
+			const auto cancel = Localize(Strings::kDialogCancel);
 			const DMUI_DialogDescriptor descriptor {
 				.kind = DMUI_DIALOG_KIND_CONFIRM,
 				.title = title.c_str(),
 				.body = body.c_str(),
-				.acceptLabel = "Apply preset",
-				.cancelLabel = "Cancel"
+				.acceptLabel = accept.c_str(),
+				.cancelLabel = cancel.c_str()
 			};
 			RequestDialog(descriptor, [a_preset](std::string_view) -> std::optional<std::string> {
 				auto resolved = Configuration::ResolvePreset(SettingsCatalog::All(), a_preset);
@@ -409,13 +464,18 @@ namespace HouseRules::UI
 
 		void RequestPresetSave()
 		{
+			const auto title = Localize(Strings::kSavePresetTitle);
+			const auto body = Localize(Strings::kSavePresetBody);
+			const auto accept = Localize(Strings::kSavePresetAccept);
+			const auto cancel = Localize(Strings::kDialogCancel);
+			const auto hint = Localize(Strings::kSavePresetHint);
 			const DMUI_DialogDescriptor descriptor {
 				.kind = DMUI_DIALOG_KIND_TEXT_ENTRY,
-				.title = "Save preset",
-				.body = "Name the new preset. It records every gameplay setting that differs from vanilla.",
-				.acceptLabel = "Save",
-				.cancelLabel = "Cancel",
-				.hint = "Preset name",
+				.title = title.c_str(),
+				.body = body.c_str(),
+				.acceptLabel = accept.c_str(),
+				.cancelLabel = cancel.c_str(),
+				.hint = hint.c_str(),
 				.initialText = "",
 				.maximumTextBytes = 64
 			};
@@ -440,11 +500,11 @@ namespace HouseRules::UI
 			switch (a_preset.origin)
 			{
 				case Configuration::PresetOrigin::kBuiltIn:
-					return std::format("{} (built-in)", a_preset.name);
+					return Localize(Strings::kPresetBuiltIn, a_preset.name);
 				case Configuration::PresetOrigin::kShipped:
-					return std::format("{} (House Rules)", a_preset.name);
+					return Localize(Strings::kPresetShipped, a_preset.name);
 				case Configuration::PresetOrigin::kUser:
-					return std::format("{} (yours)", a_preset.name);
+					return Localize(Strings::kPresetUser, a_preset.name);
 			}
 			return a_preset.name;
 		}
@@ -452,30 +512,30 @@ namespace HouseRules::UI
 		std::vector<dmui::SettingGroup> MakePresetGroups()
 		{
 			const auto enabled = [] { return MutationReady(false); };
-			dmui::SettingGroup presets { .id = "presets", .label = "Presets" };
+			dmui::SettingGroup presets { .id = "presets", .label = Localize(Strings::kPresetsGroup) };
 			for (const auto& preset : g_presets.presets)
 			{
 				presets.actionRows.push_back({ .id = std::format("preset-{}", preset.id),
 				                               .label = PresetLabel(preset),
-				                               .buttonLabel = "Apply...",
+				                               .buttonLabel = Localize(Strings::kPresetApplyButton),
 				                               .description = preset.description,
 				                               .activate = [preset] { RequestPresetApply(preset); },
 				                               .isEnabled = enabled });
 			}
-			dmui::SettingGroup manage { .id = "manage", .label = "Manage" };
+			dmui::SettingGroup manage { .id = "manage", .label = Localize(Strings::kManageGroup) };
 			manage.actionRows.push_back({ .id = "preset-save",
-			                              .label = "Save current settings",
-			                              .buttonLabel = "Save as...",
-			                              .description = "Saves your gameplay settings as a new preset in Data\\MCM\\Settings\\HouseRules\\Presets.",
+			                              .label = Localize(Strings::kPresetSaveRow),
+			                              .buttonLabel = Localize(Strings::kPresetSaveButton),
+			                              .description = Localize(Strings::kPresetSaveRowHelp),
 			                              .activate = [] { RequestPresetSave(); },
 			                              .isEnabled = enabled });
 			manage.actionRows.push_back({ .id = "preset-rescan",
-			                              .label = "Rescan preset folders",
-			                              .buttonLabel = "Rescan",
-			                              .description = "Reloads the preset list after adding or removing preset files.",
+			                              .label = Localize(Strings::kPresetRescanRow),
+			                              .buttonLabel = Localize(Strings::kPresetRescanButton),
+			                              .description = Localize(Strings::kPresetRescanRowHelp),
 			                              .activate = [] {
 				                              RefreshPresets();
-				                              Repository().PublishNotification(0, false, "Presets reloaded.");
+				                              Repository().PublishNotification(0, false, Localize(Strings::kPresetsReloaded));
 				                              PublishStatus();
 			                              } });
 			return { std::move(presets), std::move(manage) };
@@ -486,8 +546,14 @@ namespace HouseRules::UI
 			dmui::SettingsPage page {
 				.filterOptions = { .showSearch = false, .showModifiedOnly = false },
 				.notes = { { "Waiting for settings state.", false, "house-rules-status" },
-				           { "Applying a preset replaces every gameplay setting with vanilla plus that preset's changes.", true, "house-rules-preset-help" } },
-				.prepareView = [](dmui::SettingsPage& a_page) {
+				           { Localize(Strings::kPresetHelpNote), true, "house-rules-preset-help" } },
+				.prepareView = [localized = false](dmui::SettingsPage& a_page) mutable {
+					if (!localized && TextFinal())
+					{
+						a_page.notes[1].text = Localize(Strings::kPresetHelpNote);
+						g_presetRowsStale = true;
+						localized = true;
+					}
 					if (g_presetRowsStale)
 					{
 						a_page.groups = MakePresetGroups();
@@ -504,6 +570,7 @@ namespace HouseRules::UI
 			struct Group
 			{
 				std::string name;
+				std::string label;
 				std::vector<std::pair<std::int32_t, dmui::SettingDescriptor>> settings;
 			};
 			std::vector<Group> groups;
@@ -518,7 +585,7 @@ namespace HouseRules::UI
 				auto group = std::ranges::find(groups, descriptor.group, &Group::name);
 				if (group == groups.end())
 				{
-					groups.push_back({ std::string { descriptor.group }, {} });
+					groups.push_back({ std::string { descriptor.group }, Localize(descriptor.groupKey, descriptor.group), {} });
 					group = std::prev(groups.end());
 				}
 				group->settings.emplace_back(descriptor.sortKey, MakeSetting(index, descriptor));
@@ -527,7 +594,7 @@ namespace HouseRules::UI
 			for (auto& group : groups)
 			{
 				std::ranges::sort(group.settings, {}, &std::pair<std::int32_t, dmui::SettingDescriptor>::first);
-				dmui::SettingGroup row { .id = group.name, .label = group.name };
+				dmui::SettingGroup row { .id = group.name, .label = group.label };
 				for (auto& entry : group.settings)
 				{
 					row.settings.push_back(std::move(entry.second));
@@ -537,21 +604,31 @@ namespace HouseRules::UI
 			return result;
 		}
 
+		void LocalizePage(dmui::SettingsPage& a_view, const SettingsCatalog::Page& a_page)
+		{
+			// Rebuilt, not resolved per frame: search matches the static text.
+			a_view.groups = MakeGroups(a_page.id);
+			a_view.notes[1].text = Localize(Strings::kSaveHelpNote);
+			a_view.actionTooltips.reset = Localize(Strings::kResetTooltip);
+		}
+
 		dmui::SettingsPage MakePage(const SettingsCatalog::Page& a_page)
 		{
 			dmui::SettingsPage page {
-				.groups = MakeGroups(a_page.id),
-				.filterOptions = { .showSearch = true, .showModifiedOnly = true, .searchHint = "Search House Rules settings..." },
+				.filterOptions = { .showSearch = true, .showModifiedOnly = true },
 				.notes = { { "Waiting for settings state.", false, "house-rules-status" },
-				           { "Completed edits save automatically. Gameplay changes wait until a save is ready; some effects refresh on their next use or update.", true, "house-rules-save-help" } },
-				.prepareView = [](dmui::SettingsPage& a_page) {
-					a_page.notes[0].text = Repository().StatusMessage();
-					a_page.notes[0].muted = !Repository().StatusIsError(); }
+				           { {}, true, "house-rules-save-help" } },
+				.prepareView = [&a_page, localized = false](dmui::SettingsPage& a_view) mutable {
+					if (!localized && TextFinal())
+					{
+						LocalizePage(a_view, a_page);
+						localized = true;
+					}
+					a_view.notes[0].text = Repository().StatusMessage();
+					a_view.notes[0].muted = !Repository().StatusIsError(); }
 			};
-			page.actions.reset = [id = std::string { a_page.id }, name = std::string { a_page.name }] {
-				RequestPageReset(id, name);
-			};
-			page.actionTooltips.reset = "Reset this page to shipped defaults after confirmation.";
+			LocalizePage(page, a_page);
+			page.actions.reset = [&a_page] { RequestPageReset(a_page); };
 			return page;
 		}
 	}  // namespace
@@ -578,7 +655,10 @@ namespace HouseRules::UI
 		for (const auto& category : SettingsCatalog::Categories())
 		{
 			if (!g_client.AddCategory(
-			        { .id = category.id.data(), .displayName = category.name.data(), .sortKey = category.sortKey }))
+			        { .id = category.id.data(),
+			          .displayName = RegistrationText(category.nameKey, category.name),
+			          .sortKey = category.sortKey,
+			          .iconName = category.iconName.data() }))
 			{
 				ReportRegistrationError(std::format("Category '{}' registration failed: {}.", category.name, DMUI_ResultToString(g_client.LastResult())));
 				return;
@@ -587,7 +667,13 @@ namespace HouseRules::UI
 		for (const auto& page : SettingsCatalog::Pages())
 		{
 			if (!g_client.AddSettingsPage(
-			        { .id = page.id.data(), .displayName = page.name.data(), .categoryId = page.categoryId.data(), .summary = page.summary.data(), .sortKey = page.sortKey }, MakePage(page)))
+			        { .id = page.id.data(),
+			          .displayName = RegistrationText(page.nameKey, page.name),
+			          .categoryId = page.categoryId.data(),
+			          .summary = RegistrationText(page.summaryKey, page.summary),
+			          .sortKey = page.sortKey,
+			          .iconName = page.iconName.data() },
+			        MakePage(page)))
 			{
 				ReportRegistrationError(std::format("Page '{}' registration failed: {}. House Rules controls are disabled.",
 				                        page.name, DMUI_ResultToString(g_client.LastResult())));
@@ -597,7 +683,13 @@ namespace HouseRules::UI
 		RefreshPresets();
 		// Sorts between General (0) and the next catalog page (100).
 		if (!g_client.AddSettingsPage(
-		        { .id = "presets", .displayName = "Presets", .categoryId = "overview", .summary = "Apply or save complete House Rules setups.", .sortKey = 50 }, MakePresetsPage()))
+		        { .id = "presets",
+		          .displayName = RegistrationText(Strings::kPresetsPage),
+		          .categoryId = "overview",
+		          .summary = RegistrationText(Strings::kPresetsPageSummary),
+		          .sortKey = 50,
+		          .iconName = "sliders-horizontal" },
+		        MakePresetsPage()))
 		{
 			ReportRegistrationError(std::format("Page 'Presets' registration failed: {}. House Rules controls are disabled.",
 			                        DMUI_ResultToString(g_client.LastResult())));
