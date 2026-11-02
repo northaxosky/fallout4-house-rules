@@ -807,7 +807,7 @@
           "id": "fStimpakLimbRepair:Magnitudes",
           "text": "Stimpak Limb Repair",
           "type": "slider",
-          "help": "Scales limb repair from stimpaks. Values above 1.0 are clamped by vanilla.",
+          "help": "Scales limb condition restored by stimpaks, both alongside healing and from Survival's limb restore. 0 disables it; any higher value still un-cripples.",
           "valueOptions": {
             "min": 0.0,
             "max": 1.0,

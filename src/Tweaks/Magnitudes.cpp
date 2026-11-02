@@ -3,6 +3,7 @@
 #include "Tweaks/Magnitudes.h"
 
 #include "Settings.h"
+#include "Tweaks/GameSettings.h"
 
 #include <array>
 #include <cmath>
@@ -52,6 +53,11 @@ namespace Tweaks::Magnitudes
 		constexpr std::uint32_t kEffectRestoreConditionTorso      = 0x0005C52E;
 		constexpr std::uint32_t kEffectRestoreRadsChem            = 0x00023738;
 		constexpr std::uint32_t kEffectFortifyResistRadsRadX      = 0x00246B11;
+
+		// StimpakEffect also restores every limb condition by its health delta times this GMST.
+		const std::array<GameSettings::FloatTarget, 1> kLimbRepairTargets = { {
+			{ "fMagicVACNoPartTargetedMult", &MCM::Settings::Magnitudes::fStimpakLimbRepair },
+		} };
 
 		struct EffectItemSnapshot
 		{
@@ -355,6 +361,7 @@ namespace Tweaks::Magnitudes
 		}
 
 		ApplyFoodHeal(food, trace, trace_delta_only);
+		GameSettings::Apply("Magnitudes", std::span<const GameSettings::FloatTarget>{ kLimbRepairTargets });
 
 		const MultVector mults{
 			stim_heal, stim_limb, radaway, radx, food, hunger_pen, thirst_pen, sleep_pen

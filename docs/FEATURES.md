@@ -71,7 +71,7 @@ Sliders for how strong consumables and Survival penalties are. These edit base i
 | Slider | Type | Default | Effect |
 |---|---|---|---|
 | Stimpak Heal | Multiplier | 1.0 | How much health a Stimpak restores. |
-| Stimpak Limb Repair | Multiplier | 1.0 | How much limb damage a Stimpak repairs. |
+| Stimpak Limb Repair | Multiplier | 1.0 | Limb condition a Stimpak restores: the share of its healing applied to limbs (`fMagicVACNoPartTargetedMult`) and Survival's per-limb restore. `0` stops stimpak limb repair; any higher value still un-cripples. |
 | RadAway Strength | Multiplier | 1.0 | How much radiation RadAway removes. |
 | Rad-X Potency | Multiplier | 1.0 | How much radiation resistance Rad-X grants. |
 | Food Heal | Multiplier | 1.0 | How much health food items restore. |
