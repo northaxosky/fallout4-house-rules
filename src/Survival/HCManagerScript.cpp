@@ -78,6 +78,20 @@ namespace Survival::HCManagerScript
 		return m_impl != nullptr;
 	}
 
+	std::optional<float> Batch::GetFloat(const char* a_property) const
+	{
+		if (!m_impl) {
+			return std::nullopt;
+		}
+		RE::BSFixedString key{ a_property };
+		const auto* var = m_impl->obj->GetProperty(key);
+		if (!var || !var->is<float>()) {
+			REX::WARN("HCManagerScript: float property '{}' not found on bound object", a_property);
+			return std::nullopt;
+		}
+		return RE::BSScript::get<float>(*var);
+	}
+
 	bool Batch::SetFloat(const char* a_property, float a_value)
 	{
 		if (!m_impl) {

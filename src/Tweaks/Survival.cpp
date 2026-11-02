@@ -6,7 +6,9 @@
 #include "Settings.h"
 #include "Survival/HCManagerScript.h"
 
+#include <array>
 #include <cstdint>
+#include <optional>
 
 namespace Tweaks::Survival
 {
@@ -27,6 +29,33 @@ namespace Tweaks::Survival
 			Globals::WriteByFormID(kHCRuleAdrenalineOn,      S::bDisableAdrenaline.GetValue()       ? 0.0f : 1.0f);
 		}
 
+		// Vanilla's consume path ignores HC_Rule_SustenanceEffects, so zero its costs too.
+		struct ConsumeCost
+		{
+			const char*          property;
+			std::optional<float> vanilla;
+		};
+
+		std::array g_consumeCosts{
+			ConsumeCost{ "IncreasesHungerCostMult", std::nullopt },
+			ConsumeCost{ "IncreasesThirstCostMult", std::nullopt },
+			ConsumeCost{ "NukaFoodCostMult", std::nullopt }
+		};
+
+		void ApplyConsumeCosts(::Survival::HCManagerScript::Batch& a_hc)
+		{
+			const bool disabled = MCM::Settings::Survival::bDisableSustenance.GetValue();
+			for (auto& cost : g_consumeCosts) {
+				// Const properties reload from plugin data, so one snapshot per process holds.
+				if (!cost.vanilla) {
+					cost.vanilla = a_hc.GetFloat(cost.property);
+				}
+				if (cost.vanilla) {
+					a_hc.SetFloat(cost.property, disabled ? 0.0f : *cost.vanilla);
+				}
+			}
+		}
+
 		void ApplyScriptTuning()
 		{
 			using S = MCM::Settings::Survival;
@@ -34,6 +63,8 @@ namespace Tweaks::Survival
 			if (!hc) {
 				return;
 			}
+
+			ApplyConsumeCosts(hc);
 
 			// Sustenance tuning
 			hc.SetInt  ("FoodCostPerTick",                 S::iFoodCostPerTick.GetValue());

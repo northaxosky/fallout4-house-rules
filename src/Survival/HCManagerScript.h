@@ -2,6 +2,7 @@
 
 #include <cstdint>
 #include <memory>
+#include <optional>
 
 namespace Survival::HCManagerScript
 {
@@ -17,6 +18,8 @@ namespace Survival::HCManagerScript
 		Batch& operator=(Batch&&)      = delete;
 
 		explicit operator bool() const noexcept;
+
+		[[nodiscard]] std::optional<float> GetFloat(const char* a_property) const;
 
 		bool SetFloat(const char* a_property, float a_value);
 		bool SetInt  (const char* a_property, std::int32_t a_value);
