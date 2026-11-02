@@ -53,6 +53,18 @@ target("HouseRules")
     -- match CommonLibF4's runtime slot count (its xmake define is not public, so REL::ID would silently truncate to 1 slot)
     add_defines("COMMONLIB_RUNTIMECOUNT=3")
 
+    -- set_version is the only version source; F4SE and DMUI read these defines
+    on_config(function (target)
+        local major, minor, patch = (target:version() or ""):match("^(%d+)%.(%d+)%.(%d+)$")
+        if not major then
+            raise("version: expected major.minor.patch, got %s", tostring(target:version()))
+        end
+        target:add("defines",
+            "HOUSERULES_VERSION_MAJOR=" .. major,
+            "HOUSERULES_VERSION_MINOR=" .. minor,
+            "HOUSERULES_VERSION_PATCH=" .. patch)
+    end)
+
     add_files("src/**.cpp")
     add_headerfiles("src/**.h")
     add_includedirs("src")

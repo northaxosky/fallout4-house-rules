@@ -1,17 +1,19 @@
 #include "PCH.h"
 
+#include "Version.h"
+
 // Runtime versions we support.
 namespace
 {
 	constexpr auto kRuntimeOG = REL::Version{ 1, 10, 163, 0 };  // pre-Next-Gen
 
-	constexpr std::uint32_t kPluginVersion = (1u << 24) | (3u << 16) | (0u << 4) | 0u;  // 1.3.0.0
+	constexpr auto kPluginVersion = REL::Version{ HouseRules::Version::kMajor, HouseRules::Version::kMinor, HouseRules::Version::kPatch, 0 };
 }
 
 // New-API plugin declaration (Next-Gen runtimes, 1.10.980+).
 F4SE_EXPORT constinit auto F4SEPlugin_Version = []() noexcept {
 	F4SE::PluginVersionData v{};
-	v.PluginVersion({ 1, 2, 0, 0 });
+	v.PluginVersion(kPluginVersion);
 	v.PluginName("HouseRules");
 	v.AuthorName("Mute");
 	v.UsesAddressLibrary(true);  // 1.11.137+ AddressLib
@@ -44,6 +46,6 @@ F4SE_EXPORT bool F4SEPlugin_Query(const F4SE::QueryInterface* a_f4se, F4SE::Plug
 
 	a_info->infoVersion = F4SE::PluginInfo::kVersion;
 	a_info->name        = "HouseRules";
-	a_info->version     = kPluginVersion;
+	a_info->version     = kPluginVersion.pack();
 	return true;
 }

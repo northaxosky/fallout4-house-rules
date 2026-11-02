@@ -4,6 +4,7 @@
 #include "Gameplay/Application.h"
 #include "UI/ActionGate.h"
 #include "UI/DearModdingUI.h"
+#include "Version.h"
 
 #include <DearModdingUI/Client.h>
 
@@ -26,7 +27,7 @@ namespace HouseRules::UI
 		using Configuration::SettingChange;
 		using SettingsCatalog::Value;
 
-		dmui::Client g_client { "northaxosky.house-rules", "House Rules", dmui::Version { 1, 2 }, "scales" };
+		dmui::Client g_client { "northaxosky.house-rules", "House Rules", dmui::Version { Version::kMajor, Version::kMinor }, "scales" };
 		std::atomic_bool g_registrationComplete { false };
 
 		struct Edit
