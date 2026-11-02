@@ -16,11 +16,14 @@
 //   +0x35  cmp eax, 6
 //   +0x38  je  return_0        ; god mode blocked when eax == 6
 //
-// We flip the `5` immediate of `add eax, 5` (at function offset +0x34) to
-// `0`, so the high-diff path produces eax = 0 or 1 — never 6. Final `je`
-// never fires, god mode always returns 1 when the engine's flag is set,
-// regardless of Survival. Low-difficulty (diff < 5) takes the `jl` skip
-// and isn't affected. Identical offset in OG/NG/AE.
+// We flip the `5` immediate of `add eax, 5` to `0`, so the high-diff path
+// produces eax = 0 or 1, never 6. The final `je` never fires, so god mode
+// returns 1 whenever the engine's flag is set, regardless of Survival.
+// Low-difficulty (diff < 5) takes the `jl` skip and isn't affected.
+//
+// PlayerCharacter::CheckClampDamageModifier (vfunc 0x131) inlines both
+// checks with the same gate; the health-damage clamp lives there, so those
+// immediates need the same patch. Offsets are identical in OG/NG/AE.
 //
 // Why byte-patch over replace_func: leaves vanilla IsGodMode's return-value
 // logic intact, so the console's ToggleGodModeFunction reads a faithful
@@ -31,52 +34,55 @@ namespace Hooks::GodMode
 {
 	namespace
 	{
-		constexpr std::size_t kSequenceOffset = 0x32;
-		constexpr std::size_t  kImmOffset = 0x34;  // offset of the 'add eax, 5' immediate
-		constexpr std::uint8_t kOrigByte  = 0x05;  // vanilla: adds 5 (path can produce eax == 6)
-		constexpr std::uint8_t kPatchByte = 0x00;  // patched: adds 0 (eax never 6 → never blocked)
-		constexpr std::array<std::uint8_t, 6> kExpectedVanilla{ 0x83, 0xC0, kOrigByte, 0x83, 0xF8, 0x06 };
-		constexpr std::array<std::uint8_t, 6> kExpectedPatched{ 0x83, 0xC0, kPatchByte, 0x83, 0xF8, 0x06 };
+		constexpr std::size_t  kImmIndex  = 2;     // 'add e?x, 5' immediate within the sequence
+		constexpr std::uint8_t kOrigByte  = 0x05;  // vanilla: adds 5 (path can produce 6)
+		constexpr std::uint8_t kPatchByte = 0x00;  // patched: adds 0 (never 6, never blocked)
 
-		std::uintptr_t g_god_patch_addr = 0;
-		std::uintptr_t g_imm_patch_addr = 0;
-		bool           g_patched        = false;
-		bool           g_validated      = false;
+		using Sequence = std::array<std::uint8_t, 6>;
+		constexpr Sequence kGateEax{ 0x83, 0xC0, kOrigByte, 0x83, 0xF8, 0x06 };  // add eax, 5; cmp eax, 6
+		constexpr Sequence kGateEcx{ 0x83, 0xC1, kOrigByte, 0x83, 0xF9, 0x06 };  // add ecx, 5; cmp ecx, 6
 
-		std::array<std::uint8_t, 6> ReadPatchSequence(std::uintptr_t a_patch_addr)
+		struct Site
 		{
-			std::array<std::uint8_t, 6> bytes{};
-			std::memcpy(bytes.data(),
-				reinterpret_cast<const void*>(a_patch_addr - (kImmOffset - kSequenceOffset)),
-				bytes.size());
-			return bytes;
-		}
+			const char*    label;
+			REL::ID        function;
+			std::size_t    offset;  // start of the gate sequence
+			Sequence       vanilla;
+			std::uintptr_t imm = 0;
+		};
 
-		bool SequenceMatches(const std::array<std::uint8_t, 6>& a_bytes,
-			const std::array<std::uint8_t, 6>& a_expected)
-		{
-			return a_bytes == a_expected;
-		}
+		std::array g_sites{
+			Site{ "IsGodMode", REL::ID({ 1032309, 2232986 }), 0x32, kGateEax },
+			Site{ "IsImmortal", REL::ID({ 500346, 2232988 }), 0x32, kGateEax },
+			Site{ "CheckClampDamageModifier (immortal)", REL::ID({ 1500216, 2233170 }), 0x54, kGateEcx },
+			Site{ "CheckClampDamageModifier (god mode)", REL::ID({ 1500216, 2233170 }), 0xBB, kGateEax }
+		};
 
-		bool ValidatePatchSite(std::uintptr_t a_patch_addr, const char* a_label)
+		bool g_patched   = false;
+		bool g_validated = false;
+
+		bool ValidateSite(Site& a_site)
 		{
-			const auto bytes = ReadPatchSequence(a_patch_addr);
-			if (SequenceMatches(bytes, kExpectedVanilla) || SequenceMatches(bytes, kExpectedPatched)) {
-				REX::INFO("{}: verified anchor bytes {:02X} {:02X} {:02X} {:02X} {:02X} {:02X} at 0x{:X}",
-					a_label, bytes[0], bytes[1], bytes[2], bytes[3], bytes[4], bytes[5],
-					a_patch_addr - (kImmOffset - kSequenceOffset));
+			const auto start = a_site.function.address() + a_site.offset;
+			Sequence bytes{};
+			std::memcpy(bytes.data(), reinterpret_cast<const void*>(start), bytes.size());
+			auto patched = a_site.vanilla;
+			patched[kImmIndex] = kPatchByte;
+			if (bytes == a_site.vanilla || bytes == patched) {
+				a_site.imm = start + kImmIndex;
+				REX::INFO("GodMode / {}: verified anchor bytes {:02X} {:02X} {:02X} {:02X} {:02X} {:02X} at 0x{:X}",
+					a_site.label, bytes[0], bytes[1], bytes[2], bytes[3], bytes[4], bytes[5], start);
 				return true;
 			}
 
-			REX::ERROR("{}: unexpected bytes {:02X} {:02X} {:02X} {:02X} {:02X} {:02X} at 0x{:X}; refusing patch",
-				a_label, bytes[0], bytes[1], bytes[2], bytes[3], bytes[4], bytes[5],
-				a_patch_addr - (kImmOffset - kSequenceOffset));
+			REX::ERROR("GodMode / {}: unexpected bytes {:02X} {:02X} {:02X} {:02X} {:02X} {:02X} at 0x{:X}; refusing patch",
+				a_site.label, bytes[0], bytes[1], bytes[2], bytes[3], bytes[4], bytes[5], start);
 			return false;
 		}
 
 		void ApplyPatchState()
 		{
-			if (!g_validated || !g_god_patch_addr || !g_imm_patch_addr) {
+			if (!g_validated) {
 				return;
 			}
 			const bool want = MCM::Settings::General::bEnabled.GetValue() &&
@@ -85,38 +91,37 @@ namespace Hooks::GodMode
 				return;
 			}
 			const std::uint8_t byte = want ? kPatchByte : kOrigByte;
-			const bool ok_god = REL::WriteSafe(g_god_patch_addr, &byte, 1);
-			const bool ok_imm = REL::WriteSafe(g_imm_patch_addr, &byte, 1);
-			if (ok_god && ok_imm) {
+			bool ok = true;
+			for (const auto& site : g_sites) {
+				ok = REL::WriteSafe(site.imm, &byte, 1) && ok;
+			}
+			if (ok) {
 				g_patched = want;
-				REX::INFO("GodMode: {} patches at 0x{:X} / 0x{:X}",
-					want ? "applied" : "reverted", g_god_patch_addr, g_imm_patch_addr);
+				REX::INFO("GodMode: {} {} survival-gate patches", want ? "applied" : "reverted", g_sites.size());
 			} else {
-				REX::ERROR("GodMode: WriteSafe failed (god_ok={} imm_ok={})", ok_god, ok_imm);
+				REX::ERROR("GodMode: WriteSafe failed for at least one survival-gate patch");
 			}
 		}
 	}
 
 	void Install()
 	{
-		REL::Relocation<std::uintptr_t> god_target{ RE::ID::PlayerCharacter::IsGodMode };
-		REL::Relocation<std::uintptr_t> imm_target{ RE::ID::PlayerCharacter::IsImmortal };
-		g_god_patch_addr = god_target.address() + kImmOffset;
-		g_imm_patch_addr = imm_target.address() + kImmOffset;
-		g_validated = ValidatePatchSite(g_god_patch_addr, "GodMode / IsGodMode") &&
-			ValidatePatchSite(g_imm_patch_addr, "GodMode / IsImmortal");
+		g_validated = true;
+		for (auto& site : g_sites) {
+			g_validated = ValidateSite(site) && g_validated;
+		}
 		if (!g_validated) {
 			return;
 		}
 
-		const auto cur_god = *reinterpret_cast<std::uint8_t*>(g_god_patch_addr);
-		const auto cur_imm = *reinterpret_cast<std::uint8_t*>(g_imm_patch_addr);
-		g_patched = cur_god == kPatchByte && cur_imm == kPatchByte;
-		REX::INFO("GodMode: IsGodMode+0x{:X} @ 0x{:X} = 0x{:02X}, IsImmortal+0x{:X} @ 0x{:X} = 0x{:02X}",
-			kImmOffset, g_god_patch_addr, cur_god,
-			kImmOffset, g_imm_patch_addr, cur_imm);
-		if (cur_god != kOrigByte || cur_imm != kOrigByte) {
-			REX::WARN("GodMode: non-vanilla startup state at patch site; toggles will now own both bytes");
+		std::size_t patchedCount = 0;
+		for (const auto& site : g_sites) {
+			patchedCount += *reinterpret_cast<const std::uint8_t*>(site.imm) == kPatchByte;
+		}
+		g_patched = patchedCount == g_sites.size();
+		if (patchedCount != 0) {
+			REX::WARN("GodMode: {} of {} survival gates already patched at startup; toggles will now own every byte",
+				patchedCount, g_sites.size());
 		}
 
 		ApplyPatchState();
